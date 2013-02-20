@@ -27,7 +27,7 @@ function appinstall {
 # Install Favourite Applications
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
-sudo apt-get install -y --no-install-recommends aptitude darktable dconf-tools easytag filezilla gedit-plugins gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer synaptic synergy xchat vlc zsync
+sudo apt-get install -y --no-install-recommends aptitude darktable dconf-tools easytag filezilla fonts-ubuntu-font-family-console gedit-plugins gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer synaptic synergy xchat vlc zsync
 echo 'Done.'
 main
 }
