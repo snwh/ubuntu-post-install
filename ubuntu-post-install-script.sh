@@ -14,7 +14,7 @@ function sysupgrade {
 # Update Repository Information
 echo 'Updating repository information...'
 echo 'Requires root privileges:'
-sudo apt-get update
+sudo apt-get update -q
 # Dist-Upgrade
 echo 'Performing system upgrade...'
 sudo apt-get dist-upgrade -y
@@ -27,7 +27,7 @@ function appinstall {
 # Install Favourite Applications
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
-sudo apt-get install -y --no-install-recommends aptitude darktable dconf-tools easytag filezilla fonts-ubuntu-font-family-console gedit-plugins gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer synaptic synergy xchat vlc zsync
+sudo apt-get install -y --no-install-recommends aptitude darktable dconf-tools easytag filezilla gedit-plugins gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer synaptic synergy xchat zsync
 echo 'Done.'
 main
 }
@@ -52,8 +52,9 @@ while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
-echo '3. Install GNOME Shell.'
-echo '4. Return.'
+echo '3. Install GNOME Shell?'
+echo '4. Configure GNOME Shell Specific Settings?'
+echo '5. Return.'
 echo ''
 read INPUT
 # Add GNOME3 PPA
@@ -62,7 +63,7 @@ if [ $INPUT -eq 1 ]; then
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -q
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -73,7 +74,7 @@ elif [ $INPUT -eq 2 ]; then
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -q
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -85,8 +86,23 @@ elif [ $INPUT -eq 3 ]; then
     sudo apt-get install -y fonts-cantarell gnome-documents gnome-icon-theme-full gnome-shell gnome-tweak-tool
     echo 'Done.'
     gnomeextra
-# Return
+# Configure Shell Specific Settings
 elif [ $INPUT -eq 4 ]; then
+    # Font Sizes
+    echo 'Setting font preferences...'
+    gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
+    gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 10'
+    gsettings set org.gnome.desktop.interface font-name 'Cantarell 10'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 11'
+    gsettings set org.gnome.nautilus.desktop font 'Cantarell 10'
+    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell Bold 10'
+    gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
+    gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
+    # GNOME Shell Settings
+    echo 'Setting GNOME Shell preferences...'
+    gsettings set org.gnome.shell.overrides button-layout 'close:'
+# Return
+elif [ $INPUT -eq 5 ]; then
     clear && main
 else
 # Invalid Choice
@@ -95,46 +111,15 @@ else
 fi
 done
 }
+
 # INSTALL MULTIMEDIA CODECS
 function codecinstall {
-INPUT=0
-echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
-do
-echo '1. Install Ubuntu Restricted Extras?'
-echo '2. Install DVD playback tool'
-echo '3. Return.'
-echo ''
-read INPUT
 # Install Ubuntu Restricted Extras Applications
-if [ $INPUT -eq 1 ]; then
-    echo 'Installing Ubuntu Restricted Extras...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y ubuntu-restricted-extras
-    echo 'Done.'
-    codecinstall
-# Medibuntu
-elif [ $INPUT -eq 2 ]; then
-    echo 'Adding Medibuntu repository to sources...'
-    echo 'Requires root privileges:'
-    sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && sudo apt-get update -q && sudo apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && sudo apt-get update -q
-    echo 'Done.'
-    echo 'Installing libdvdcss2...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y libdvdcss2
-    echo 'Done.'
-    codecinstall
-# Return
-elif [ $INPUT -eq 3 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Invalid choice. '
-    codecinstall
-fi
-done
+echo 'Installing Ubuntu Restricted Extras...'
+echo 'Requires root privileges:'
+sudo apt-get install -y ubuntu-restricted-extras
+echo 'Done.'
+main
 }
 
 # INSTALL DEV TOOLS
@@ -157,7 +142,10 @@ while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
 echo '1. Install Google Chrome?'
 echo '2. Install Google Talk Plugin?'
-echo '3. Return'
+echo '3. Install Unity Tweak Tool?'
+echo '4. Install MATE Desktop?'
+echo '5. Install DVD playback tools?'
+echo '6. Return'
 echo ''
 read INPUT
 # Google Chrome
@@ -177,7 +165,7 @@ if [ $INPUT -eq 1 ]; then
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     fi
     # Install the package
-    echo 'Requires root privileges:'
+    echo 'Installing Google Chrome...'
     sudo dpkg -i google*.deb
     sudo apt-get install -fy
     # Cleanup and finish
@@ -202,7 +190,7 @@ elif [ $INPUT -eq 2 ]; then
         wget https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb
     fi
     # Install the package
-    echo 'Requires root privileges:'
+    echo 'Installing Google Talk Plugin...'
     sudo dpkg -i google*.deb
     sudo apt-get install -fy
     # Cleanup and finish
@@ -210,8 +198,50 @@ elif [ $INPUT -eq 2 ]; then
     cd
     echo 'Done.'
     thirdparty
-# Return
+# Unity Tweak Tool
 elif [ $INPUT -eq 3 ]; then
+    # Add repository
+    echo 'Adding Unity Tweak Tool repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository ppa:freyja-dev/unity-tweak-tool-daily
+    # Update Repository Information
+    echo 'Updating repository information...'
+    sudo apt-get update -q
+    # Install the package
+    echo 'Installing Unity Tweak Tool...'
+    sudo apt-get install -y unity-tweak-tool
+    echo 'Done.'
+    thirdparty
+# MATE Desktop
+elif [ $INPUT -eq 4 ]; then
+    # Add repository
+    echo 'Adding MATE Desktop repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository "deb http://packages.mate-desktop.org/repo/ubuntu $(lsb_release -sc) main"
+    # Update Repository Information
+    echo 'Updating repository information...'
+    sudo apt-get update -q
+    # Install the MATE keyring to avoid any future authentication errors
+    echo 'Installing MATE keyring to avoid any future authentication errors...'
+    sudo apt-get install mate-archive-keyring
+    echo 'Updating repository information...'
+    sudo apt-get update -q
+    # Install the package
+    echo 'Installing core MATE environment...'
+    sudo apt-get install mate-core
+    echo 'Done.'
+    thirdparty
+# Medibuntu
+elif [ $INPUT -eq 5 ]; then
+    echo 'Adding Medibuntu repository to sources...'
+    echo 'Requires root privileges:'
+    sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && sudo apt-get update -q && sudo apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && sudo apt-get update -q
+    echo 'Done.'
+    echo 'Installing libdvdcss2...'
+    sudo apt-get install -y libdvdcss2
+    echo 'Done.'
+# Return
+elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
@@ -284,9 +314,8 @@ if [ $INPUT -eq 1 ]; then
 # Startup Applications
 elif [ $INPUT -eq 2 ]; then
     echo 'Changing display of startup applications.'
-    cd /etc/xdg/autostart/
-    echo 'Requires root privileges:'
-    sudo sed --in-place 's/NoDisplay=true/NoDisplay=false/g' *.desktop
+    echo 'Requires root privileges:'    
+    cd /etc/xdg/autostart/ && sudo sed --in-place 's/NoDisplay=true/NoDisplay=false/g' *.desktop
     cd
     echo 'Done.'
     config
@@ -322,7 +351,7 @@ read INPUT
 if [ $INPUT -eq 1 ]; then
     echo 'Removing selected pre-installed applications...'
     echo 'Requires root privileges:'
-    sudo apt-get purge onboard remmina
+    sudo apt-get purge
     echo 'Done.'
     cleanup
 # Remove Old Kernel
@@ -387,7 +416,7 @@ echo '2. Install favourite applications?'
 echo '3. Install favourite system tools?'
 echo '4. Install extra GNOME components?'
 echo '5. Install development tools?'
-echo '6. Install restricted extras?'
+echo '6. Install Ubuntu Restricted Extras?'
 echo '7. Install third-party applications?'
 echo '8. Configure system?'
 echo '9. Cleanup the system?'
