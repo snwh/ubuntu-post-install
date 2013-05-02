@@ -113,7 +113,7 @@ elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Not an option, choose again. '
+    echo 'Not an option, choose again.'
     gnomeextra
 fi
 done
@@ -258,7 +258,7 @@ elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Not an option, choose again. '
+    echo 'Not an option, choose again.'
     thirdparty
 fi
 done
@@ -327,7 +327,7 @@ elif [ $INPUT -eq 3 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Invalid choice.'
+    echo 'Not an option, choose again.'
     config
 fi
 done
@@ -389,7 +389,7 @@ elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Not an option, choose again. '
+    echo 'Not an option, choose again.'
     cleanup
 fi
 done
@@ -458,7 +458,7 @@ elif [ $INPUT -eq 10 ]; then
     end
 else
 # Invalid Choice
-    echo 'Invalid choice.'
+    echo 'Not an option, choose again.'
     main
 fi
 done
