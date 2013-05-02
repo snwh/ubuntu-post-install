@@ -27,7 +27,7 @@ function appinstall {
 # Install Favourite Applications
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
-sudo apt-get install -y --no-install-recommends aptitude darktable dconf-tools easytag filezilla gedit-plugins gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer synaptic synergy xchat zsync
+sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer xchat
 echo 'Done.'
 main
 }
@@ -36,7 +36,7 @@ main
 function toolinstall {
 echo 'Installing system tools...'
 echo 'Requires root privileges:'
-sudo apt-get install -y --no-install-recommends openjdk-7-jdk openssh-blacklist openssh-server p7zip-full ppa-purge samba ssh ssh-import-id
+sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic zsync
 echo 'Done.'
 main
 }
@@ -52,7 +52,7 @@ while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
-echo '3. Install GNOME Shell?'
+echo '3. Install GNOME Shell & Components?'
 echo '4. Configure GNOME Shell Specific Settings?'
 echo '5. Return.'
 echo ''
@@ -81,9 +81,9 @@ elif [ $INPUT -eq 2 ]; then
     gnomeextra
 # Install GNOME Shell
 elif [ $INPUT -eq 3 ]; then
-    echo 'Installing GNOME Shell...'
+    echo 'Installing GNOME Shell & Components...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y fonts-cantarell gnome-documents gnome-icon-theme-full gnome-shell gnome-tweak-tool
+    sudo apt-get install -y bijiben fonts-cantarell gnome-clocks gnome-contacts gnome-documents gnome-shell gnome-sushi gnome-tweak-tool gnome-weather
     echo 'Done.'
     gnomeextra
 # Configure Shell Specific Settings
@@ -93,7 +93,6 @@ elif [ $INPUT -eq 4 ]; then
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
     gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 10'
     gsettings set org.gnome.desktop.interface font-name 'Cantarell 10'
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 11'
     gsettings set org.gnome.nautilus.desktop font 'Cantarell 10'
     gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell Bold 10'
     gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
@@ -127,7 +126,7 @@ function devinstall {
 # Install Development Tools
 echo 'Installing development tools...'
 echo 'Requires root privileges:'
-sudo apt-get install -y bzr git glade
+sudo apt-get install -y bzr git glade qtcreator ruby
 echo 'Done.'
 main
 }
@@ -140,17 +139,17 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
-echo '1. Install Google Chrome?'
+echo '1. Install Google Chrome (Unstable)?'
 echo '2. Install Google Talk Plugin?'
-echo '3. Install Unity Tweak Tool?'
-echo '4. Install MATE Desktop?'
+echo '3. Install Steam?'
+echo '4. Install Unity Tweak Tool?'
 echo '5. Install DVD playback tools?'
 echo '6. Return'
 echo ''
 read INPUT
 # Google Chrome
 if [ $INPUT -eq 1 ]; then
-    echo 'Downloading Google Chrome...'
+    echo 'Downloading Google Chrome (Unstable)...'
     # Make tmp directory
     if [ -e $HOME/tmp ]; then
         mkdir -p $HOME/tmp
@@ -160,9 +159,9 @@ if [ $INPUT -eq 1 ]; then
     cd $HOME/tmp
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+        wget https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
     fi
     # Install the package
     echo 'Installing Google Chrome...'
@@ -198,8 +197,33 @@ elif [ $INPUT -eq 2 ]; then
     cd
     echo 'Done.'
     thirdparty
-# Unity Tweak Tool
+# Steam
 elif [ $INPUT -eq 3 ]; then
+    echo 'Downloading Steam...'
+    # Make tmp directory
+    if [ -e $HOME/tmp ]; then
+        mkdir -p $HOME/tmp
+    else
+        continue
+    fi
+    cd $HOME/tmp
+    # Download Debian file that matches system architecture
+    if [ $(uname -i) = 'i386' ]; then
+        wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
+    elif [ $(uname -i) = 'x86_64' ]; then
+        wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
+    fi
+    # Install the package
+    echo 'Installing Steam...'
+    sudo dpkg -i steam*.deb
+    sudo apt-get install -fy
+    # Cleanup and finish
+    rm *.deb
+    cd
+    echo 'Done.'
+    thirdparty
+# Unity Tweak Tool
+elif [ $INPUT -eq 4 ]; then
     # Add repository
     echo 'Adding Unity Tweak Tool repository to sources...'
     echo 'Requires root privileges:'
@@ -210,25 +234,6 @@ elif [ $INPUT -eq 3 ]; then
     # Install the package
     echo 'Installing Unity Tweak Tool...'
     sudo apt-get install -y unity-tweak-tool
-    echo 'Done.'
-    thirdparty
-# MATE Desktop
-elif [ $INPUT -eq 4 ]; then
-    # Add repository
-    echo 'Adding MATE Desktop repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository "deb http://packages.mate-desktop.org/repo/ubuntu $(lsb_release -sc) main"
-    # Update Repository Information
-    echo 'Updating repository information...'
-    sudo apt-get update -q
-    # Install the MATE keyring to avoid any future authentication errors
-    echo 'Installing MATE keyring to avoid any future authentication errors...'
-    sudo apt-get install mate-archive-keyring
-    echo 'Updating repository information...'
-    sudo apt-get update -q
-    # Install the package
-    echo 'Installing core MATE environment...'
-    sudo apt-get install mate-core
     echo 'Done.'
     thirdparty
 # Medibuntu
@@ -282,9 +287,6 @@ if [ $INPUT -eq 1 ]; then
     gsettings set com.canonical.unity-greeter draw-user-backgrounds true 
     gsettings set com.canonical.indicator.power icon-policy 'charge'
     gsettings set com.canonical.Unity.Lenses remote-content-search 'none'
-    # GNOME Shell Settings
-    echo 'Setting GNOME Shell preferences...'
-    gsettings set org.gnome.shell.overrides button-layout 'close:'
     # Nautilus Preferences
     echo 'Setting Nautilus preferences...'
     gsettings set org.gnome.nautilus.preferences sort-directories-first true
@@ -303,13 +305,6 @@ if [ $INPUT -eq 1 ]; then
     # Totem Preferences
     echo 'Setting Totem preferences...'
     gsettings set org.gnome.totem active-plugins '['save-file', 'media_player_keys', 'screenshot', 'chapters', 'ontop', 'screensaver', 'movie-properties', 'skipto']'
-    # Gwibber Preferences
-    echo 'Setting Gwibber preferences...'
-    gsettings set org.gwibber.preferences autostart true
-    gsettings set org.gwibber.preferences interval '5'
-    gsettings set org.gwibber.preferences notify-mentions-only false
-    gsettings set org.gwibber.preferences show-notifications true
-    echo 'Done.'
     config
 # Startup Applications
 elif [ $INPUT -eq 2 ]; then
