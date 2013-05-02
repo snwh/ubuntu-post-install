@@ -14,7 +14,7 @@ function sysupgrade {
 # Update Repository Information
 echo 'Updating repository information...'
 echo 'Requires root privileges:'
-sudo apt-get update -q
+sudo apt-get update -qq
 # Dist-Upgrade
 echo 'Performing system upgrade...'
 sudo apt-get dist-upgrade -y
@@ -52,9 +52,10 @@ while [ $INPUT != 1 ] && [ $INPUT != 2 ] && [ $INPUT != 3 ]
 do
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
-echo '3. Install GNOME Shell & Components?'
-echo '4. Configure GNOME Shell Specific Settings?'
-echo '5. Return.'
+echo '3. Install GNOME Shell?'
+echo '4. Install extra GNOME applications?'
+echo '5. Configure GNOME Shell Specific Settings?'
+echo '6. Return.'
 echo ''
 read INPUT
 # Add GNOME3 PPA
@@ -63,7 +64,7 @@ if [ $INPUT -eq 1 ]; then
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
     echo 'Updating repository information...'
-    sudo apt-get update -q
+    sudo apt-get update -qq
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -74,20 +75,27 @@ elif [ $INPUT -eq 2 ]; then
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
     echo 'Updating repository information...'
-    sudo apt-get update -q
+    sudo apt-get update -qq
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
     gnomeextra
 # Install GNOME Shell
 elif [ $INPUT -eq 3 ]; then
-    echo 'Installing GNOME Shell & Components...'
+    echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y bijiben fonts-cantarell gnome-clocks gnome-contacts gnome-documents gnome-shell gnome-sushi gnome-tweak-tool gnome-weather
+    sudo apt-get install -y fonts-cantarell gnome-shell
+    echo 'Done.'
+    gnomeextra
+# Install Extra GNOME Apps
+elif [ $INPUT -eq 4 ]; then
+    echo 'Installing extra GNOME applications...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y bijiben gnome-clocks gnome-contacts gnome-documents gnome-sushi gnome-tweak-tool gnome-weather
     echo 'Done.'
     gnomeextra
 # Configure Shell Specific Settings
-elif [ $INPUT -eq 4 ]; then
+elif [ $INPUT -eq 5 ]; then
     # Font Sizes
     echo 'Setting font preferences...'
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
@@ -101,11 +109,11 @@ elif [ $INPUT -eq 4 ]; then
     echo 'Setting GNOME Shell preferences...'
     gsettings set org.gnome.shell.overrides button-layout 'close:'
 # Return
-elif [ $INPUT -eq 5 ]; then
+elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Invalid choice. '
+    echo 'Not an option, choose again. '
     gnomeextra
 fi
 done
@@ -230,7 +238,7 @@ elif [ $INPUT -eq 4 ]; then
     sudo add-apt-repository ppa:freyja-dev/unity-tweak-tool-daily
     # Update Repository Information
     echo 'Updating repository information...'
-    sudo apt-get update -q
+    sudo apt-get update -qq
     # Install the package
     echo 'Installing Unity Tweak Tool...'
     sudo apt-get install -y unity-tweak-tool
@@ -240,7 +248,7 @@ elif [ $INPUT -eq 4 ]; then
 elif [ $INPUT -eq 5 ]; then
     echo 'Adding Medibuntu repository to sources...'
     echo 'Requires root privileges:'
-    sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && sudo apt-get update -q && sudo apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && sudo apt-get update -q
+    sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && sudo apt-get update -qq && sudo apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && sudo apt-get update -qq
     echo 'Done.'
     echo 'Installing libdvdcss2...'
     sudo apt-get install -y libdvdcss2
@@ -250,7 +258,7 @@ elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Invalid choice. '
+    echo 'Not an option, choose again. '
     thirdparty
 fi
 done
@@ -381,7 +389,7 @@ elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
-    echo 'Invalid choice. '
+    echo 'Not an option, choose again. '
     cleanup
 fi
 done
