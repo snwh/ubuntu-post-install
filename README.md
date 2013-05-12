@@ -15,12 +15,12 @@ You can get the latest version from the git repository:
 
 Run from source folder:
 
-    ./ubuntu-post-install-script.sh
+    bash ubuntu-post-install-script.sh
 
 ##About:
 
 Ubuntu Post Install Script is a simple bash script for automating the reconfiguration of a fresh Ubuntu installation –installing favourite applications, setting up configurations, etc. 
 
-It is compatible with Ubuntu 13.04 and below, as well as both 32 and b4 bit architectures 
+It is compatible with Ubuntu 13.04 and below, as well as both 32 and 64 bit architectures 
 
 Feel free to copy, improve and distribute.

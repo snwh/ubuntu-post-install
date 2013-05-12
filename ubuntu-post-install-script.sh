@@ -139,7 +139,7 @@ fi
 done
 }
 
-# INSTALL MULTIMEDIA CODECS
+# INSTALL UBUNTU RESTRICTED EXTRAS
 function codecinstall {
 # Install Ubuntu Restricted Extras Applications
 echo 'Installing Ubuntu Restricted Extras...'
@@ -149,7 +149,7 @@ echo 'Done.'
 main
 }
 
-# INSTALL DEV TOOLS
+# INSTALL DEVELOPMENT TOOLS
 function devinstall {
 # Install Development Tools
 echo 'Installing development tools...'
@@ -159,7 +159,7 @@ echo 'Done.'
 main
 }
 
-# EXTRA INSTALLATION
+# THIRD PARTY APPLICATIONS
 function thirdparty {
 INPUT=0
 echo ''
