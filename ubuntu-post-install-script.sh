@@ -151,13 +151,49 @@ main
 
 # INSTALL DEVELOPMENT TOOLS
 function devinstall {
+INPUT=0
+echo ''
+echo 'What would you like to do? (Enter the number of your choice)'
+echo ''
+while [ true ]
+do
+echo '1. Install development tools?'
+echo '2. Install Ubuntu SDK?'
+echo '3. Return'
+echo ''
+read INPUT
 # Install Development Tools
-echo 'Installing development tools...'
-echo 'Requires root privileges:'
-sudo apt-get install -y bzr devscripts git glade python3-distutils-extra qtcreator ruby 
-echo 'Done.'
-main
+if [ $INPUT -eq 1 ]; then
+    echo 'Installing development tools...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y bzr devscripts git glade python-soappy python3-distutils-extra qtcreator ruby sparkleshare supybot
+    echo 'Done.'
+    devinstall
+# Instal Ubuntu SDK
+elif [ $INPUT -eq 2 ]; then
+    echo 'Adding QT5 Edgers PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:canonical-qt5-edgers/qt5-proper
+    echo 'Adding Ubuntu SDK Team PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
+    echo 'Updating repository information...'
+    sudo apt-get update -qq
+    echo 'Installing Ubuntu SDK...'
+    sudo apt-get install -y ubuntu-sdk
+    echo 'Done.'
+    devinstall
+# Return
+elif [ $INPUT -eq 3 ]; then
+    clear && main
+else
+# Invalid Choice
+    echo 'Invalid, choose again.'
+    devinstall
+fi
+done
 }
+
 
 # THIRD PARTY APPLICATIONS
 function thirdparty {
@@ -179,7 +215,7 @@ read INPUT
 if [ $INPUT -eq 1 ]; then
     echo 'Downloading Google Chrome (Unstable)...'
     # Make tmp directory
-    if [ -e $HOME/tmp ]; then
+    if [ ! -d $HOME/tmp ]; then
         mkdir -p $HOME/tmp
     else
         continue
@@ -187,9 +223,9 @@ if [ $INPUT -eq 1 ]; then
     cd $HOME/tmp
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb
+        wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+        wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
     fi
     # Install the package
     echo 'Installing Google Chrome...'
@@ -204,7 +240,7 @@ if [ $INPUT -eq 1 ]; then
 elif [ $INPUT -eq 2 ]; then
     echo 'Downloading Google Talk Plugin...'
     # Make tmp directory
-    if [ -e $HOME/tmp ]; then
+    if [ ! -d $HOME/tmp ]; then
         mkdir -p $HOME/tmp
     else
         continue
@@ -229,7 +265,7 @@ elif [ $INPUT -eq 2 ]; then
 elif [ $INPUT -eq 3 ]; then
     echo 'Downloading Steam...'
     # Make tmp directory
-    if [ -e $HOME/tmp ]; then
+    if [ ! -d $HOME/tmp ]; then
         mkdir -p $HOME/tmp
     else
         continue
@@ -255,7 +291,7 @@ elif [ $INPUT -eq 4 ]; then
     # Add repository
     echo 'Adding Unity Tweak Tool repository to sources...'
     echo 'Requires root privileges:'
-    sudo add-apt-repository ppa:freyja-dev/unity-tweak-tool-daily
+    sudo add-apt-repository -y ppa:freyja-dev/unity-tweak-tool-daily
     # Update Repository Information
     echo 'Updating repository information...'
     sudo apt-get update -qq
@@ -418,7 +454,7 @@ done
 # END
 function end {
 echo ''
-read -p 'Are you sure you want to quit? (Y/n) '
+read -p 'Are you sure you want to quit? (Y)es/(n)o '
 if [ '$REPLY' == 'n' ]; then
     clear && main
 else
