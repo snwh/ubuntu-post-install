@@ -47,7 +47,7 @@ function appinstall {
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
 # Feel free to change to whatever suits your preferences.
-sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer xchat
+sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat
 echo 'Done.'
 main
 }
@@ -111,7 +111,7 @@ elif [ $INPUT -eq 3 ]; then
 elif [ $INPUT -eq 4 ]; then
     echo 'Installing extra GNOME 3 applications...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y bijiben gnome-clocks gnome-contacts gnome-documents gnome-sushi gnome-tweak-tool gnome-weather
+    sudo apt-get install -y bijiben gnome-clocks gnome-contacts gnome-documents gnome-photos gnome-sushi gnome-tweak-tool gnome-weather
     echo 'Done.'
     gnomeextra
 # Configure Shell Specific Settings
@@ -159,14 +159,15 @@ while [ true ]
 do
 echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
-echo '3. Return'
+echo '3. Install IRC bot tools?'
+echo '4. Return'
 echo ''
 read INPUT
 # Install Development Tools
 if [ $INPUT -eq 1 ]; then
     echo 'Installing development tools...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y bzr devscripts git glade python-soappy python3-distutils-extra qtcreator ruby sparkleshare supybot
+    sudo apt-get install -y bzr devscripts git glade icontool python3-distutils-extra qtcreator ruby
     echo 'Done.'
     devinstall
 # Instal Ubuntu SDK
@@ -183,8 +184,15 @@ elif [ $INPUT -eq 2 ]; then
     sudo apt-get install -y ubuntu-sdk
     echo 'Done.'
     devinstall
+# Install IRC Bot Tools
+if [ $INPUT -eq 3 ]; then
+    echo 'Installing IRC bot tools...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y python-soappy supybot
+    echo 'Done.'
+    devinstall
 # Return
-elif [ $INPUT -eq 3 ]; then
+elif [ $INPUT -eq 4 ]; then
     clear && main
 else
 # Invalid Choice
