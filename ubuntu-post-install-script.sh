@@ -185,7 +185,7 @@ elif [ $INPUT -eq 2 ]; then
     echo 'Done.'
     devinstall
 # Install IRC Bot Tools
-if [ $INPUT -eq 3 ]; then
+elif [ $INPUT -eq 3 ]; then
     echo 'Installing IRC bot tools...'
     echo 'Requires root privileges:'
     sudo apt-get install -y python-soappy supybot
