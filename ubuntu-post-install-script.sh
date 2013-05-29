@@ -54,11 +54,42 @@ main
 
 # INSTALL SYSTEM TOOLS
 function toolinstall {
-echo 'Installing system tools...'
-echo 'Requires root privileges:'
-sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic zsync
-echo 'Done.'
-main
+INPUT=0
+echo ''
+echo 'What would you like to do? (Enter the number of your choice)'
+echo ''
+while [ true ]
+do
+echo '1. Install favourite system tools?'
+echo '2. Install fingerprint reader software?'
+echo '3. Return.'
+echo ''
+read INPUT
+# Install Favourite System Tools
+if [ $INPUT -eq 1 ]; then
+    echo 'Installing system tools...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic zsync
+    echo 'Done.'
+# Install Fingerprint Reader Software
+elif [ $INPUT -eq 2 ]; then
+    echo 'Adding Fingerprint Reader Team PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo apt-add-repository -y ppa:fingerprint/fingerprint-gui
+    echo 'Updating repository information...'
+    sudo apt-get update -qq
+    echo 'Installing fingerprint reader software...'
+    sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
+    echo 'Done.'
+# Return
+elif [ $INPUT -eq 3 ]; then
+    clear && main
+else
+# Invalid Choice
+    echo 'Invalid, choose again.'
+    gnomeextra
+fi
+done
 }
 
 
@@ -141,12 +172,31 @@ done
 
 # INSTALL UBUNTU RESTRICTED EXTRAS
 function codecinstall {
+INPUT=0
+echo ''
+echo 'What would you like to do? (Enter the number of your choice)'
+echo ''
+while [ true ]
+do
+echo '1. Install Ubuntu Restricted Extras?'
+echo '2. Return'
+echo ''
 # Install Ubuntu Restricted Extras Applications
-echo 'Installing Ubuntu Restricted Extras...'
-echo 'Requires root privileges:'
-sudo apt-get install -y ubuntu-restricted-extras
-echo 'Done.'
-main
+if [ $INPUT -eq 1 ]; then
+    echo 'Installing Ubuntu Restricted Extras...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y ubuntu-restricted-extras
+    echo 'Done.'
+    codecinstall
+# Return
+elif [ $INPUT -eq 2 ]; then
+    clear && main
+else
+# Invalid Choice
+    echo 'Invalid, choose again.'
+    devinstall
+fi
+done
 }
 
 # INSTALL DEVELOPMENT TOOLS
@@ -159,8 +209,9 @@ while [ true ]
 do
 echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
-echo '3. Install IRC bot tools?'
-echo '4. Return'
+echo '3. Install Ubuntu Phablet Tools?'
+echo '4. Install IRC bot tools?'
+echo '5. Return'
 echo ''
 read INPUT
 # Install Development Tools
@@ -170,7 +221,7 @@ if [ $INPUT -eq 1 ]; then
     sudo apt-get install -y bzr devscripts git glade icontool python3-distutils-extra qtcreator ruby
     echo 'Done.'
     devinstall
-# Instal Ubuntu SDK
+# Install Ubuntu SDK
 elif [ $INPUT -eq 2 ]; then
     echo 'Adding QT5 Edgers PPA to software sources...'
     echo 'Requires root privileges:'
@@ -184,15 +235,26 @@ elif [ $INPUT -eq 2 ]; then
     sudo apt-get install -y ubuntu-sdk
     echo 'Done.'
     devinstall
-# Install IRC Bot Tools
+# Install Ubuntu Phablet Tools
 elif [ $INPUT -eq 3 ]; then
+    echo 'Adding Phablet Team PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:phablet-team/tools
+    echo 'Updating repository information...'
+    sudo apt-get update -qq
+    echo 'Installing Ubuntu SDK...'
+    sudo apt-get install -y phablet-tools
+    echo 'Done.'
+    devinstall
+# Install IRC Bot Tools
+elif [ $INPUT -eq 4 ]; then
     echo 'Installing IRC bot tools...'
     echo 'Requires root privileges:'
     sudo apt-get install -y python-soappy supybot
     echo 'Done.'
     devinstall
 # Return
-elif [ $INPUT -eq 4 ]; then
+elif [ $INPUT -eq 5 ]; then
     clear && main
 else
 # Invalid Choice
@@ -231,9 +293,9 @@ if [ $INPUT -eq 1 ]; then
     cd $HOME/tmp
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     fi
     # Install the package
     echo 'Installing Google Chrome...'
@@ -308,17 +370,8 @@ elif [ $INPUT -eq 4 ]; then
     sudo apt-get install -y unity-tweak-tool
     echo 'Done.'
     thirdparty
-# Medibuntu
-elif [ $INPUT -eq 5 ]; then
-    echo 'Adding Medibuntu repository to sources...'
-    echo 'Requires root privileges:'
-    sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list && sudo apt-get update -qq && sudo apt-get --yes --quiet --allow-unauthenticated install medibuntu-keyring && sudo apt-get update -qq
-    echo 'Done.'
-    echo 'Installing libdvdcss2...'
-    sudo apt-get install -y libdvdcss2
-    echo 'Done.'
 # Return
-elif [ $INPUT -eq 6 ]; then
+elif [ $INPUT -eq 5 ]; then
     clear && main
 else
 # Invalid Choice
