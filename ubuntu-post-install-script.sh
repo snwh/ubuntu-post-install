@@ -47,7 +47,7 @@ function appinstall {
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
 # Feel free to change to whatever suits your preferences.
-sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat
+sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync imagemagick inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat
 echo 'Done.'
 main
 }
