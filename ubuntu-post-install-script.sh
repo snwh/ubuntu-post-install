@@ -47,7 +47,7 @@ function appinstall {
 echo 'Installing selected favourite applications...'
 echo 'Requires root privileges:'
 # Feel free to change to whatever suits your preferences.
-sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync imagemagick inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat
+sudo apt-get install -y --no-install-recommends darktable easytag filezilla gimp gimp-plugin-registry grsync imagemagick inkscape mypaint nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
 echo 'Done.'
 main
 }
@@ -69,7 +69,7 @@ read INPUT
 if [ $INPUT -eq 1 ]; then
     echo 'Installing system tools...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic zsync
+    sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic virt-manager zsync
     echo 'Done.'
 # Install Fingerprint Reader Software
 elif [ $INPUT -eq 2 ]; then
@@ -135,20 +135,32 @@ elif [ $INPUT -eq 2 ]; then
 elif [ $INPUT -eq 3 ]; then
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y fonts-cantarell gnome-shell
+    sudo apt-get install -y gnome-shell
     echo 'Done.'
     gnomeextra
 # Install Extra GNOME 3 Apps
 elif [ $INPUT -eq 4 ]; then
     echo 'Installing extra GNOME 3 applications...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y bijiben gnome-clocks gnome-contacts gnome-documents gnome-photos gnome-sushi gnome-tweak-tool gnome-weather
+    sudo apt-get install -y gnome-sushi gnome-tweak-tool
     echo 'Done.'
     gnomeextra
 # Configure Shell Specific Settings
 elif [ $INPUT -eq 5 ]; then
     # Font Sizes
     echo 'Setting font preferences...'
+    echo 'Requires the "Cantarell" font.'
+    PACKAGE=$(dpkg-query -W --showformat='${Status}\n' fonts-cantarell | grep "install ok installed")
+    echo "Checking if installed..."
+    if [ "" == "$PACKAGE" ]; then
+        echo 'Cantarell is not installed.'
+        echo 'Installing... '
+        echo 'Requires root privileges:'
+        sudo apt-get install -y fonts-cantarell
+        echo 'Done. '
+    else
+        echo 'Cantarell is installed, proceeding... '
+    fi
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
     gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 10'
     gsettings set org.gnome.desktop.interface font-name 'Cantarell 10'
@@ -156,9 +168,11 @@ elif [ $INPUT -eq 5 ]; then
     gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell Bold 10'
     gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
     gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
+    echo 'Done. '
     # GNOME Shell Settings
-    echo 'Setting GNOME Shell preferences...'
+    echo 'Setting GNOME Shell window button preferences...'
     gsettings set org.gnome.shell.overrides button-layout 'close:'
+    echo 'Done. '
 # Return
 elif [ $INPUT -eq 6 ]; then
     clear && main
@@ -181,6 +195,7 @@ do
 echo '1. Install Ubuntu Restricted Extras?'
 echo '2. Return'
 echo ''
+read INPUT
 # Install Ubuntu Restricted Extras Applications
 if [ $INPUT -eq 1 ]; then
     echo 'Installing Ubuntu Restricted Extras...'
@@ -218,7 +233,7 @@ read INPUT
 if [ $INPUT -eq 1 ]; then
     echo 'Installing development tools...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y bzr devscripts git glade icontool python3-distutils-extra qtcreator ruby
+    sudo apt-get install -y bzr devscripts git glade icontool python-launchpadlib python3-distutils-extra qtcreator ruby
     echo 'Done.'
     devinstall
 # Install Ubuntu SDK
@@ -273,24 +288,17 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
-echo '1. Install Google Chrome (Unstable)?'
+echo '1. Install Google Chrome?'
 echo '2. Install Google Talk Plugin?'
-echo '3. Install Steam?'
-echo '4. Install Unity Tweak Tool?'
-echo '5. Install DVD playback tools?'
+echo '3. Install Google Music Manager?'
+echo '4. Install Steam?'
+echo '5. Install Unity Tweak Tool?'
 echo '6. Return'
 echo ''
 read INPUT
 # Google Chrome
 if [ $INPUT -eq 1 ]; then
-    echo 'Downloading Google Chrome (Unstable)...'
-    # Make tmp directory
-    if [ ! -d $HOME/tmp ]; then
-        mkdir -p $HOME/tmp
-    else
-        continue
-    fi
-    cd $HOME/tmp
+    echo 'Downloading Google Chrome...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
@@ -299,7 +307,8 @@ if [ $INPUT -eq 1 ]; then
     fi
     # Install the package
     echo 'Installing Google Chrome...'
-    sudo dpkg -i google*.deb
+    echo 'Requires root privileges:'
+    sudo dpkg -i google-chrome-stable_current_*.deb
     sudo apt-get install -fy
     # Cleanup and finish
     rm *.deb
@@ -309,13 +318,6 @@ if [ $INPUT -eq 1 ]; then
 # Google Talk Plugin
 elif [ $INPUT -eq 2 ]; then
     echo 'Downloading Google Talk Plugin...'
-    # Make tmp directory
-    if [ ! -d $HOME/tmp ]; then
-        mkdir -p $HOME/tmp
-    else
-        continue
-    fi
-    cd $HOME/tmp
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
         wget https://dl.google.com/linux/direct/google-talkplugin_current_i386.deb
@@ -324,7 +326,27 @@ elif [ $INPUT -eq 2 ]; then
     fi
     # Install the package
     echo 'Installing Google Talk Plugin...'
-    sudo dpkg -i google*.deb
+    echo 'Requires root privileges:'
+    sudo dpkg -i google-talkplugin_current*.deb
+    sudo apt-get install -fy
+    # Cleanup and finish
+    rm *.deb
+    cd
+    echo 'Done.'
+    thirdparty
+# Google Talk Plugin
+elif [ $INPUT -eq 3 ]; then
+    echo 'Downloading Google Music Manager...'
+    # Download Debian file that matches system architecture
+    if [ $(uname -i) = 'i386' ]; then
+        wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_i386.deb
+    elif [ $(uname -i) = 'x86_64' ]; then
+        wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_amd64.deb
+    fi
+    # Install the package
+    echo 'Installing Google Music Manager...'
+    echo 'Requires root privileges:'
+    sudo dpkg -i google-musicmanager-*.deb
     sudo apt-get install -fy
     # Cleanup and finish
     rm *.deb
@@ -332,15 +354,8 @@ elif [ $INPUT -eq 2 ]; then
     echo 'Done.'
     thirdparty
 # Steam
-elif [ $INPUT -eq 3 ]; then
+elif [ $INPUT -eq 4 ]; then
     echo 'Downloading Steam...'
-    # Make tmp directory
-    if [ ! -d $HOME/tmp ]; then
-        mkdir -p $HOME/tmp
-    else
-        continue
-    fi
-    cd $HOME/tmp
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
         wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
@@ -349,6 +364,7 @@ elif [ $INPUT -eq 3 ]; then
     fi
     # Install the package
     echo 'Installing Steam...'
+    echo 'Requires root privileges:'
     sudo dpkg -i steam*.deb
     sudo apt-get install -fy
     # Cleanup and finish
@@ -357,7 +373,7 @@ elif [ $INPUT -eq 3 ]; then
     echo 'Done.'
     thirdparty
 # Unity Tweak Tool
-elif [ $INPUT -eq 4 ]; then
+elif [ $INPUT -eq 5 ]; then
     # Add repository
     echo 'Adding Unity Tweak Tool repository to sources...'
     echo 'Requires root privileges:'
@@ -371,7 +387,7 @@ elif [ $INPUT -eq 4 ]; then
     echo 'Done.'
     thirdparty
 # Return
-elif [ $INPUT -eq 5 ]; then
+elif [ $INPUT -eq 6 ]; then
     clear && main
 else
 # Invalid Choice
@@ -478,7 +494,7 @@ if [ $INPUT -eq 1 ]; then
 elif [ $INPUT -eq 2 ]; then
     echo 'Removing old Kernel(s)...'
     echo 'Requires root privileges:'
-    sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs sudo apt-get -y purge
+    sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
     echo 'Done.'
     cleanup
 # Remove Orphaned Packages
