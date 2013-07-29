@@ -17,6 +17,11 @@ Run from source folder:
 
     bash ubuntu-post-install-script-<appropriate-version>.sh
 
+By adding the path of the script to your .bashrc you can run it anytime from a terminal
+	
+	export PATH=${PATH}:$HOME/<path-to-ubuntu-post-install-script>/
+
+
 ##About:
 
 Ubuntu Post Install Script is a simple bash script for automating the reconfiguration of a fresh Ubuntu installation –installing favourite applications, setting up configurations, etc. 
