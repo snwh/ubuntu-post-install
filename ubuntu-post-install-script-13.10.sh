@@ -30,26 +30,43 @@ echo '#-------------------------------------------#'
 
 # SYSTEM UPGRADE
 function sysupgrade {
-# Update Repository Information
-echo 'Updating repository information...'
-echo 'Requires root privileges:'
-sudo apt-get update -qq
-# Dist-Upgrade
-echo 'Performing system upgrade...'
-sudo apt-get dist-upgrade -y
-echo 'Done.'
-main
+# Perform system upgrade
+echo ''
+read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* )
+    # Update Repository Information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Dist-Upgrade
+    echo 'Performing system upgrade...'
+    sudo apt-get dist-upgrade -y
+    echo 'Done.'
+    main
+    ;;
+# Negative action
+[Nn]* )
+    clear && main
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
+    sysupgrade
+    ;;
+esac
 }
 
 # INSTALL APPLICATIONS
 function favourites {
 # Install Favourite Applications
+echo ''
 echo 'Installing selected favourite applications...'
 echo ''
 echo 'Current package list: 
 easytag
 filezilla
-gnome-sushi
 gnome-tweak-tool
 grsync
 nautilus-dropbox
@@ -59,42 +76,40 @@ sparkleshare
 xchat
 vlc'
 echo ''
-echo 'Proceed?'
-echo '1. Yes'
-echo '2. No'
-echo ''
-read REPLY
-if [ $REPLY == 1 ]; then
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y --no-install-recommends easytag filezilla gnome-sushi gnome-tweak-tool grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
+    sudo apt-get install -y --no-install-recommends easytag filezilla gnome-tweak-tool grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
     echo 'Done.'
     main
-elif [ $REPLY == 2 ]; then
+    ;;
+# Negative action
+[Nn]* )
     clear && main
-else
-    clear && echo 'Error, try again.'
-    echo ''
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
     favourites
-fi
+    ;;
+esac
 }
 
 # INSTALL SYSTEM TOOLS
 function system {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Install favourite system utilities?'
 echo '2. Install fingerprint reader software?'
 echo '3. Install IRC Bot software?'
-echo '4. Return.'
+echo 'r. Return.'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # Install Favourite System utilities
-if [ $INPUT == 1 ]; then
+1)
     echo 'Installing favourite system utilities...'
     echo ''
     echo 'Current package list:
@@ -110,116 +125,125 @@ if [ $INPUT == 1 ]; then
     virt-manager
     zsync'
     echo ''
-    echo 'Proceed?'
-    echo '1. Yes'
-    echo '2. No'
-    echo ''
-    read REPLY
-    if [ $REPLY == 1 ]; then
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
         sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic virt-manager zsync
         echo 'Done.'
-        system
-    elif [ $REPLY == 2 ]; then
         clear && system
-    else
-        clear && echo 'Error, try again.'
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && system
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
         system
-    fi
+        ;;
+    esac
+    ;;
 # Install Fingerprint Reader Software
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Adding Fingerprint Reader Team PPA to software sources...'
     echo 'Requires root privileges:'
     sudo apt-add-repository -y ppa:fingerprint/fingerprint-gui
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
     echo 'Installing fingerprint reader software...'
     sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
     echo 'Done.'
+    system
+    ;;
 # Install IRC Bot Software
-elif [ $INPUT == 3 ]; then
+3)
     echo 'Installing IRC Bot software...'
     echo ''
     echo 'Current package list:
     python-soappy
     supybot'
     echo ''
-    echo 'Proceed?'
-    echo '1. Yes'
-    echo '2. No'
-    echo ''
-    read REPLY
-    if [ $REPLY == 1 ]; then
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
         sudo apt-get install -y python-soappy supybot
         echo 'Done.'
-        development
-    elif [ $REPLY == 2 ]; then
-        clear && development
-    else
-        clear && echo 'Error, try again.'
-        development
-    fi
+        clear && system
+        ;;
+    # Negative action
+    [Nn]* ) 
+        clear && system
+        ;;
+    # Error
+    * ) 
+        clear && echo 'Sorry, try again.' && system
+        ;;
+    esac
+    ;;
 # Return
-elif [ $INPUT == 4 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    system
-fi
-done
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && development;;
+esac
 }
 
 
 # INSTALL GNOME COMPONENTS
 function gnome {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
 echo '3. Install GNOME Shell?'
 echo '4. Configure GNOME Shell Specific Settings?'
-echo '5. Return.'
+echo 'r. Return.'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # Add GNOME3 PPA
-if [ $INPUT == 1 ]; then
+1)
     echo 'Adding GNOME3 PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
+    echo ''
     gnome
+    ;;
 # Add GNOME3 Staging PPA
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Adding GNOME3 Staging PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
+    echo ''
     gnome
+    ;;
 # Install GNOME Shell
-elif [ $INPUT == 3 ]; then
+3)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
     sudo apt-get install -y gnome-shell
     echo 'Done.'
+    echo ''
     gnome
+    ;;
 # Configure Shell Specific Settings
-elif [ $INPUT == 4 ]; then
+4)
     # Font Sizes
     echo 'Setting font preferences...'
     echo 'Requires the "Cantarell" font.'
@@ -246,48 +270,53 @@ elif [ $INPUT == 4 ]; then
     echo 'Setting GNOME Shell window button preferences...'
     gsettings set org.gnome.shell.overrides button-layout 'close:'
     echo 'Done. '
-# Return
-elif [ $INPUT == 5 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
+    echo ''
     gnome
-fi
-done
+    ;;
+# Return
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && development;;
+esac
 }
 
 # INSTALL UBUNTU RESTRICTED EXTRAS
 function codecinstall {
-echo 'Installing Ubuntu Restricted Extras...'
-read -p 'Proceed? (Y)es/(n)o '
-if [ '$REPLY' == 'n' ]; then
-    clear && main
-else
-    # Feel free to change to whatever suits your preferences.
+echo ''
+read -p 'Install Ubuntu Restricted Extras? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* ) 
+    echo 'Installing...'
     echo 'Requires root privileges:'
+    # Feel free to change to whatever suits your preferences.
     sudo apt-get install -y ubuntu-restricted-extras
     echo 'Done.'
     main
-fi
+    ;;
+# Negative action
+[Nn]* )
+    clear && main;;
+# Error
+* )
+    clear && echo 'Sorry, try again.' && codecinstall
+esac
 }
 
 # INSTALL DEVELOPMENT TOOLS
 function development {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
 echo '3. Install Ubuntu Phablet Tools?'
-echo '4. Return'
+echo 'r. Return'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # Install Development Tools
-if [ $INPUT == 1 ]; then
+1)
     echo 'Installing development tools...'
     echo ''
     echo 'Current package list:
@@ -301,90 +330,94 @@ if [ $INPUT == 1 ]; then
     ruby
     ubuntu-dev-tools'
     echo ''
-    echo 'Proceed?'
-    echo '1. Yes'
-    echo '2. No'
-    echo ''
-    read REPLY
-    if [ $REPLY == 1 ]; then
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
         sudo apt-get install -y bzr devscripts git glade python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
         echo 'Done.'
         development
-    elif [ $REPLY == 2 ]; then
+        ;;
+    # Negative action
+    [Nn]* )
         clear && development
-    else
-        clear && echo 'Error, try again.'
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
         development
-    fi
+        ;;
+    esac
+    ;;
 # Install Ubuntu SDK
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Adding Ubuntu SDK Team PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
     echo 'Installing Ubuntu SDK...'
     sudo apt-get install -y ubuntu-sdk
     echo 'Done.'
     development
+    ;;
 # Install Ubuntu Phablet Tools
-elif [ $INPUT == 3 ]; then
+3)
     echo 'Installing Phablet Tools...'
     sudo apt-get install -y phablet-tools
     echo 'Done.'
     development
+    ;;
 # Return
-elif [ $INPUT == 4 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    development
-fi
-done
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && development;;
+esac
 }
 
 # INSTALL DESIGN TOOLS
 function design {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
+echo 'Installing design tools...'
 echo ''
-while [ true ]
-do
-echo '1. Install design tools?'
-echo '2. Return'
+echo 'Current package list:
+darktable
+fontforge
+fontforge-extras
+gimp
+gimp-plugin-registry
+icontool
+imagemagick
+inkscape'
 echo ''
-read INPUT
-# Install Design Tools
-if [ $INPUT == 1 ]; then
-    echo 'Installing design tools...'
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* ) 
     echo 'Requires root privileges:'
-    sudo apt-get install -y darktable fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape mypaint
+    # Feel free to change to whatever suits your preferences.
+    sudo apt-get install -y darktable fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
     echo 'Done.'
-    development
-# Return
-elif [ $INPUT == 2 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    development
-fi
-done
+    design
+    ;;
+# Negative action
+[Nn]* ) 
+    clear && main;;
+# Error
+* )
+    clear && echo 'Sorry, try again.' && design
+    ;;
+esac
 }
 
 
 # THIRD PARTY APPLICATIONS
 function thirdparty {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Install Google Chrome?'
 echo '2. Install Google Talk Plugin?'
 echo '3. Install Google Music Manager?'
@@ -392,11 +425,12 @@ echo '4. Install Steam?'
 echo '5. Install Unity Tweak Tool?'
 echo '6. Install LightZone?'
 echo '7. Install Sublime Text 2'
-echo '8. Return'
+echo 'r. Return'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # Google Chrome
-if [ $INPUT == 1 ]; then
+1) 
     echo 'Downloading Google Chrome...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
@@ -414,8 +448,9 @@ if [ $INPUT == 1 ]; then
     cd
     echo 'Done.'
     thirdparty
+    ;;
 # Google Talk Plugin
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Downloading Google Talk Plugin...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
@@ -433,8 +468,9 @@ elif [ $INPUT == 2 ]; then
     cd
     echo 'Done.'
     thirdparty
-# Google Talk Plugin
-elif [ $INPUT == 3 ]; then
+    ;;
+# Google Music Manager
+3)
     echo 'Downloading Google Music Manager...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
@@ -452,8 +488,9 @@ elif [ $INPUT == 3 ]; then
     cd
     echo 'Done.'
     thirdparty
+    ;;
 # Steam
-elif [ $INPUT == 4 ]; then
+4)
     echo 'Downloading Steam...'
     cd $HOME/Downloads
     # Download Debian file that matches system architecture
@@ -472,8 +509,9 @@ elif [ $INPUT == 4 ]; then
     cd
     echo 'Done.'
     thirdparty
+    ;;
 # Unity Tweak Tool
-elif [ $INPUT == 5 ]; then
+5)
     # Add repository
     echo 'Adding Unity Tweak Tool repository to sources...'
     echo 'Requires root privileges:'
@@ -481,15 +519,16 @@ elif [ $INPUT == 5 ]; then
     # Update Repository Information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
-    sudo apt-get update -qq
+    sudo apt-get update
     # Install the package
     echo 'Installing Unity Tweak Tool...'
     echo 'Requires root privileges:'
     sudo apt-get install -y unity-tweak-tool
     echo 'Done.'
     thirdparty
+    ;;
 # LightZone
-elif [ $INPUT == 6 ]; then
+6)
     # Add repository
     echo 'Adding LightZone repository to sources...'
     echo 'Requires root privileges:'
@@ -498,15 +537,16 @@ elif [ $INPUT == 6 ]; then
     # Update Repository Information
     echo 'Requires root privileges:'
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
     # Install the package
     echo 'Installing LightZone...'
     echo 'Requires root privileges:'
     sudo apt-get install -y lightzone
     echo 'Done.'
     thirdparty
-# Sublime Text 2h
-elif [ $INPUT == 7 ]; then
+    ;;
+# Sublime Text 2
+7)
     # Downloading Sublime Text 2
     cd $HOME/Downloads
     echo 'Downloading Sublime Text 2.0.2...'
@@ -559,32 +599,27 @@ elif [ $INPUT == 7 ]; then
     echo ''
     echo 'Installation of Sublime Text 2 complete.'
     thirdparty
+    ;;
 # Return
-elif [ $INPUT == 8 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    thirdparty
-fi
-done
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && thirdparty;;
+esac
 }
 
 # CONFIG
 function config {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Set preferred application-specific settings?'
 echo '2. Show all startup applications?'
-echo '3. Return'
+echo 'r. Return'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # GSettings
-if [ $INPUT == 1 ]; then
+1)
     # Font Sizes
     echo 'Setting font preferences...'
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
@@ -616,116 +651,102 @@ if [ $INPUT == 1 ]; then
     gsettings set org.gnome.rhythmbox.rhythmdb monitor-library true
     gsettings set org.gnome.rhythmbox.sources browser-views 'artists-albums'
     gsettings set org.gnome.rhythmbox.sources visible-columns '['post-time', 'artist', 'duration', 'genre', 'album']'
-    # Totem Preferences
-    echo 'Setting Totem preferences...'
-    gsettings set org.gnome.totem active-plugins '['save-file', 'media_player_keys', 'screenshot', 'chapters', 'ontop', 'screensaver', 'movie-properties', 'skipto']'
+    # Done
+    echo "Done."
     config
+    ;;
 # Startup Applications
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Changing display of startup applications.'
     echo 'Requires root privileges:'    
     cd /etc/xdg/autostart/ && sudo sed --in-place 's/NoDisplay=true/NoDisplay=false/g' *.desktop
     cd
     echo 'Done.'
     config
+    ;;
 # Return
-elif [ $INPUT == 3 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    config
-fi
-done
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && config;;
+esac
 }
 
 # CLEANUP SYSTEM
 function cleanup {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Remove unused pre-installed packages?'
 echo '2. Remove old kernel(s)?'
 echo '3. Remove orphaned packages?'
 echo '4. Remove leftover configuration files?'
 echo '5. Clean package cache?'
-echo '6. Return?'
+echo 'r. Return?'
 echo ''
-read INPUT
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
 # Remove Unused Pre-installed Packages
-if [ $INPUT == 1 ]; then
+1)
     echo 'Removing selected pre-installed applications...'
     echo 'Requires root privileges:'
     sudo apt-get purge 
     echo 'Done.'
     cleanup
+    ;;
 # Remove Old Kernel
-elif [ $INPUT == 2 ]; then
+2)
     echo 'Removing old Kernel(s)...'
     echo 'Requires root privileges:'
     sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
     echo 'Done.'
     cleanup
+    ;;
 # Remove Orphaned Packages
-elif [ $INPUT == 3 ]; then
+3)
     echo 'Removing orphaned packages...'
     echo 'Requires root privileges:'
     sudo apt-get autoremove -y
     echo 'Done.'
     cleanup
+    ;;
 # Remove residual config files?
-elif [ $INPUT == 4 ]; then
+4)
     echo 'Removing leftover configuration files...'
     echo 'Requires root privileges:'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     echo 'Done.'
+    cleanup
+    ;;
 # Clean Package Cache
-elif [ $INPUT == 5 ]; then
+5)
     echo 'Cleaning package cache...'
     echo 'Requires root privileges:'
     sudo apt-get clean
     echo 'Done.'
     cleanup
+    ;;
 # Return
-elif [ $INPUT == 6 ]; then
-    clear && main
-else
-# Invalid Choice
-    echo 'Not an option, try again.'
-    cleanup
-fi
-done
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && cleanup;;
+esac
 }
 
-# END
-function end {
-echo 'Are you sure you want to quit? (Y)es/(n)o '
-echo ''
-echo '1. Yes'
-echo '2. No'
-echo ''
-read REPLY
-if [ $REPLY == 1 ]; then
-    exit
-elif [ $REPLY == 2 ]; then
-    clear && main
-else
-    clear && echo 'Error, try again.'
-    end
-fi
+# Quit
+function quit {
+read -p "Are you sure you want to quit? (Y)es, (N)o " REPLY
+case $REPLY in
+    [Yy]* ) exit 99;;
+    [Nn]* ) clear && main;;
+    * ) clear && echo 'Sorry, try again.' && quit;;
+esac
 }
 
 #----- MAIN FUNCTION -----#
 function main {
-INPUT=0
 echo ''
-echo 'What would you like to do? (Enter the number of your choice)'
-echo ''
-while [ true ]
-do
 echo '1. Perform system update & upgrade?'
 echo '2. Install favourite applications?'
 echo '3. Install favourite system utilities?'
@@ -736,53 +757,26 @@ echo '7. Install Ubuntu Restricted Extras?'
 echo '8. Install third-party applications?'
 echo '9. Configure system?'
 echo '10. Cleanup the system?'
-echo '11. Quit?'
+echo 'q. Quit?'
 echo ''
-read INPUT
-# System Upgrade
-if [ $INPUT == 1 ]; then
-    clear && sysupgrade
-# Install Favourite Applications
-elif [ $INPUT == 2 ]; then
-    clear && favourites
-# Install Favourite Tools
-elif [ $INPUT == 3 ]; then
-    clear && system
-# Install Dev Tools
-elif [ $INPUT == 4 ]; then
-    clear && development
-# Install Design Tools
-elif [ $INPUT == 5 ]; then
-    clear && design
-# Install GNOME components
-elif [ $INPUT == 6 ]; then
-    clear && gnome
-# Install Ubuntu Restricted Extras
-elif [ $INPUT == 7 ]; then
-    clear && codecinstall
-# Install Third-Party Applications
-elif [ $INPUT == 8 ]; then
-    clear && thirdparty
-# Configure System
-elif [ $INPUT == 9 ]; then
-    clear && config
-# Cleanup System
-elif [ $INPUT == 10 ]; then
-    clear && cleanup
-# End
-elif [ $INPUT == 11 ]; then
-    clear && end
-else
-# Invalid Choice
-    clear
-    echo ''
-    echo 'Not an option, try again.'
-    main
-fi
-done
+read -p 'What would you like to do? (Enter the your choice) : ' REPLY
+case $REPLY in
+    1) clear && sysupgrade;; # System Upgrade
+    2) clear && favourites;; # Install Favourite Applications
+    3) clear && system;; # Install Favourite Tools
+    4) clear && development;; # Install Dev Tools
+    5) clear && design;; # Install Design Tools
+    6) clear && gnome;; # Install GNOME components
+    7) clear && codecinstall;; # Install Ubuntu Restricted Extras
+    8) clear && thirdparty;; # Install Third-Party Applications
+    9) clear && config;; # Configure System
+    10) clear && cleanup;; # Cleanup System
+    [Qq]* ) clear && quit;; # Quit
+    * ) clear && echo 'Not an option, try again.' && main;;
+esac
 }
 
 #----- RUN MAIN FUNCTION -----#
 main
 
-#END
+#END OF SCRIPT
