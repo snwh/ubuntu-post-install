@@ -68,6 +68,7 @@ echo 'Current package list:
 easytag
 filezilla
 gnome-tweak-tool
+gpick
 grsync
 nautilus-dropbox
 nautilus-open-terminal
@@ -82,7 +83,7 @@ case $REPLY in
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y --no-install-recommends easytag filezilla gnome-tweak-tool grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
+    sudo apt-get install -y --no-install-recommends easytag filezilla gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
     echo 'Done.'
     main
     ;;
@@ -278,7 +279,7 @@ case $REPLY in
     clear && main;;
 # Invalid choice
 * ) 
-    clear && echo 'Not an option, try again.' && development;;
+    clear && echo 'Not an option, try again.' && gnome;;
 esac
 }
 
@@ -322,6 +323,7 @@ case $REPLY in
     echo 'Current package list:
     bzr
     devscripts
+    eclipse
     git
     glad
     python-launchpadlib
@@ -336,7 +338,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts git glade python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
+        sudo apt-get install -y bzr devscripts eclipse git glade python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
         echo 'Done.'
         development
         ;;
@@ -402,7 +404,7 @@ case $REPLY in
     # Feel free to change to whatever suits your preferences.
     sudo apt-get install -y darktable fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
     echo 'Done.'
-    design
+    main
     ;;
 # Negative action
 [Nn]* ) 
@@ -761,7 +763,7 @@ echo 'q. Quit?'
 echo ''
 read -p 'What would you like to do? (Enter the your choice) : ' REPLY
 case $REPLY in
-    1) clear && sysupgrade;; # System Upgrade
+    1) sysupgrade;; # System Upgrade
     2) clear && favourites;; # Install Favourite Applications
     3) clear && system;; # Install Favourite Tools
     4) clear && development;; # Install Dev Tools
