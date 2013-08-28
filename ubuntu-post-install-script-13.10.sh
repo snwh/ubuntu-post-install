@@ -39,7 +39,7 @@ case $REPLY in
     # Update Repository Information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
-    sudo apt-get update
+    sudo apt-get update -qq
     # Dist-Upgrade
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
@@ -64,7 +64,8 @@ function favourites {
 echo ''
 echo 'Installing selected favourite applications...'
 echo ''
-echo 'Current package list: 
+echo 'Current package list:
+darktable
 easytag
 filezilla
 gnome-tweak-tool
@@ -83,7 +84,7 @@ case $REPLY in
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y --no-install-recommends easytag filezilla gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
+    sudo apt-get install -y --no-install-recommends darktable easytag filezilla gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
     echo 'Done.'
     main
     ;;
@@ -122,6 +123,7 @@ case $REPLY in
     ppa-purge
     samba
     ssh
+    symlinks
     synaptic
     virt-manager
     zsync'
@@ -132,7 +134,7 @@ case $REPLY in
     [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh synaptic virt-manager zsync
+        sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh symlinks synaptic virt-manager zsync
         echo 'Done.'
         clear && system
         ;;
@@ -153,7 +155,7 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo apt-add-repository -y ppa:fingerprint/fingerprint-gui
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -qq
     echo 'Installing fingerprint reader software...'
     sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
     echo 'Done.'
@@ -214,7 +216,7 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -qq
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -227,7 +229,7 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -qq
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -282,6 +284,7 @@ case $REPLY in
     clear && echo 'Not an option, try again.' && gnome;;
 esac
 }
+
 
 # INSTALL UBUNTU RESTRICTED EXTRAS
 function codecinstall {
@@ -338,7 +341,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts eclipse git glade python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
+        sudo apt-get install -y bzr devscripts eclipse git glade gtk-3-examples python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
         echo 'Done.'
         development
         ;;
@@ -359,7 +362,7 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -qq
     echo 'Installing Ubuntu SDK...'
     sudo apt-get install -y ubuntu-sdk
     echo 'Done.'
@@ -387,7 +390,6 @@ echo ''
 echo 'Installing design tools...'
 echo ''
 echo 'Current package list:
-darktable
 fontforge
 fontforge-extras
 gimp
@@ -402,7 +404,7 @@ case $REPLY in
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y darktable fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
+    sudo apt-get install -y fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
     echo 'Done.'
     main
     ;;
@@ -417,6 +419,124 @@ esac
 }
 
 
+# INSTALL SUBLIME TEXT 2
+function sublime2 {
+# Downloading Sublime Text 2
+cd $HOME/Downloads
+echo 'Downloading Sublime Text 2.0.2...'
+# Download tarball that matches system architecture
+if [ $(uname -i) = 'i386' ]; then
+    wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2.tar.bz2
+elif [ $(uname -i) = 'x86_64' ]; then
+    wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2
+fi
+# Extract Tarball
+cd $HOME/Downloads
+echo 'Extracting Sublime Text 2.0.2...'
+tar xf Sublime*.tar.bz2
+# Move Sublime Text 2 to /opt
+echo 'Installing...'
+echo 'Requires root privileges:'
+sudo mv Sublime\ Text\ 2 /opt/
+echo 'Done.'
+# Create symbolic link
+echo 'Creating symbolic link...'
+echo 'Requires root privileges:'
+sudo ln -sf /opt/Sublime\ Text\ 2/sublime_text /usr/bin/sublime
+echo 'Done.'
+# Create .desktop file
+echo 'Creating .desktop file...'
+touch sublime-text.desktop
+echo "[Desktop Entry]
+Version=2
+Name=Sublime Text 2
+GenericName=Text Editor
+ 
+Exec=sublime
+Terminal=false
+Icon=/opt/Sublime Text 2/Icon/256x256/sublime_text.png
+Type=Application
+Categories=TextEditor;IDE;Development
+X-Ayatana-Desktop-Shortcuts=NewWindow
+
+[NewWindow Shortcut Group]
+Name=New Window
+Exec=sublime -n
+TargetEnvironment=Unity" >> sublime-text.desktop
+# Move .desktop file
+echo 'Moving .desktop file to /usr/share/applications'
+sudo mv -f sublime-text.desktop /usr/share/applications/
+echo 'Done.'
+# Cleanup & finish
+rm Sublime*.tar.bz2
+cd
+echo ''
+echo 'Installation of Sublime Text 2 complete.'
+thirdparty
+}
+
+
+# INSTALL PANTHEON SHELL
+function pantheon {
+echo ''
+echo '1. Add elementary OS daily PPA?'
+echo '2. Install Pantheon Shell?'
+echo '3. Configure Pantheon Specific Settings?'
+echo 'r. Return.'
+echo ''
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
+# Add elementary OS daily PPA
+1)
+    echo 'Adding elementary OS daily to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:elementary-os/daily
+    echo 'Updating repository information...'
+    sudo apt-get update -qq
+    echo 'Done.'
+    echo ''
+    pantheon
+    ;;
+# Install Pantheon Shell
+2)
+    echo 'Installing Pantheon Shell...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y gala noise pantheon-shell pantheon-wallpaper slingshot-launcher switchboard wingpanel
+    echo 'Done.'
+    echo ''
+    pantheon
+    ;;
+# Configure Shell Specific Settings
+3)
+    # Gala Animations
+    echo 'Setting Gala animations preferences...'
+    gsettings set org.pantheon.desktop.gala.animations close-duration '100'
+    gsettings set org.pantheon.desktop.gala.animations menu-duration '50'
+    gsettings set org.pantheon.desktop.gala.animations minimize-duration '100'
+    gsettings set org.pantheon.desktop.gala.animations open-duration '100'
+    echo 'Done. '
+    # Gala Hotcorners
+    echo 'Setting Gala Hotcorner preferences...'
+    gsettings set org.pantheon.desktop.gala.behaviour hotcorner-bottomleft 'show-workspace-view'
+    gsettings set org.pantheon.desktop.gala.behaviour hotcorner-topleft 'window-overview-all'
+    echo 'Done. '
+    # Slingshot preferences
+    echo 'Setting Slingshot preferences...'
+    gsettings set org.pantheon.desktop.slingshot icon-size '64'
+    echo 'Done. '
+    echo ''
+    pantheon
+    ;;
+# Return
+[Rr]*) 
+    clear && thirdparty;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && pantheon;;
+esac
+}
+
+
 # THIRD PARTY APPLICATIONS
 function thirdparty {
 echo ''
@@ -426,7 +546,10 @@ echo '3. Install Google Music Manager?'
 echo '4. Install Steam?'
 echo '5. Install Unity Tweak Tool?'
 echo '6. Install LightZone?'
-echo '7. Install Sublime Text 2'
+echo '7. Install Sublime Text 2?'
+echo '8. Install Sublime Text 3 (build 3047)?'
+echo '9. Install Pantheon Desktop?'
+echo '10. Install Spotify client'
 echo 'r. Return'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -521,7 +644,7 @@ case $REPLY in
     # Update Repository Information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
-    sudo apt-get update
+    sudo apt-get update -qq
     # Install the package
     echo 'Installing Unity Tweak Tool...'
     echo 'Requires root privileges:'
@@ -539,7 +662,7 @@ case $REPLY in
     # Update Repository Information
     echo 'Requires root privileges:'
     echo 'Updating repository information...'
-    sudo apt-get update
+    sudo apt-get update -qq
     # Install the package
     echo 'Installing LightZone...'
     echo 'Requires root privileges:'
@@ -549,57 +672,54 @@ case $REPLY in
     ;;
 # Sublime Text 2
 7)
-    # Downloading Sublime Text 2
-    cd $HOME/Downloads
-    echo 'Downloading Sublime Text 2.0.2...'
-    # Download tarball that matches system architecture
+    sublime2
+    ;;
+# Sublime Text 3 (build 3047)
+8)
+    echo 'Downloading Sublime Text 3 (build 3047)...'
+    # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2.tar.bz2
+        wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2
+        wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_amd64.deb
     fi
-    # Extract Tarball
-    cd $HOME/Downloads
-    echo 'Extracting Sublime Text 2.0.2...'
-    tar xf Sublime*.tar.bz2
-    # Move Sublime Text 2 to /opt
-    echo 'Installing...'
+    # Install the package
+    echo 'Installing Sublime Text 3 (build 3047)...'
     echo 'Requires root privileges:'
-    sudo mv Sublime\ Text\ 2 /opt/
-    echo 'Done.'
+    sudo dpkg -i sublime-text_build-3047*.deb
+    sudo apt-get install -fy
     # Create symbolic link
     echo 'Creating symbolic link...'
     echo 'Requires root privileges:'
-    sudo ln -s /opt/Sublime\ Text\ 2/sublime_text /usr/bin/sublime
+    sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
     echo 'Done.'
-    # Create .desktop file
-    echo 'Creating .desktop file...'
-    touch sublime-text.desktop
-    echo "[Desktop Entry]
-    Version=2
-    Name=Sublime Text 2
-    GenericName=Text Editor
-     
-    Exec=sublime
-    Terminal=false
-    Icon=/opt/Sublime Text 2/Icon/256x256/sublime_text.png
-    Type=Application
-    Categories=TextEditor;IDE;Development
-    X-Ayatana-Desktop-Shortcuts=NewWindow
-
-    [NewWindow Shortcut Group]
-    Name=New Window
-    Exec=sublime -n
-    TargetEnvironment=Unity" >> sublime-text.desktop
-    # Move .desktop file
-    echo 'Moving .desktop file to /usr/share/applications'
-    sudo mv -f sublime-text.desktop /usr/share/applications/
-    echo 'Done.'
-    # Cleanup & finish
-    rm Sublime*.tar.bz2
+    # Cleanup and finish
+    rm sublime-text_build-3047*.deb
     cd
-    echo ''
-    echo 'Installation of Sublime Text 2 complete.'
+    echo 'Done.'
+    thirdparty
+    ;;
+# Pantheon
+9)
+    pantheon
+    ;;
+# Spotify
+10)
+    # Add repository
+    echo 'Adding Spotify repository to sources...'
+    echo 'Creating apt list file...'
+    touch spotify.list
+    echo "deb http://repository.spotify.com stable non-free" >> spotify.list
+    echo 'Moving spotify.list to /etc/apt/sources.list.d/'
+    echo 'Requires root privileges:'
+    sudo mv -f spotify.list /etc/apt/sources.list.d/
+    echo 'Done.'
+    echo 'Adding repository key and updating repository information...'
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59
+    sudo apt-get update -qq
+    echo 'Installing Spotify client...'
+    sudo apt-get install -y spotify-client
+    echo 'Done.'
     thirdparty
     ;;
 # Return
