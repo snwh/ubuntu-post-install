@@ -60,9 +60,9 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Install favourite system tools?'
 echo '2. Install fingerprint reader software?'
-echo '3. Return.'
 echo ''
 read INPUT
 # Install Favourite System Tools
@@ -82,7 +82,7 @@ elif [ $INPUT -eq 2 ]; then
     sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
     echo 'Done.'
 # Return
-elif [ $INPUT -eq 3 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -101,12 +101,12 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
 echo '3. Install GNOME Shell?'
 echo '4. Install extra GNOME applications?'
 echo '5. Configure GNOME Shell Specific Settings?'
-echo '6. Return.'
 echo ''
 read INPUT
 # Add GNOME3 PPA
@@ -174,7 +174,7 @@ elif [ $INPUT -eq 5 ]; then
     gsettings set org.gnome.shell.overrides button-layout 'close:'
     echo 'Done. '
 # Return
-elif [ $INPUT -eq 6 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -192,8 +192,8 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Install Ubuntu Restricted Extras?'
-echo '2. Return'
 echo ''
 read INPUT
 # Install Ubuntu Restricted Extras Applications
@@ -204,7 +204,7 @@ if [ $INPUT -eq 1 ]; then
     echo 'Done.'
     codecinstall
 # Return
-elif [ $INPUT -eq 2 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -222,11 +222,11 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
 echo '3. Install Ubuntu Phablet Tools?'
 echo '4. Install IRC bot tools?'
-echo '5. Return'
 echo ''
 read INPUT
 # Install Development Tools
@@ -269,7 +269,7 @@ elif [ $INPUT -eq 4 ]; then
     echo 'Done.'
     devinstall
 # Return
-elif [ $INPUT -eq 5 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -288,12 +288,13 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Install Google Chrome?'
 echo '2. Install Google Talk Plugin?'
 echo '3. Install Google Music Manager?'
 echo '4. Install Steam?'
 echo '5. Install Unity Tweak Tool?'
-echo '6. Return'
+echo '6. Install Sublime Text?'
 echo ''
 read INPUT
 # Google Chrome
@@ -386,8 +387,27 @@ elif [ $INPUT -eq 5 ]; then
     sudo apt-get install -y unity-tweak-tool
     echo 'Done.'
     thirdparty
-# Return
+# Sublime Text
 elif [ $INPUT -eq 6 ]; then
+    echo 'Installing Sublime Text...'
+    echo 'Requires root privileges:'
+    wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_amd64.deb -O /tmp/sublime-text_build-3047_amd64.deb
+    sudo dpkg -i /tmp/sublime-text_build-3047_amd64.deb
+    rm -f /tmp/sublime-text_build-3047_amd64.deb
+    cp "configs/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
+    cp "configs/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
+    # install package manager from git
+    cd $HOME/.config/sublime-text-3/Packages
+    git clone https://github.com/wbond/sublime_package_control.git "Package Control"
+    cd "Package Control"
+    git checkout python3
+    # install indentxml plugin
+    cd $HOME/.config/sublime-text-3/Packages
+    git clone https://github.com/alek-sys/sublimetext_indentxml.git indentxml
+    echo 'Done.'
+    thirdparty
+# Return
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -405,9 +425,9 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Return'
 echo '1. Set preferred application-specific settings?'
 echo '2. Show all startup applications?'
-echo '3. Return'
 echo ''
 read INPUT
 # GSettings
@@ -456,7 +476,7 @@ elif [ $INPUT -eq 2 ]; then
     echo 'Done.'
     config
 # Return
-elif [ $INPUT -eq 3 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -475,12 +495,12 @@ echo ''
 while [ true ]
 do
 echo ''
+echo '0. Return'
 echo '1. Remove unused pre-installed packages?'
 echo '2. Remove old kernel(s)?'
 echo '3. Remove orphaned packages?'
 echo '4. Remove leftover configuration files?'
 echo '5. Clean package cache?'
-echo '6. Return?'
 echo ''
 read INPUT
 # Remove Unused Pre-installed Packages
@@ -518,7 +538,7 @@ elif [ $INPUT -eq 5 ]; then
     echo 'Done.'
     cleanup
 # Return
-elif [ $INPUT -eq 6 ]; then
+elif [ $INPUT -eq 0 ]; then
     clear && main
 else
 # Invalid Choice
@@ -547,6 +567,7 @@ echo 'What would you like to do? (Enter the number of your choice)'
 echo ''
 while [ true ]
 do
+echo '0. Quit?'
 echo '1. Perform system update & upgrade?'
 echo '2. Install favourite applications?'
 echo '3. Install favourite system tools?'
@@ -556,7 +577,6 @@ echo '6. Install Ubuntu Restricted Extras?'
 echo '7. Install third-party applications?'
 echo '8. Configure system?'
 echo '9. Cleanup the system?'
-echo '10. Quit?'
 echo ''
 read INPUT
 # System Upgrade
@@ -587,7 +607,7 @@ elif [ $INPUT -eq 8 ]; then
 elif [ $INPUT -eq 9 ]; then
     clear && cleanup
 # End
-elif [ $INPUT -eq 10 ]; then
+elif [ $INPUT -eq 0 ]; then
     end
 else
 # Invalid Choice
