@@ -294,6 +294,7 @@ echo '2. Install Google Talk Plugin?'
 echo '3. Install Google Music Manager?'
 echo '4. Install Steam?'
 echo '5. Install Unity Tweak Tool?'
+echo '6. Install Sublime Text?'
 echo ''
 read INPUT
 # Google Chrome
@@ -384,6 +385,25 @@ elif [ $INPUT -eq 5 ]; then
     # Install the package
     echo 'Installing Unity Tweak Tool...'
     sudo apt-get install -y unity-tweak-tool
+    echo 'Done.'
+    thirdparty
+# Sublime Text
+elif [ $INPUT -eq 6 ]; then
+    echo 'Installing Sublime Text...'
+    echo 'Requires root privileges:'
+    wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_amd64.deb -O /tmp/sublime-text_build-3047_amd64.deb
+    sudo dpkg -i /tmp/sublime-text_build-3047_amd64.deb
+    rm -f /tmp/sublime-text_build-3047_amd64.deb
+    cp "configs/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
+    cp "configs/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
+    # install package manager from git
+    cd $HOME/.config/sublime-text-3/Packages
+    git clone https://github.com/wbond/sublime_package_control.git "Package Control"
+    cd "Package Control"
+    git checkout python3
+    # install indentxml plugin
+    cd $HOME/.config/sublime-text-3/Packages
+    git clone https://github.com/alek-sys/sublimetext_indentxml.git indentxml
     echo 'Done.'
     thirdparty
 # Return
