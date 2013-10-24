@@ -182,7 +182,8 @@ echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
 echo '3. Add GNOME3 Next PPA?'
 echo '4. Install GNOME Shell?'
-echo '5. Configure GNOME Shell Specific Settings?'
+echo '5. Install extra GNOME components?'
+echo '6. Configure GNOME Shell Specific Settings?'
 echo 'r. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -244,8 +245,41 @@ case $REPLY in
     echo ''
     gnome
     ;;
-# Configure Shell Specific Settings
+# Install extra GNOME components
 5)
+    echo 'Installing extra GNOME components...'
+    echo 'Requires the "gnome3-staging" and "gnome3-next" PPAs to be in the repositories.'
+    echo ''
+    echo 'Current package list:
+    cheese
+    gnome-maps
+    gnome-online-accounts
+    gnome-weather
+    rygel'
+    echo ''
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        # Feel free to change to whatever suits your preferences.
+        sudo apt-get install -y cheese gnome-maps gnome-online-accounts gnome-weather rygel
+        echo 'Done.'
+        clear && gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
+    ;;
+# Configure Shell Specific Settings
+6)
     # Font Settings
     echo 'Setting font preferences...'
     echo 'Requires the "Cantarell" font.'
