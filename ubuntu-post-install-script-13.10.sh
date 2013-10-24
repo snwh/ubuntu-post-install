@@ -596,7 +596,7 @@ echo '1. Configure system?'
 echo '2. Install Third-Party themes?'
 echo 'r. Return'
 echo ''
-read -p 'What would you like to do? (Enter the your choice) : ' REPLY
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
     1) clear && config;; # System Configuration
     2) clear && themes;; # Install Third-Party Themes
@@ -894,7 +894,7 @@ case $REPLY in
 1)
     echo 'Removing selected pre-installed applications...'
     echo 'Requires root privileges:'
-    sudo apt-get purge 
+    sudo apt-get purge landscape-client-ui-install
     echo 'Done.'
     cleanup
     ;;
@@ -964,7 +964,7 @@ echo '9. Customize system?'
 echo '10. Cleanup the system?'
 echo 'q. Quit?'
 echo ''
-read -p 'What would you like to do? (Enter the your choice) : ' REPLY
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
     1) sysupgrade;; # System Upgrade
     2) clear && favourites;; # Install Favourite Applications
