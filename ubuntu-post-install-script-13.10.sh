@@ -36,10 +36,10 @@ read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
 case $REPLY in
 # Positive action
 [Yy]* )
-    # Update Repository Information
+    # Update repository information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
-    sudo apt-get update -qq
+    sudo apt-get update
     # Dist-Upgrade
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
@@ -105,7 +105,6 @@ function system {
 echo ''
 echo '1. Install favourite system utilities?'
 echo '2. Install fingerprint reader software?'
-echo '3. Install IRC Bot software?'
 echo 'r. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -121,8 +120,10 @@ case $REPLY in
     openssh-server
     p7zip-full
     ppa-purge
+    python-soappy
     samba
     ssh
+    supybot
     symlinks
     synaptic
     virt-manager
@@ -134,7 +135,7 @@ case $REPLY in
     [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh symlinks synaptic virt-manager zsync
+        sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge python-soappy samba ssh supybot symlinks synaptic virt-manager zsync
         echo 'Done.'
         clear && system
         ;;
@@ -151,43 +152,18 @@ case $REPLY in
     ;;
 # Install Fingerprint Reader Software
 2)
+    # Add repository
     echo 'Adding Fingerprint Reader Team PPA to software sources...'
     echo 'Requires root privileges:'
     sudo apt-add-repository -y ppa:fingerprint/fingerprint-gui
+    # Update repository information
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
+    # Install package(s)
     echo 'Installing fingerprint reader software...'
     sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
     echo 'Done.'
     system
-    ;;
-# Install IRC Bot Software
-3)
-    echo 'Installing IRC Bot software...'
-    echo ''
-    echo 'Current package list:
-    python-soappy
-    supybot'
-    echo ''
-    read -p 'Proceed? (Y)es, (N)o : ' REPLY
-    case $REPLY in
-    # Positive action
-    [Yy]* )
-        echo 'Requires root privileges:'
-        # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y python-soappy supybot
-        echo 'Done.'
-        clear && system
-        ;;
-    # Negative action
-    [Nn]* ) 
-        clear && system
-        ;;
-    # Error
-    * ) 
-        clear && echo 'Sorry, try again.' && system
-        ;;
-    esac
     ;;
 # Return
 [Rr]*) 
@@ -204,19 +180,23 @@ function gnome {
 echo ''
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
-echo '3. Install GNOME Shell?'
-echo '4. Configure GNOME Shell Specific Settings?'
+echo '3. Add GNOME3 Next PPA?'
+echo '4. Install GNOME Shell?'
+echo '5. Configure GNOME Shell Specific Settings?'
 echo 'r. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
 # Add GNOME3 PPA
 1)
+    # Add repository
     echo 'Adding GNOME3 PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
+    # Update repository information
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
+    # Upgrade system
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -225,11 +205,30 @@ case $REPLY in
     ;;
 # Add GNOME3 Staging PPA
 2)
+    # Add repository
     echo 'Adding GNOME3 Staging PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
+    # Update repository information
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
+    # Upgrade system
+    echo 'Performing system upgrade...'
+    sudo apt-get dist-upgrade -y
+    echo 'Done.'
+    echo ''
+    gnome
+    ;;
+# Add GNOME3 Next PPA
+3)
+    # Add repository
+    echo 'Adding GNOME3 Next PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:gnome3-team/gnome3-next
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    # Upgrade system
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
     echo 'Done.'
@@ -237,7 +236,7 @@ case $REPLY in
     gnome
     ;;
 # Install GNOME Shell
-3)
+4)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
     sudo apt-get install -y gnome-shell
@@ -246,10 +245,11 @@ case $REPLY in
     gnome
     ;;
 # Configure Shell Specific Settings
-4)
-    # Font Sizes
+5)
+    # Font Settings
     echo 'Setting font preferences...'
     echo 'Requires the "Cantarell" font.'
+    # Check if "fonts-cantarell" package is installed
     PACKAGE=$(dpkg-query -W --showformat='${Status}\n' fonts-cantarell | grep "install ok installed")
     echo "Checking if installed..."
     if [ "" == "$PACKAGE" ]; then
@@ -261,6 +261,7 @@ case $REPLY in
     else
         echo 'Cantarell is installed, proceeding... '
     fi
+    # Settings font settings
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
     gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 10'
     gsettings set org.gnome.desktop.interface font-name 'Cantarell 10'
@@ -271,7 +272,7 @@ case $REPLY in
     echo 'Done. '
     # GNOME Shell Settings
     echo 'Setting GNOME Shell window button preferences...'
-    gsettings set org.gnome.shell.overrides button-layout 'close:'
+    gsettings set org.gnome.shell.overrides button-layout ':close'
     echo 'Done. '
     echo ''
     gnome
@@ -295,7 +296,6 @@ case $REPLY in
 [Yy]* ) 
     echo 'Installing...'
     echo 'Requires root privileges:'
-    # Feel free to change to whatever suits your preferences.
     sudo apt-get install -y ubuntu-restricted-extras
     echo 'Done.'
     main
@@ -326,14 +326,14 @@ case $REPLY in
     echo 'Current package list:
     bzr
     devscripts
-    eclipse
     git
-    glad
+    glade
+    gnome-common
+    gtk-3-examples
     python-launchpadlib
     python3-distutils-extra
     qtcreator
-    ruby
-    ubuntu-dev-tools'
+    ruby'
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
     case $REPLY in
@@ -341,7 +341,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts eclipse git glade gtk-3-examples python-launchpadlib python3-distutils-extra qtcreator ruby ubuntu-dev-tools
+        sudo apt-get install -y bzr devscripts git glade gnome-common gtk-3-examples php5 python-launchpadlib python3-distutils-extra ruby
         echo 'Done.'
         development
         ;;
@@ -358,11 +358,14 @@ case $REPLY in
     ;;
 # Install Ubuntu SDK
 2)
+    # Add repository
     echo 'Adding Ubuntu SDK Team PPA to software sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
+    # Update repository information
     echo 'Updating repository information...'
-    sudo apt-get update -qq
+    sudo apt-get update
+    # Install package(s)
     echo 'Installing Ubuntu SDK...'
     sudo apt-get install -y ubuntu-sdk
     echo 'Done.'
@@ -395,8 +398,7 @@ fontforge-extras
 gimp
 gimp-plugin-registry
 icontool
-imagemagick
-inkscape'
+imagemagick'
 echo ''
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
 case $REPLY in
@@ -404,7 +406,7 @@ case $REPLY in
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
+    sudo apt-get install -y fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick
     echo 'Done.'
     main
     ;;
@@ -475,84 +477,117 @@ echo 'Installation of Sublime Text 2 complete.'
 thirdparty
 }
 
-
-# INSTALL PANTHEON SHELL
-function pantheon {
+# THIRD PARTY THEMES
+function themes {
+echo 'What would you like to install? '
 echo ''
-echo '1. Add elementary OS daily PPA?'
-echo '2. Install Pantheon Shell?'
-echo '3. Configure Pantheon Specific Settings?'
-echo 'r. Return.'
+echo '1. Moka Icon Theme'
+echo '2. Moka GTK Theme'
+echo 'r. Return'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+read -p 'Enter your choice: ' REPLY
 case $REPLY in
-# Add elementary OS daily PPA
+# Moka Icon Theme
 1)
-    echo 'Adding elementary OS daily to software sources...'
+    # Add repository
+    echo 'Adding Moka Icon Theme repository to sources...'
     echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:elementary-os/daily
+    sudo add-apt-repository -y ppa:snwh/moka-icon-theme-daily
+    # Update repository information
     echo 'Updating repository information...'
-    sudo apt-get update -qq
-    echo 'Done.'
-    echo ''
-    pantheon
-    ;;
-# Install Pantheon Shell
-2)
-    echo 'Installing Pantheon Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y gala noise pantheon-shell pantheon-wallpaper slingshot-launcher switchboard wingpanel
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Moka icon themes...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y moka-icon-theme moka-icon-theme-*
     echo 'Done.'
-    echo ''
-    pantheon
+    # Set Theme
+    read -p "Do you want to set Moka as desktop theme? (Y)es, (N)o : " INPUT
+    case $INPUT in
+        [Yy]* ) 
+            echo "Setting Moka as desktop Icon theme..."
+            gsettings set org.gnome.desktop.interface icon-theme "Moka"
+            echo "Done."
+            themes
+            ;;
+        [Nn]* ) echo 'Done.'; themes;;
+        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
+    esac
     ;;
-# Configure Shell Specific Settings
-3)
-    # Gala Animations
-    echo 'Setting Gala animations preferences...'
-    gsettings set org.pantheon.desktop.gala.animations close-duration '100'
-    gsettings set org.pantheon.desktop.gala.animations menu-duration '50'
-    gsettings set org.pantheon.desktop.gala.animations minimize-duration '100'
-    gsettings set org.pantheon.desktop.gala.animations open-duration '100'
-    echo 'Done. '
-    # Gala Hotcorners
-    echo 'Setting Gala Hotcorner preferences...'
-    gsettings set org.pantheon.desktop.gala.behaviour hotcorner-bottomleft 'show-workspace-view'
-    gsettings set org.pantheon.desktop.gala.behaviour hotcorner-topleft 'window-overview-all'
-    echo 'Done. '
-    # Slingshot preferences
-    echo 'Setting Slingshot preferences...'
-    gsettings set org.pantheon.desktop.slingshot icon-size '64'
-    echo 'Done. '
-    echo ''
-    pantheon
+# Moka GTK Theme
+2)
+    # Add repository
+    echo 'Adding Moka GTK Theme repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:snwh/moka-gtk-theme-daily
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Moka icon themes...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y moka-gtk-theme
+    echo 'Done.'
+    # Set Theme
+    read -p "Do you want to set Moka as desktop theme? (Y)es, (N)o : " INPUT
+    case $INPUT in
+        [Yy]* )
+            echo "Setting Moka as GTK window theme..."
+            gsettings set org.gnome.desktop.wm.preferences theme "Moka"
+            echo "Done."
+            echo "Setting Moka as desktop GTK theme..."
+            gsettings set org.gnome.desktop.interface gtk-theme "Moka"
+            echo "Done."
+            themes
+            ;;
+        [Nn]* ) echo 'Done.'; themes;;
+        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
+    esac
     ;;
 # Return
 [Rr]*) 
-    clear && thirdparty;;
+    clear && customize;;
 # Invalid choice
 * ) 
-    clear && echo 'Not an option, try again.' && pantheon;;
+    clear && echo 'Not an option, try again.' && themes;;
 esac
 }
 
+# CUSTOMIZATION
+function customize {
+echo ''
+echo '1. Configure system?'
+echo '2. Install Third-Party themes?'
+echo 'r. Return'
+echo ''
+read -p 'What would you like to do? (Enter the your choice) : ' REPLY
+case $REPLY in
+    1) clear && config;; # System Configuration
+    2) clear && themes;; # Install Third-Party Themes
+    [Rr]*) clear && main;; # Return
+    * ) clear && echo 'Not an option, try again.' && customize;; # Invalid choice
+esac
+}
 
 # THIRD PARTY APPLICATIONS
 function thirdparty {
+echo 'What would you like to install? '
 echo ''
-echo '1. Install Google Chrome?'
-echo '2. Install Google Talk Plugin?'
-echo '3. Install Google Music Manager?'
-echo '4. Install Steam?'
-echo '5. Install Unity Tweak Tool?'
-echo '6. Install LightZone?'
-echo '7. Install Sublime Text 2?'
-echo '8. Install Sublime Text 3 (build 3047)?'
-echo '9. Install Pantheon Desktop?'
-echo '10. Install Spotify client'
+echo '1. Google Chrome?'
+echo '2. Google Talk Plugin?'
+echo '3. Google Music Manager?'
+echo '4. Steam?'
+echo '5. Unity Tweak Tool?'
+echo '6. LightZone?'
+echo '7. Sublime Text 2?'
+echo '8. Sublime Text 3 (build 3047)?'
+echo '9. Spotify client'
+echo '10. Inkscape trunk'
 echo 'r. Return'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+read -p 'Enter your choice: ' REPLY
 case $REPLY in
 # Google Chrome
 1) 
@@ -563,7 +598,7 @@ case $REPLY in
     elif [ $(uname -i) = 'x86_64' ]; then
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     fi
-    # Install the package
+    # Install package(s)
     echo 'Installing Google Chrome...'
     echo 'Requires root privileges:'
     sudo dpkg -i google-chrome*.deb
@@ -583,7 +618,7 @@ case $REPLY in
     elif [ $(uname -i) = 'x86_64' ]; then
         wget https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb
     fi
-    # Install the package
+    # Install package(s)
     echo 'Installing Google Talk Plugin...'
     echo 'Requires root privileges:'
     sudo dpkg -i google-talkplugin_current*.deb
@@ -603,7 +638,7 @@ case $REPLY in
     elif [ $(uname -i) = 'x86_64' ]; then
         wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_amd64.deb
     fi
-    # Install the package
+    # Install package(s)
     echo 'Installing Google Music Manager...'
     echo 'Requires root privileges:'
     sudo dpkg -i google-musicmanager-*.deb
@@ -624,7 +659,7 @@ case $REPLY in
     elif [ $(uname -i) = 'x86_64' ]; then
         wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
     fi
-    # Install the package
+    # Install package(s)
     echo 'Installing Steam...'
     echo 'Requires root privileges:'
     sudo dpkg -i steam*.deb
@@ -641,11 +676,11 @@ case $REPLY in
     echo 'Adding Unity Tweak Tool repository to sources...'
     echo 'Requires root privileges:'
     sudo add-apt-repository -y ppa:freyja-dev/unity-tweak-tool-daily
-    # Update Repository Information
+    # Update repository information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
-    sudo apt-get update -qq
-    # Install the package
+    sudo apt-get update
+    # Install package(s)
     echo 'Installing Unity Tweak Tool...'
     echo 'Requires root privileges:'
     sudo apt-get install -y unity-tweak-tool
@@ -659,11 +694,11 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo wget -O - http://download.opensuse.org/repositories/home:/ktgw0316:/LightZone/xUbuntu_13.04/Release.key | sudo apt-key add - 
     sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/ktgw0316:/LightZone/xUbuntu_13.04/ ./' > /etc/apt/sources.list.d/lightzone.list" 
-    # Update Repository Information
+    # Update repository information
     echo 'Requires root privileges:'
     echo 'Updating repository information...'
-    sudo apt-get update -qq
-    # Install the package
+    sudo apt-get update
+    # Install package(s)
     echo 'Installing LightZone...'
     echo 'Requires root privileges:'
     sudo apt-get install -y lightzone
@@ -683,7 +718,7 @@ case $REPLY in
     elif [ $(uname -i) = 'x86_64' ]; then
         wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3047_amd64.deb
     fi
-    # Install the package
+    # Install package(s)
     echo 'Installing Sublime Text 3 (build 3047)...'
     echo 'Requires root privileges:'
     sudo dpkg -i sublime-text_build-3047*.deb
@@ -699,12 +734,8 @@ case $REPLY in
     echo 'Done.'
     thirdparty
     ;;
-# Pantheon
-9)
-    pantheon
-    ;;
 # Spotify
-10)
+9)
     # Add repository
     echo 'Adding Spotify repository to sources...'
     echo 'Creating apt list file...'
@@ -714,11 +745,30 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo mv -f spotify.list /etc/apt/sources.list.d/
     echo 'Done.'
+    # Update repository information
     echo 'Adding repository key and updating repository information...'
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59
-    sudo apt-get update -qq
+    sudo apt-get update
+    # Install package(s)
     echo 'Installing Spotify client...'
     sudo apt-get install -y spotify-client
+    echo 'Done.'
+    thirdparty
+    ;;
+# Inkscape Trunk
+10)
+    # Add repository
+    echo 'Adding Inkscape trunk repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:inkscape.dev/trunk
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Inkscape trunk...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y inkscape-trunk
     echo 'Done.'
     thirdparty
     ;;
@@ -772,7 +822,6 @@ case $REPLY in
     echo 'Setting Rhythmbox preferences...'
     gsettings set org.gnome.rhythmbox.rhythmdb monitor-library true
     gsettings set org.gnome.rhythmbox.sources browser-views 'artists-albums'
-    gsettings set org.gnome.rhythmbox.sources visible-columns '['post-time', 'artist', 'duration', 'genre', 'album']'
     # Done
     echo "Done."
     config
@@ -877,7 +926,7 @@ echo '5. Install design tools?'
 echo '6. Install extra GNOME components?'
 echo '7. Install Ubuntu Restricted Extras?'
 echo '8. Install third-party applications?'
-echo '9. Configure system?'
+echo '9. Customize system?'
 echo '10. Cleanup the system?'
 echo 'q. Quit?'
 echo ''
@@ -891,9 +940,9 @@ case $REPLY in
     6) clear && gnome;; # Install GNOME components
     7) clear && codecinstall;; # Install Ubuntu Restricted Extras
     8) clear && thirdparty;; # Install Third-Party Applications
-    9) clear && config;; # Configure System
+    9) clear && customize;; # Customize system
     10) clear && cleanup;; # Cleanup System
-    [Qq]* ) clear && quit;; # Quit
+    [Qq]* ) echo '' && quit;; # Quit
     * ) clear && echo 'Not an option, try again.' && main;;
 esac
 }
