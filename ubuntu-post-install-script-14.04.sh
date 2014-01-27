@@ -455,63 +455,6 @@ case $REPLY in
 esac
 }
 
-
-# INSTALL SUBLIME TEXT 2
-function sublime2 {
-# Downloading Sublime Text 2
-cd $HOME/Downloads
-echo 'Downloading Sublime Text 2.0.2...'
-# Download tarball that matches system architecture
-if [ $(uname -i) = 'i386' ]; then
-    wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2.tar.bz2
-elif [ $(uname -i) = 'x86_64' ]; then
-    wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2
-fi
-# Extract Tarball
-cd $HOME/Downloads
-echo 'Extracting Sublime Text 2.0.2...'
-tar xf Sublime*.tar.bz2
-# Move Sublime Text 2 to /opt
-echo 'Installing...'
-echo 'Requires root privileges:'
-sudo mv Sublime\ Text\ 2 /opt/
-echo 'Done.'
-# Create symbolic link
-echo 'Creating symbolic link...'
-echo 'Requires root privileges:'
-sudo ln -sf /opt/Sublime\ Text\ 2/sublime_text /usr/bin/sublime
-echo 'Done.'
-# Create .desktop file
-echo 'Creating .desktop file...'
-touch sublime-text.desktop
-echo "[Desktop Entry]
-Version=2
-Name=Sublime Text 2
-GenericName=Text Editor
- 
-Exec=sublime
-Terminal=false
-Icon=/opt/Sublime Text 2/Icon/256x256/sublime_text.png
-Type=Application
-Categories=TextEditor;IDE;Development
-X-Ayatana-Desktop-Shortcuts=NewWindow
-
-[NewWindow Shortcut Group]
-Name=New Window
-Exec=sublime -n
-TargetEnvironment=Unity" >> sublime-text.desktop
-# Move .desktop file
-echo 'Moving .desktop file to /usr/share/applications'
-sudo mv -f sublime-text.desktop /usr/share/applications/
-echo 'Done.'
-# Cleanup & finish
-rm Sublime*.tar.bz2
-cd
-echo ''
-echo 'Installation of Sublime Text 2 complete.'
-thirdparty
-}
-
 # THIRD PARTY THEMES
 function themes {
 echo 'What would you like to install? '
@@ -665,7 +608,7 @@ case $REPLY in
     fi
     # Install package(s)
     echo 'Installing Google Chrome...'
-    echo 'Requires root privileges:'
+    echo 'Requires root privileges:'b
     sudo dpkg -i google-chrome*.deb
     sudo apt-get install -fy
     # Cleanup and finish
