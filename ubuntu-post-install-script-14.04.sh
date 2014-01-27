@@ -517,7 +517,9 @@ function themes {
 echo 'What would you like to install? '
 echo ''
 echo '1. Moka Icon Theme'
-echo '2. Moka GTK Theme'
+echo '2. Faba Icon Theme'
+echo '3. Moka GTK Theme'
+echo '4. Moka GNOME Shell Theme'
 echo 'r. Return'
 echo ''
 read -p 'Enter your choice: ' REPLY
@@ -527,7 +529,7 @@ case $REPLY in
     # Add repository
     echo 'Adding Moka Icon Theme repository to sources...'
     echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:snwh/moka-icon-theme-daily
+    sudo add-apt-repository -y ppa:moka/moka-icon-theme
     # Update repository information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
@@ -535,7 +537,7 @@ case $REPLY in
     # Install package(s)
     echo 'Installing Moka icon themes...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y moka-icon-theme moka-icon-theme-*
+    sudo apt-get install -y moka-icon-theme
     echo 'Done.'
     # Set Theme
     read -p "Do you want to set Moka as desktop theme? (Y)es, (N)o : " INPUT
@@ -550,18 +552,34 @@ case $REPLY in
         * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
     esac
     ;;
-# Moka GTK Theme
+# Faba Icon Theme
 2)
     # Add repository
-    echo 'Adding Moka GTK Theme repository to sources...'
+    echo 'Adding Faba Icon Theme repository to sources...'
     echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:snwh/moka-gtk-theme-daily
+    sudo add-apt-repository -y ppa:moka/faba-icon-theme
     # Update repository information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
     sudo apt-get update
     # Install package(s)
-    echo 'Installing Moka icon themes...'
+    echo 'Installing Faba icon themes...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y faba-icon-theme faba-mono-icons faba-icon-theme-symbolic
+    echo 'Done.'
+    ;;
+# Moka GTK Theme
+3)
+    # Add repository
+    echo 'Adding Moka GTK Theme repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:moka/moka-gtk-theme
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Moka GTK theme...'
     echo 'Requires root privileges:'
     sudo apt-get install -y moka-gtk-theme
     echo 'Done.'
@@ -580,6 +598,22 @@ case $REPLY in
         [Nn]* ) echo 'Done.'; themes;;
         * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
     esac
+    ;;
+# Moka GNOME Shell Theme
+4)
+    # Add repository
+    echo 'Adding Moka GNOME Shell Theme repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:moka/moka-gnome-shell-theme
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Moka GNOME Shell theme...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y moka-gnome-shell-theme
+    echo 'Done.'
     ;;
 # Return
 [Rr]*) 
@@ -615,10 +649,8 @@ echo '2. Google Talk Plugin?'
 echo '3. Google Music Manager?'
 echo '4. Steam?'
 echo '5. Unity Tweak Tool?'
-echo '6. LightZone?'
-echo '7. Sublime Text 2?'
-echo '8. Sublime Text 3 (build 3059)?'
-echo '9. Spotify client'
+echo '6. Sublime Text 3 (build 3059)?'
+echo '7. Spotify client'
 echo 'r. Return'
 echo ''
 read -p 'Enter your choice: ' REPLY
@@ -721,30 +753,8 @@ case $REPLY in
     echo 'Done.'
     thirdparty
     ;;
-# LightZone
-6)
-    # Add repository
-    echo 'Adding LightZone repository to sources...'
-    echo 'Requires root privileges:'
-    sudo wget -O - http://download.opensuse.org/repositories/home:/ktgw0316:/LightZone/xUbuntu_13.04/Release.key | sudo apt-key add - 
-    sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/ktgw0316:/LightZone/xUbuntu_13.04/ ./' > /etc/apt/sources.list.d/lightzone.list" 
-    # Update repository information
-    echo 'Requires root privileges:'
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing LightZone...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y lightzone
-    echo 'Done.'
-    thirdparty
-    ;;
-# Sublime Text 2
-7)
-    sublime2
-    ;;
 # Sublime Text 3 (build 3059)
-8)
+6)
     echo 'Downloading Sublime Text 3 (build 3059)...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
@@ -769,7 +779,7 @@ case $REPLY in
     thirdparty
     ;;
 # Spotify
-9)
+7)
     # Add repository
     echo 'Adding Spotify repository to sources...'
     echo 'Creating apt list file...'
