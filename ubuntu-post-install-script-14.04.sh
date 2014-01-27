@@ -648,9 +648,8 @@ echo '1. Google Chrome?'
 echo '2. Google Talk Plugin?'
 echo '3. Google Music Manager?'
 echo '4. Steam?'
-echo '5. Unity Tweak Tool?'
-echo '6. Sublime Text 3 (build 3059)?'
-echo '7. Spotify client'
+echo '5. Sublime Text 3 (build 3059)?'
+echo '6. Spotify client'
 echo 'r. Return'
 echo ''
 read -p 'Enter your choice: ' REPLY
@@ -736,25 +735,8 @@ case $REPLY in
     echo 'Done.'
     thirdparty
     ;;
-# Unity Tweak Tool
-5)
-    # Add repository
-    echo 'Adding Unity Tweak Tool repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:freyja-dev/unity-tweak-tool-daily
-    # Update repository information
-    echo 'Updating repository information...'
-    echo 'Requires root privileges:'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Unity Tweak Tool...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y unity-tweak-tool
-    echo 'Done.'
-    thirdparty
-    ;;
 # Sublime Text 3 (build 3059)
-6)
+5)
     echo 'Downloading Sublime Text 3 (build 3059)...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
@@ -779,7 +761,7 @@ case $REPLY in
     thirdparty
     ;;
 # Spotify
-7)
+6)
     # Add repository
     echo 'Adding Spotify repository to sources...'
     echo 'Creating apt list file...'
