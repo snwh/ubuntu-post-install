@@ -65,9 +65,9 @@ echo ''
 echo 'Installing selected favourite applications...'
 echo ''
 echo 'Current package list:
+cheese
 darktable
 easytag
-filezilla
 gnome-tweak-tool
 gpick
 grsync
@@ -84,7 +84,7 @@ case $REPLY in
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y --no-install-recommends darktable easytag filezilla gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
+    sudo apt-get install -y --no-install-recommends cheese darktable easytag gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
     echo 'Done.'
     main
     ;;
@@ -240,7 +240,7 @@ case $REPLY in
 4)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y gnome-shell
+    sudo apt-get install -y gnome-shell gnome-shell-extensions gnome-session
     echo 'Done.'
     echo ''
     gnome
@@ -359,15 +359,14 @@ case $REPLY in
     echo ''
     echo 'Current package list:
     bzr
-    devscripts
+    devscripts 
     git
     glade
     gnome-common
     gtk-3-examples
+    nodejs
     python-launchpadlib
-    python3-distutils-extra
-    qtcreator
-    ruby'
+    python3-distutils-extra'
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
     case $REPLY in
@@ -375,7 +374,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts git glade gnome-common gtk-3-examples php5 python-launchpadlib python3-distutils-extra ruby
+        sudo apt-get install -y bzr devscripts gcc-snapshot git glade gnome-common gtk-3-examples lib32stdc++6 nodejs python-launchpadlib python3-distutils-extra
         echo 'Done.'
         development
         ;;
@@ -463,6 +462,7 @@ echo '1. Moka Icon Theme'
 echo '2. Faba Icon Theme'
 echo '3. Moka GTK Theme'
 echo '4. Moka GNOME Shell Theme'
+echo '5. Orchis GTK Theme'
 echo 'r. Return'
 echo ''
 read -p 'Enter your choice: ' REPLY
@@ -494,6 +494,7 @@ case $REPLY in
         [Nn]* ) echo 'Done.'; themes;;
         * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
     esac
+    themes
     ;;
 # Faba Icon Theme
 2)
@@ -510,6 +511,7 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo apt-get install -y faba-icon-theme faba-mono-icons faba-icon-theme-symbolic
     echo 'Done.'
+    themes
     ;;
 # Moka GTK Theme
 3)
@@ -541,6 +543,7 @@ case $REPLY in
         [Nn]* ) echo 'Done.'; themes;;
         * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
     esac
+    themes
     ;;
 # Moka GNOME Shell Theme
 4)
@@ -557,6 +560,39 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo apt-get install -y moka-gnome-shell-theme
     echo 'Done.'
+    themes
+    ;;
+# Orchis GTK Theme
+5)
+    # Add repository
+    echo 'Adding Orchis GTK Theme repository to sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:moka/orchis-gtk-theme
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Install package(s)
+    echo 'Installing Orchis GTK theme...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y orchis-gtk-theme
+    echo 'Done.'
+    # Set Theme
+    read -p "Do you want to set Orchis as desktop theme? (Y)es, (N)o : " INPUT
+    case $INPUT in
+        [Yy]* )
+            echo "Setting Orchis as GTK window theme..."
+            gsettings set org.gnome.desktop.wm.preferences theme "Orchis"
+            echo "Done."
+            echo "Setting Orchis as desktop GTK theme..."
+            gsettings set org.gnome.desktop.interface gtk-theme "Orchis"
+            echo "Done."
+            themes
+            ;;
+        [Nn]* ) echo 'Done.'; themes;;
+        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
+    esac
+    themes
     ;;
 # Return
 [Rr]*) 
@@ -763,13 +799,6 @@ case $REPLY in
     # Nautilus Preferences
     echo 'Setting Nautilus preferences...'
     gsettings set org.gnome.nautilus.preferences sort-directories-first true
-    # Gedit Preferences
-    echo 'Setting Gedit preferences...'
-    gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
-    gsettings set org.gnome.gedit.preferences.editor create-backup-copy false
-    gsettings set org.gnome.gedit.preferences.editor auto-save true
-    gsettings set org.gnome.gedit.preferences.editor insert-spaces true
-    gsettings set org.gnome.gedit.preferences.editor tabs-size 4
     # Rhythmbox Preferences
     echo 'Setting Rhythmbox preferences...'
     gsettings set org.gnome.rhythmbox.rhythmdb monitor-library true
@@ -812,7 +841,7 @@ case $REPLY in
 1)
     echo 'Removing selected pre-installed applications...'
     echo 'Requires root privileges:'
-    sudo apt-get purge landscape-client-ui-install
+    sudo apt-get purge landscape-client-ui-install ubuntuone-control-panel* overlay*
     echo 'Done.'
     cleanup
     ;;
