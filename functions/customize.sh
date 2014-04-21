@@ -6,7 +6,7 @@
 #
 # Description:
 #   A post-installation bash script for Ubuntu (14.04)
-
+#
 # Legal Stuff:
 #
 # This script is free software; you can redistribute it and/or modify it under
@@ -21,22 +21,23 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, see <https://www.gnu.org/licenses/gpl-3.0.txt>
 
-echo ''
-echo '#-------------------------------------------#'
-echo '#     Ubuntu 14.04 Post-Install Script      #'
-echo '#-------------------------------------------#'
-
-#----- CONFIGURATION -----#
-FAVOURITES_APPS='cheese darktable easytag gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc'
-SYSTEM_APPS='aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge python-soappy samba ssh supybot symlinks synaptic virt-manager zsync'
-DEVELOPMENT_APPS='bzr devscripts git glade gnome-common gtk-3-examples nodejs python-launchpadlib python3-distutils-extra'
-DESIGN_APPS='fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape'
-
-
 #----- FUNCTIONS -----#
-source functions.sh
+. $FUNCTIONS_DIR/config.sh
+. $FUNCTIONS_DIR/themes.sh
 
-#----- RUN MAIN FUNCTION -----#
-main
+# CUSTOMIZATION
+function customize {
+echo ''
+echo '1. Configure system?'
+echo '2. Install Third-Party themes?'
+echo 'r. Return'
+echo ''
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
+    1) clear && config;; # System Configuration
+    2) clear && themes;; # Install Third-Party Themes
+    [Rr]*) clear && main;; # Return
+    * ) clear && echo 'Not an option, try again.' && customize;; # Invalid choice
+esac
+}
 
-#END OF SCRIPT

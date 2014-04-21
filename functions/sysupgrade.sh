@@ -6,7 +6,7 @@
 #
 # Description:
 #   A post-installation bash script for Ubuntu (14.04)
-
+#
 # Legal Stuff:
 #
 # This script is free software; you can redistribute it and/or modify it under
@@ -21,22 +21,33 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, see <https://www.gnu.org/licenses/gpl-3.0.txt>
 
+# SYSTEM UPGRADE
+function sysupgrade {
+# Perform system upgrade
 echo ''
-echo '#-------------------------------------------#'
-echo '#     Ubuntu 14.04 Post-Install Script      #'
-echo '#-------------------------------------------#'
+read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* )
+    # Update repository information
+    echo 'Updating repository information...'
+    echo 'Requires root privileges:'
+    sudo apt-get update
+    # Dist-Upgrade
+    echo 'Performing system upgrade...'
+    sudo apt-get dist-upgrade -y
+    echo 'Done.'
+    main
+    ;;
+# Negative action
+[Nn]* )
+    clear && main
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
+    sysupgrade
+    ;;
+esac
+}
 
-#----- CONFIGURATION -----#
-FAVOURITES_APPS='cheese darktable easytag gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc'
-SYSTEM_APPS='aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge python-soappy samba ssh supybot symlinks synaptic virt-manager zsync'
-DEVELOPMENT_APPS='bzr devscripts git glade gnome-common gtk-3-examples nodejs python-launchpadlib python3-distutils-extra'
-DESIGN_APPS='fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape'
-
-
-#----- FUNCTIONS -----#
-source functions.sh
-
-#----- RUN MAIN FUNCTION -----#
-main
-
-#END OF SCRIPT
