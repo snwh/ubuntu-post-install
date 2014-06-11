@@ -5,7 +5,7 @@
 #   Sam Hewitt <hewittsamuel@gmail.com>
 #
 # Description:
-#   A post-installation bash script for Ubuntu (14.04)
+#   A post-installation bash script for Ubuntu (v14.04)
 #
 # Legal Stuff:
 #
@@ -23,7 +23,7 @@
 
 echo ''
 echo '#-------------------------------------------#'
-echo '#     Ubuntu 14.04 Post-Install Script      #'
+echo '#     Ubuntu Post-Install Script v14.10     #'
 echo '#-------------------------------------------#'
 
 #----- FUNCTIONS -----#
@@ -180,10 +180,9 @@ function gnome {
 echo ''
 echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
-echo '3. Add GNOME3 Next PPA?'
-echo '4. Install GNOME Shell?'
-echo '5. Install extra GNOME components?'
-echo '6. Configure GNOME Shell Specific Settings?'
+echo '3. Install GNOME Shell?'
+echo '4. Install extra GNOME components?'
+echo '5. Configure GNOME Shell Specific Settings?'
 echo 'r. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -220,24 +219,8 @@ case $REPLY in
     echo ''
     gnome
     ;;
-# Add GNOME3 Next PPA
-3)
-    # Add repository
-    echo 'Adding GNOME3 Next PPA to software sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:gnome3-team/gnome3-next
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Upgrade system
-    echo 'Performing system upgrade...'
-    sudo apt-get dist-upgrade -y
-    echo 'Done.'
-    echo ''
-    gnome
-    ;;
 # Install GNOME Shell
-4)
+3)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
     sudo apt-get install -y gnome-shell gnome-shell-extensions gnome-session
@@ -246,7 +229,7 @@ case $REPLY in
     gnome
     ;;
 # Install extra GNOME components
-5)
+4)
     echo 'Installing extra GNOME components...'
     echo 'Requires the "gnome3-staging" and "gnome3-next" PPAs to be in the repositories.'
     echo ''
@@ -279,7 +262,7 @@ case $REPLY in
     esac
     ;;
 # Configure Shell Specific Settings
-6)
+5)
     # Font Settings
     echo 'Setting font preferences...'
     echo 'Requires the "Cantarell" font.'
@@ -364,6 +347,7 @@ case $REPLY in
     glade
     gnome-common
     gtk-3-examples
+    libgl1-mesa-dev
     nodejs
     python-launchpadlib
     python3-distutils-extra'
@@ -374,7 +358,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts gcc-snapshot git glade gnome-common gtk-3-examples lib32stdc++6 nodejs python-launchpadlib python3-distutils-extra
+        sudo apt-get install -y bzr devscripts gcc-snapshot git glade gnome-common gtk-3-examples libgl1-mesa-dev lib32stdc++6 nodejs python-launchpadlib python3-distutils-extra
         echo 'Done.'
         development
         ;;
@@ -458,11 +442,7 @@ esac
 function themes {
 echo 'What would you like to install? '
 echo ''
-echo '1. Moka Icon Theme'
-echo '2. Faba Icon Theme'
-echo '3. Moka GTK Theme'
-echo '4. Moka GNOME Shell Theme'
-echo '5. Orchis GTK Theme'
+echo '1. Moka Project'
 echo 'r. Return'
 echo ''
 read -p 'Enter your choice: ' REPLY
@@ -472,7 +452,7 @@ case $REPLY in
     # Add repository
     echo 'Adding Moka Icon Theme repository to sources...'
     echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:moka/moka-icon-theme
+    sudo add-apt-repository -y ppa:moka/stable
     # Update repository information
     echo 'Updating repository information...'
     echo 'Requires root privileges:'
@@ -480,118 +460,8 @@ case $REPLY in
     # Install package(s)
     echo 'Installing Moka icon themes...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y moka-icon-theme
+    sudo apt-get install -y moka-desktop
     echo 'Done.'
-    # Set Theme
-    read -p "Do you want to set Moka as desktop theme? (Y)es, (N)o : " INPUT
-    case $INPUT in
-        [Yy]* ) 
-            echo "Setting Moka as desktop Icon theme..."
-            gsettings set org.gnome.desktop.interface icon-theme "Moka"
-            echo "Done."
-            themes
-            ;;
-        [Nn]* ) echo 'Done.'; themes;;
-        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
-    esac
-    themes
-    ;;
-# Faba Icon Theme
-2)
-    # Add repository
-    echo 'Adding Faba Icon Theme repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:moka/faba-icon-theme
-    # Update repository information
-    echo 'Updating repository information...'
-    echo 'Requires root privileges:'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Faba icon themes...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y faba-icon-theme faba-mono-icons faba-icon-theme-symbolic
-    echo 'Done.'
-    themes
-    ;;
-# Moka GTK Theme
-3)
-    # Add repository
-    echo 'Adding Moka GTK Theme repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:moka/moka-gtk-theme
-    # Update repository information
-    echo 'Updating repository information...'
-    echo 'Requires root privileges:'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Moka GTK theme...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y moka-gtk-theme
-    echo 'Done.'
-    # Set Theme
-    read -p "Do you want to set Moka as desktop theme? (Y)es, (N)o : " INPUT
-    case $INPUT in
-        [Yy]* )
-            echo "Setting Moka as GTK window theme..."
-            gsettings set org.gnome.desktop.wm.preferences theme "Moka"
-            echo "Done."
-            echo "Setting Moka as desktop GTK theme..."
-            gsettings set org.gnome.desktop.interface gtk-theme "Moka"
-            echo "Done."
-            themes
-            ;;
-        [Nn]* ) echo 'Done.'; themes;;
-        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
-    esac
-    themes
-    ;;
-# Moka GNOME Shell Theme
-4)
-    # Add repository
-    echo 'Adding Moka GNOME Shell Theme repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:moka/moka-gnome-shell-theme
-    # Update repository information
-    echo 'Updating repository information...'
-    echo 'Requires root privileges:'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Moka GNOME Shell theme...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y moka-gnome-shell-theme
-    echo 'Done.'
-    themes
-    ;;
-# Orchis GTK Theme
-5)
-    # Add repository
-    echo 'Adding Orchis GTK Theme repository to sources...'
-    echo 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:moka/orchis-gtk-theme
-    # Update repository information
-    echo 'Updating repository information...'
-    echo 'Requires root privileges:'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Orchis GTK theme...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y orchis-gtk-theme
-    echo 'Done.'
-    # Set Theme
-    read -p "Do you want to set Orchis as desktop theme? (Y)es, (N)o : " INPUT
-    case $INPUT in
-        [Yy]* )
-            echo "Setting Orchis as GTK window theme..."
-            gsettings set org.gnome.desktop.wm.preferences theme "Orchis"
-            echo "Done."
-            echo "Setting Orchis as desktop GTK theme..."
-            gsettings set org.gnome.desktop.interface gtk-theme "Orchis"
-            echo "Done."
-            themes
-            ;;
-        [Nn]* ) echo 'Done.'; themes;;
-        * ) echo; echo "Uh oh, invalid response. Continuing without changes."; themes;;
-    esac
     themes
     ;;
 # Return
@@ -708,6 +578,9 @@ case $REPLY in
     echo 'Requires root privileges:'
     sudo dpkg -i steam*.deb
     sudo apt-get install -fy
+    echo 'Installing Steam dependencies...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev
     # Cleanup and finish
     rm steam*.deb
     cd
@@ -746,7 +619,6 @@ case $REPLY in
     echo 'Creating apt list file...'
     touch spotify.list
     echo "deb http://repository.spotify.com stable non-free" >> spotify.list
-    echo 'Moving spotify.list to /etc/apt/sources.list.d/'
     echo 'Requires root privileges:'
     sudo mv -f spotify.list /etc/apt/sources.list.d/
     echo 'Done.'
@@ -841,7 +713,7 @@ case $REPLY in
 1)
     echo 'Removing selected pre-installed applications...'
     echo 'Requires root privileges:'
-    sudo apt-get purge landscape-client-ui-install ubuntuone-control-panel* overlay*
+    sudo apt-get purge -y
     echo 'Done.'
     cleanup
     ;;
