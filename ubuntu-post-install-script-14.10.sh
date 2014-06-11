@@ -84,7 +84,7 @@ case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
-    # Feel free to change the contents of 'favourites.txt.' to whatever suits your preferences.
+    # Feel free to change the contents of 'favourites.txt' to whatever suits your preferences.
     sudo apt-get install -y --no-install-recommends $(cat $FAVS)
     echo 'Done.'
     main
@@ -103,64 +103,33 @@ esac
 
 # INSTALL SYSTEM TOOLS
 function system {
+# Install Favourite System Utilities
+echo 'Installing favourite system utilities...'
 echo ''
-echo '1. Install favourite system utilities?'
-echo '2. Install fingerprint reader software?'
-echo 'r. Return.'
-echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+echo 'Current package list:'
+for util in `cat $UTILS`
+do 
+echo $util
+done
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
 case $REPLY in
-# Install Favourite System utilities
-1)
-    echo 'Installing favourite system utilities...'
-    echo ''
-    echo 'Current package list:'
-    for util in `cat $UTILS`
-    do 
-    echo $util
-    done
-    read -p 'Proceed? (Y)es, (N)o : ' REPLY
-    case $REPLY in
-    # Positive action
-    [Yy]* )
-        echo 'Requires root privileges:'
-        # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y --no-install-recommends $(cat $UTILS)
-        echo 'Done.'
-        system
-        ;;
-    # Negative action
-    [Nn]* )
-        clear && system
-        ;;
-    # Error
-    * )
-        clear && echo 'Sorry, try again.'
-        system
-        ;;
-    esac
-    ;;
-# Install Fingerprint Reader Software
-2)
-    # Add repository
-    echo 'Adding Fingerprint Reader Team PPA to software sources...'
+# Positive action
+[Yy]* )
     echo 'Requires root privileges:'
-    sudo apt-add-repository -y ppa:fingerprint/fingerprint-gui
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing fingerprint reader software...'
-    sudo apt-get install -y libbsapi policykit-1-fingerprint-gui fingerprint-gui
+    # Feel free to change the contents of "utilities.txt" to whatever suits your preferences.
+    sudo apt-get install -y --no-install-recommends $(cat $UTILS)
     echo 'Done.'
     system
     ;;
-# Return
-[Rr]*) 
-    clear && main;;
-# Invalid choice
-* ) 
-    clear && echo 'Not an option, try again.' && development;;
+# Negative action
+[Nn]* )
+    clear && system
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
+    system
+    ;;
 esac
 }
 
@@ -186,12 +155,28 @@ case $REPLY in
     # Update repository information
     echo 'Updating repository information...'
     sudo apt-get update
-    # Upgrade system
-    echo 'Performing system upgrade...'
-    sudo apt-get dist-upgrade -y
     echo 'Done.'
-    echo ''
-    gnome
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        echo 'Done.'
+        gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        echo 'Done.'
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
     ;;
 # Add GNOME3 Staging PPA
 2)
@@ -202,18 +187,37 @@ case $REPLY in
     # Update repository information
     echo 'Updating repository information...'
     sudo apt-get update
-    # Upgrade system
-    echo 'Performing system upgrade...'
-    sudo apt-get dist-upgrade -y
     echo 'Done.'
     echo ''
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        echo 'Done.'
+        gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        echo 'Done.'
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
+    ;;
     gnome
     ;;
 # Install GNOME Shell
 3)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y gnome-shell gnome-shell-extensions gnome-session
+    sudo apt-get install -y gdm gnome-shell gnome-shell-extensions gnome-session
     echo 'Done.'
     echo ''
     gnome
@@ -233,7 +237,7 @@ case $REPLY in
     # Positive action
     [Yy]* )
         echo 'Requires root privileges:'
-        # Feel free to change to whatever suits your preferences.
+        # Feel free to change the contents of "gnome-extras.txt" to whatever suits your preferences.
         sudo apt-get install -y $(cat $EXTRAS)
         echo 'Done.'
         gnome
@@ -341,7 +345,7 @@ case $REPLY in
     # Positive action
     [Yy]* ) 
         echo 'Requires root privileges:'
-        # Feel free to change to whatever suits your preferences.
+        # Feel free to change the contents of "dev-tools.txt" to whatever suits your preferences.
         sudo apt-get install -y $(cat $DEVTOOLS)
         echo 'Done.'
         development
@@ -406,7 +410,7 @@ case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
-    # Feel free to change to whatever suits your preferences.
+    # Feel free to change the contents of "design-tools.txt" to whatever suits your preferences.
     sudo apt-get install -y $(cat $DESTOOLS)
     echo 'Done.'
     main
