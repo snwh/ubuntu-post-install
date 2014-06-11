@@ -1,7 +1,7 @@
 Ubuntu Post Install Script
 ==========================
 
-Version: 14
+Version: 14.10
 
 License: GPLv3
 
@@ -20,7 +20,6 @@ Run from source folder:
 By adding the path of the script to your .bashrc you can run it anytime from a terminal
 	
 	export PATH=${PATH}:$HOME/<path-to-ubuntu-post-install-script>/
-
 
 ##About:
 
