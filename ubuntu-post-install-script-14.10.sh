@@ -141,7 +141,6 @@ echo '1. Add GNOME3 PPA?'
 echo '2. Add GNOME3 Staging PPA?'
 echo '3. Install GNOME Shell?'
 echo '4. Install extra GNOME components?'
-echo '5. Configure GNOME Shell Specific Settings?'
 echo 'r. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -217,7 +216,7 @@ case $REPLY in
 3)
     echo 'Installing GNOME Shell...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y gdm gnome-shell gnome-shell-extensions gnome-session
+    sudo apt-get install -y fonts-cantarell gdm gnome-shell gnome-shell-extensions gnome-session
     echo 'Done.'
     echo ''
     gnome
@@ -252,39 +251,6 @@ case $REPLY in
         gnome
         ;;
     esac
-    ;;
-# Configure Shell Specific Settings
-5)
-    # Font Settings
-    echo 'Setting font preferences...'
-    echo 'Requires the "Cantarell" font.'
-    # Check if "fonts-cantarell" package is installed
-    PACKAGE=$(dpkg-query -W --showformat='${Status}\n' fonts-cantarell | grep "install ok installed")
-    echo "Checking if installed..."
-    if [ "" == "$PACKAGE" ]; then
-        echo 'Cantarell is not installed.'
-        echo 'Installing... '
-        echo 'Requires root privileges:'
-        sudo apt-get install -y fonts-cantarell
-        echo 'Done. '
-    else
-        echo 'Cantarell is installed, proceeding... '
-    fi
-    # Settings font settings
-    gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
-    gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 10'
-    gsettings set org.gnome.desktop.interface font-name 'Cantarell 10'
-    gsettings set org.gnome.nautilus.desktop font 'Cantarell 10'
-    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell Bold 10'
-    gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
-    gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
-    echo 'Done. '
-    # GNOME Shell Settings
-    echo 'Setting GNOME Shell window button preferences...'
-    gsettings set org.gnome.shell.overrides button-layout ':close'
-    echo 'Done. '
-    echo ''
-    gnome
     ;;
 # Return
 [Rr]*) 
