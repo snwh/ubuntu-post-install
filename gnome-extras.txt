@@ -1,0 +1,1 @@
+cheese epiphany-browser gnome-boxes gnome-maps gnome-music gnome-weather rygel rygel-preferences

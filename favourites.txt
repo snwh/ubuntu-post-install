@@ -1,0 +1,1 @@
+cheese darktable easytag gnome-tweak-tool grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc

@@ -26,6 +26,15 @@ echo '#-------------------------------------------#'
 echo '#     Ubuntu Post-Install Script v14.10     #'
 echo '#-------------------------------------------#'
 
+#----- DECLARATIONS -----#
+
+FAVS="favourites.txt"
+UTILS="utilities.txt"
+EXTRAS="gnome-extras.txt"
+DEVTOOLS="dev-tools.txt"
+DESTOOLS="design-tools.txt"
+PURGED="purged.txt"
+
 #----- FUNCTIONS -----#
 
 # SYSTEM UPGRADE
@@ -64,27 +73,19 @@ function favourites {
 echo ''
 echo 'Installing selected favourite applications...'
 echo ''
-echo 'Current package list:
-cheese
-darktable
-easytag
-gnome-tweak-tool
-gpick
-grsync
-nautilus-dropbox
-nautilus-open-terminal
-pyrenamer
-sparkleshare
-xchat
-vlc'
+echo 'Current package list:'
+for fav in `cat $FAVS`
+do 
+echo $fav
+done
 echo ''
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
 case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
-    # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y --no-install-recommends cheese darktable easytag gnome-tweak-tool gpick grsync nautilus-dropbox nautilus-open-terminal pyrenamer sparkleshare xchat vlc
+    # Feel free to change the contents of 'favourites.txt.' to whatever suits your preferences.
+    sudo apt-get install -y --no-install-recommends $(cat $FAVS)
     echo 'Done.'
     main
     ;;
@@ -113,31 +114,20 @@ case $REPLY in
 1)
     echo 'Installing favourite system utilities...'
     echo ''
-    echo 'Current package list:
-    aptitude
-    dconf-tools
-    openjdk-7-jdk
-    openssh-server
-    p7zip-full
-    ppa-purge
-    python-soappy
-    samba
-    ssh
-    supybot
-    symlinks
-    synaptic
-    virt-manager
-    zsync'
-    echo ''
+    echo 'Current package list:'
+    for util in `cat $UTILS`
+    do 
+    echo $util
+    done
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
     case $REPLY in
     # Positive action
     [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y --no-install-recommends aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge python-soappy samba ssh supybot symlinks synaptic virt-manager zsync
+        sudo apt-get install -y --no-install-recommends $(cat $UTILS)
         echo 'Done.'
-        clear && system
+        system
         ;;
     # Negative action
     [Nn]* )
@@ -231,14 +221,12 @@ case $REPLY in
 # Install extra GNOME components
 4)
     echo 'Installing extra GNOME components...'
-    echo 'Requires the "gnome3-staging" and "gnome3-next" PPAs to be in the repositories.'
     echo ''
-    echo 'Current package list:
-    cheese
-    gnome-boxes
-    gnome-maps
-    gnome-online-accounts
-    gnome-weather'
+    echo 'Current package list:'
+    for extra in `cat $EXTRAS`
+    do 
+    echo $extra
+    done
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
     case $REPLY in
@@ -246,9 +234,9 @@ case $REPLY in
     [Yy]* )
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y cheese gnome-boxes gnome-maps gnome-online-accounts gnome-weather
+        sudo apt-get install -y $(cat $EXTRAS)
         echo 'Done.'
-        clear && gnome
+        gnome
         ;;
     # Negative action
     [Nn]* )
@@ -322,7 +310,9 @@ case $REPLY in
     clear && main;;
 # Error
 * )
-    clear && echo 'Sorry, try again.' && codecinstall
+    clear && echo 'Sorry, try again.' 
+    codecinstall
+    ;;
 esac
 }
 
@@ -340,17 +330,11 @@ case $REPLY in
 1)
     echo 'Installing development tools...'
     echo ''
-    echo 'Current package list:
-    bzr
-    devscripts 
-    git
-    glade
-    gnome-common
-    gtk-3-examples
-    libgl1-mesa-dev
-    nodejs
-    python-launchpadlib
-    python3-distutils-extra'
+    echo 'Current package list:'
+    for devtool in `cat $DEVTOOLS`
+    do 
+    echo $devtool
+    done
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
     case $REPLY in
@@ -358,7 +342,7 @@ case $REPLY in
     [Yy]* ) 
         echo 'Requires root privileges:'
         # Feel free to change to whatever suits your preferences.
-        sudo apt-get install -y bzr devscripts gcc-snapshot git glade gnome-common gtk-3-examples libgl1-mesa-dev lib32stdc++6 nodejs python-launchpadlib python3-distutils-extra
+        sudo apt-get install -y $(cat $DEVTOOLS)
         echo 'Done.'
         development
         ;;
@@ -398,39 +382,39 @@ case $REPLY in
 # Return
 [Rr]*) 
     clear && main;;
-# Invalid choice
-* ) 
-    clear && echo 'Not an option, try again.' && development;;
+# Error
+* )
+    clear && echo 'Sorry, try again.' && development
+    ;;
 esac
 }
 
-# INSTALL DESIGN TOOLS
+
+#INSTALL DESIGN TOOLS
 function design {
 echo ''
 echo 'Installing design tools...'
 echo ''
-echo 'Current package list:
-fontforge
-fontforge-extras
-gimp
-gimp-plugin-registry
-icontool
-imagemagick
-inkscape'
+echo 'Current package list:'
+for destool in `cat $DESTOOLS`
+do 
+echo $destool
 echo ''
+done
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
 case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
     # Feel free to change to whatever suits your preferences.
-    sudo apt-get install -y fontforge fontforge-extras gimp gimp-plugin-registry icontool imagemagick inkscape
+    sudo apt-get install -y $(cat $DESTOOLS)
     echo 'Done.'
     main
     ;;
 # Negative action
 [Nn]* ) 
-    clear && main;;
+    clear && main
+    ;;
 # Error
 * )
     clear && echo 'Sorry, try again.' && design
@@ -712,10 +696,32 @@ case $REPLY in
 # Remove Unused Pre-installed Packages
 1)
     echo 'Removing selected pre-installed applications...'
-    echo 'Requires root privileges:'
-    sudo apt-get purge -y
-    echo 'Done.'
-    cleanup
+    echo ''
+    echo 'Current package list:'
+    for purge in `cat $PURGED`
+    do 
+    echo $purge
+    done
+    echo ''
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        sudo apt-get purge -y $(cat $PURGED)
+        echo 'Done.'
+        cleanup
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && cleanup
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        cleanup
+        ;;
+    esac
     ;;
 # Remove Old Kernel
 2)
