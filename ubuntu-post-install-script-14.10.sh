@@ -665,7 +665,7 @@ read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
 # Remove Unused Pre-installed Packages
 1)
-    echo 'Removing selected pre-installed applications...'
+    echo 'Removing unused pre-installed applications...'
     echo ''
     echo 'Current package list:'
     for purge in `cat $PURGED`
