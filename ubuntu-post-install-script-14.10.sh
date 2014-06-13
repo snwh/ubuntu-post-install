@@ -210,8 +210,6 @@ case $REPLY in
         ;;
     esac
     ;;
-    gnome
-    ;;
 # Install GNOME Shell
 3)
     echo 'Installing GNOME Shell...'
@@ -534,7 +532,7 @@ case $REPLY in
     sudo apt-get install -fy
     echo 'Installing Steam dependencies...'
     echo 'Requires root privileges:'
-    sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev
+    sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
     # Cleanup and finish
     rm steam*.deb
     cd
