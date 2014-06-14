@@ -1,8 +1,6 @@
 Ubuntu Post Install Script
 ==========================
 
-Version: 14.10
-
 License: GPLv3
 
 Original source can be found at https://github.com/snwh/ubuntu-post-install.
@@ -15,7 +13,7 @@ You can get the latest version from the git repository:
 
 Run from source folder:
 
-    bash ubuntu-post-install-script-<appropriate-version>.sh
+    bash ubuntu-post-install-script.sh
 
 By adding the path of the script to your .bashrc you can run it anytime from a terminal
 	
