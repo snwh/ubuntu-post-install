@@ -1,1 +1,11 @@
-bzr devscripts gcc-snapshot git gitg glade gnome-common gtk-3-examples lib32stdc++6 nodejs python-launchpadlib python3-distutils-extra
+bzr
+devscripts
+gcc-snapshot
+git
+gitg
+glade
+gnome-common
+gtk-3-examples
+nodejs
+python-launchpadlib
+python3-distutils-extra
