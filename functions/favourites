@@ -1,0 +1,41 @@
+#!/bin/bash
+
+#----- DECLARATIONS -----#
+
+FAVS="data/favourites.list"
+
+# INSTALL APPLICATIONS
+function favourites {
+# Install Favourite Applications
+echo ''
+echo 'Installing selected favourite applications...'
+echo ''
+echo 'Current package list:'
+echo ''
+for package in $(cat $FAVS)
+do
+echo $package
+done
+echo ''
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
+case $REPLY in
+# Positive action
+[Yy]* ) 
+    echo 'Requires root privileges:'
+    # Feel free to change the contents of 'favourites.list' to whatever suits your preferences.
+    sudo apt-get install -y --no-install-recommends $(cat $FAVS)
+    echo 'Done.'
+    main
+    ;;
+# Negative action
+[Nn]* )
+    clear && main
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
+    favourites
+    ;;
+esac
+}

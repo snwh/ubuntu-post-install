@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#----- DECLARATIONS -----#
+
+UTILS="data/utilities.list"
+
+# INSTALL SYSTEM TOOLS
+function system {
+# Install Favourite System Utilities
+echo 'Installing favourite system utilities...'
+echo ''
+echo 'Current package list:'
+echo ''
+for package in $(cat $UTILS)
+do
+echo $package
+done
+echo ''
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
+case $REPLY in
+# Positive action
+[Yy]* )
+    echo 'Requires root privileges:'
+    # Feel free to change the contents of "utilities.list" to whatever suits your preferences.
+    sudo apt-get install -y --no-install-recommends $(cat $UTILS)
+    echo 'Done.'
+    system
+    ;;
+# Negative action
+[Nn]* )
+    clear && system
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.'
+    system
+    ;;
+esac
+}

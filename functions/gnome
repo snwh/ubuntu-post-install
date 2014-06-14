@@ -1,0 +1,132 @@
+#!/bin/bash
+
+#----- DECLARATIONS -----#
+
+EXTRAS="data/gnome-extras.list"
+
+# INSTALL GNOME COMPONENTS
+function gnome {
+echo ''
+echo '1. Add GNOME3 PPA?'
+echo '2. Add GNOME3 Staging PPA?'
+echo '3. Install GNOME Shell?'
+echo '4. Install more GNOME components?'
+echo 'r. Return.'
+echo ''
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
+# Add GNOME3 PPA
+1)
+    # Add repository
+    echo 'Adding GNOME3 PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:gnome3-team/gnome3
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    echo 'Done.'
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        echo 'Done.'
+        gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        echo 'Done.'
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
+    ;;
+# Add GNOME3 Staging PPA
+2)
+    # Add repository
+    echo 'Adding GNOME3 Staging PPA to software sources...'
+    echo 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    echo 'Done.'
+    echo ''
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        echo 'Done.'
+        gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        echo 'Done.'
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
+    ;;
+# Install GNOME Shell
+3)
+    echo 'Installing GNOME Shell...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y fonts-cantarell gdm gnome-shell gnome-shell-extensions gnome-session
+    echo 'Done.'
+    echo ''
+    gnome
+    ;;
+# Install extra GNOME components
+4)
+    echo 'Installing extra GNOME components...'
+    echo ''
+    echo 'Current package list:'
+    echo ''
+    for package in $(cat $EXTRAS)
+    do 
+    echo $package
+    done
+    echo ''
+    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    echo ''
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        echo 'Requires root privileges:'
+        # Feel free to change the contents of "gnome-extras.list" to whatever suits your preferences.
+        sudo apt-get install -y $(cat $EXTRAS)
+        echo 'Done.'
+        gnome
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && gnome
+        ;;
+    # Error
+    * )
+        clear && echo 'Sorry, try again.'
+        gnome
+        ;;
+    esac
+    ;;
+# Return
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && echo 'Not an option, try again.' && gnome;;
+esac
+}

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# CUSTOMIZATION
+function customize {
+echo ''
+echo '1. Configure system?'
+echo '2. Install Third-Party themes?'
+echo 'r. Return'
+echo ''
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
+    1) clear && config;; # System Configuration
+    2) clear && themes;; # Install Third-Party Themes
+    [Rr]*) clear && main;; # Return
+    * ) clear && echo 'Not an option, try again.' && customize;; # Invalid choice
+esac
+}

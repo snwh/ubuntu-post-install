@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# INSTALL UBUNTU RESTRICTED EXTRAS
+function codecs {
+echo ''
+read -p 'Install Ubuntu Restricted Extras? (Y)es, (N)o : ' REPLY
+case $REPLY in
+# Positive action
+[Yy]* ) 
+    echo 'Installing...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y ubuntu-restricted-extras
+    echo 'Done.'
+    main
+    ;;
+# Negative action
+[Nn]* )
+    clear && main;;
+# Error
+* )
+    clear && echo 'Sorry, try again.' 
+    codecs
+    ;;
+esac
+}

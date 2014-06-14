@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#----- DECLARATIONS -----#
+
+DESTOOLS="data/design.list"
+
+#INSTALL DESIGN TOOLS
+function design {
+echo ''
+echo 'Installing design tools...'
+echo ''
+echo 'Current package list:'
+echo ''
+for package in $(cat $DESTOOLS)
+do 
+echo $package
+done
+echo ''
+read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
+case $REPLY in
+# Positive action
+[Yy]* ) 
+    echo 'Requires root privileges:'
+    # Feel free to change the contents of "design-tools.list" to whatever suits your preferences.
+    sudo apt-get install -y $(cat $DESTOOLS)
+    echo 'Done.'
+    main
+    ;;
+# Negative action
+[Nn]* ) 
+    clear && main
+    ;;
+# Error
+* )
+    clear && echo 'Sorry, try again.' && design
+    ;;
+esac
+}
