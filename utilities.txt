@@ -1,1 +1,0 @@
-aptitude dconf-tools openjdk-7-jdk openssh-server p7zip-full ppa-purge samba ssh symlinks synaptic virt-manager zsync

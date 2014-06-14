@@ -28,12 +28,12 @@ echo '#-------------------------------------------#'
 
 #----- DECLARATIONS -----#
 
-FAVS="favourites.txt"
-UTILS="utilities.txt"
-EXTRAS="gnome-extras.txt"
-DEVTOOLS="dev-tools.txt"
-DESTOOLS="design-tools.txt"
-PURGED="purged.txt"
+FAVS="data/favourites.list"
+UTILS="data/utilities.list"
+EXTRAS="data/gnome-extras.list"
+DEVTOOLS="data/development.list"
+DESTOOLS="data/design.list"
+PURGED="data/purge.list"
 
 #----- FUNCTIONS -----#
 
@@ -42,6 +42,7 @@ function sysupgrade {
 # Perform system upgrade
 echo ''
 read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
+echo ''
 case $REPLY in
 # Positive action
 [Yy]* )
@@ -74,17 +75,19 @@ echo ''
 echo 'Installing selected favourite applications...'
 echo ''
 echo 'Current package list:'
-for fav in `cat $FAVS`
-do 
-echo $fav
+echo ''
+for package in $(cat $FAVS)
+do
+echo $package
 done
 echo ''
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
 case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
-    # Feel free to change the contents of 'favourites.txt' to whatever suits your preferences.
+    # Feel free to change the contents of 'favourites.list' to whatever suits your preferences.
     sudo apt-get install -y --no-install-recommends $(cat $FAVS)
     echo 'Done.'
     main
@@ -107,16 +110,19 @@ function system {
 echo 'Installing favourite system utilities...'
 echo ''
 echo 'Current package list:'
-for util in `cat $UTILS`
-do 
-echo $util
+echo ''
+for package in $(cat $UTILS)
+do
+echo $package
 done
+echo ''
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
 case $REPLY in
 # Positive action
 [Yy]* )
     echo 'Requires root privileges:'
-    # Feel free to change the contents of "utilities.txt" to whatever suits your preferences.
+    # Feel free to change the contents of "utilities.list" to whatever suits your preferences.
     sudo apt-get install -y --no-install-recommends $(cat $UTILS)
     echo 'Done.'
     system
@@ -224,17 +230,19 @@ case $REPLY in
     echo 'Installing extra GNOME components...'
     echo ''
     echo 'Current package list:'
-    for extra in `cat $EXTRAS`
+    echo ''
+    for package in $(cat $EXTRAS)
     do 
-    echo $extra
+    echo $package
     done
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    echo ''
     case $REPLY in
     # Positive action
     [Yy]* )
         echo 'Requires root privileges:'
-        # Feel free to change the contents of "gnome-extras.txt" to whatever suits your preferences.
+        # Feel free to change the contents of "gnome-extras.list" to whatever suits your preferences.
         sudo apt-get install -y $(cat $EXTRAS)
         echo 'Done.'
         gnome
@@ -299,17 +307,19 @@ case $REPLY in
     echo 'Installing development tools...'
     echo ''
     echo 'Current package list:'
-    for devtool in `cat $DEVTOOLS`
+    echo ''
+    for package in $(cat $DEVTOOLS)
     do 
-    echo $devtool
+    echo $package
     done
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    echo ''
     case $REPLY in
     # Positive action
     [Yy]* ) 
         echo 'Requires root privileges:'
-        # Feel free to change the contents of "dev-tools.txt" to whatever suits your preferences.
+        # Feel free to change the contents of "dev-tools.list" to whatever suits your preferences.
         sudo apt-get install -y $(cat $DEVTOOLS)
         echo 'Done.'
         development
@@ -364,17 +374,19 @@ echo ''
 echo 'Installing design tools...'
 echo ''
 echo 'Current package list:'
-for destool in `cat $DESTOOLS`
-do 
-echo $destool
 echo ''
+for package in $(cat $DESTOOLS)
+do 
+echo $package
 done
+echo ''
 read -p 'Proceed? (Y)es, (N)o : ' REPLY
+echo ''
 case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Requires root privileges:'
-    # Feel free to change the contents of "design-tools.txt" to whatever suits your preferences.
+    # Feel free to change the contents of "design-tools.list" to whatever suits your preferences.
     sudo apt-get install -y $(cat $DESTOOLS)
     echo 'Done.'
     main
@@ -666,12 +678,14 @@ case $REPLY in
     echo 'Removing unused pre-installed applications...'
     echo ''
     echo 'Current package list:'
-    for purge in `cat $PURGED`
+    echo ''
+    for package in $(cat $PURGED)
     do 
-    echo $purge
+    echo $package
     done
     echo ''
     read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    echo ''
     case $REPLY in
     # Positive action
     [Yy]* )
