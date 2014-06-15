@@ -21,7 +21,7 @@ By adding the path of the script to your .bashrc you can run it anytime from a t
 
 ##About:
 
-Ubuntu Post Install Script is a simple bash script for automating the reconfiguration of a fresh Ubuntu installation –installing favourite applications, setting up configurations, etc. 
+This project provides a simple set of bash scripts for simplifying the setup of a fresh system installation by installing your favourite applications, setting up system configurations, etc.
 
 It is compatible with both 32 and 64 bit architectures 
 
