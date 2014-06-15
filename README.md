@@ -1,9 +1,11 @@
 Ubuntu Post Install Script
 ==========================
 
+Original Author: Sam Hewitt
+
 License: GPLv3
 
-Original source can be found at https://github.com/snwh/ubuntu-post-install.
+Original source can be found [here](https://github.com/snwh/ubuntu-post-install).
 
 You can get the latest version from the git repository:
 
