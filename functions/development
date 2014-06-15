@@ -10,6 +10,7 @@ echo ''
 echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
 echo '3. Install Ubuntu Phablet Tools?'
+echo '3. Install Android development dependencies?'
 echo 'r. Return'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -66,6 +67,15 @@ case $REPLY in
 3)
     echo 'Installing Phablet Tools...'
     sudo apt-get install -y phablet-tools
+    echo 'Done.'
+    development
+    ;;
+# Install Android development dependencies
+4)
+    # Install packages
+    echo 'Installing Android development dependencies...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y glibc.i686 libstdc++.i686  zlib.i686
     echo 'Done.'
     development
     ;;
