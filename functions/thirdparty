@@ -77,7 +77,6 @@ case $REPLY in
 # Steam
 4)
     echo 'Downloading Steam...'
-    cd $HOME/Downloads
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
         wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
