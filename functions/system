@@ -25,11 +25,11 @@ case $REPLY in
     # Feel free to change the contents of "utilities.list" to whatever suits your preferences.
     sudo apt-get install -y --no-install-recommends $(cat $UTILS)
     echo 'Done.'
-    system
+    main
     ;;
 # Negative action
 [Nn]* )
-    clear && system
+    clear && main
     ;;
 # Error
 * )
