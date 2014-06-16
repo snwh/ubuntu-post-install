@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # SYSTEM UPGRADE
-function sysupgrade {
+function upgrade {
 # Perform system upgrade
 echo ''
 read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
@@ -26,7 +26,7 @@ case $REPLY in
 # Error
 * )
     clear && echo 'Sorry, try again.'
-    sysupgrade
+    upgrade
     ;;
 esac
 }

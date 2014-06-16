@@ -38,7 +38,7 @@ echo '#------------------------------------#'
 . functions/favourites
 . functions/gnome
 . functions/system
-. functions/sysupgrade
+. functions/upgrade
 . functions/themes
 . functions/thirdparty
 
@@ -71,7 +71,7 @@ echo 'q. Quit?'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
-    1) sysupgrade;; # System Upgrade
+    1) upgrade;; # System Upgrade
     2) clear && favourites;; # Install Favourite Applications
     3) clear && system;; # Install Favourite Tools
     4) clear && development;; # Install Dev Tools

@@ -19,9 +19,9 @@ case $REPLY in
     echo 'Downloading Google Chrome...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+        curl -0 https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        curl -0 https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     fi
     # Install package(s)
     echo 'Installing Google Chrome...'
@@ -39,9 +39,9 @@ case $REPLY in
     echo 'Downloading Google Talk Plugin...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-talkplugin_current_i386.deb
+        curl -0 https://dl.google.com/linux/direct/google-talkplugin_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb
+        curl -0 https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb
     fi
     # Install package(s)
     echo 'Installing Google Talk Plugin...'
@@ -59,9 +59,9 @@ case $REPLY in
     echo 'Downloading Google Music Manager...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_i386.deb
+        curl -0 https://dl.google.com/linux/direct/google-musicmanager-beta_current_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_amd64.deb
+        curl -0 https://dl.google.com/linux/direct/google-musicmanager-beta_current_amd64.deb
     fi
     # Install package(s)
     echo 'Installing Google Music Manager...'
@@ -79,9 +79,9 @@ case $REPLY in
     echo 'Downloading Steam...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
+        curl -0 http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
+        curl -0 http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
     fi
     # Install package(s)
     echo 'Installing Steam...'
@@ -102,9 +102,9 @@ case $REPLY in
     echo 'Downloading Sublime Text 3 (build 3059)...'
     # Download Debian file that matches system architecture
     if [ $(uname -i) = 'i386' ]; then
-        wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_i386.deb
+        curl -0 http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_i386.deb
     elif [ $(uname -i) = 'x86_64' ]; then
-        wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb
+        curl -0 http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb
     fi
     # Install package(s)
     echo 'Installing Sublime Text 3 (build 3059)...'

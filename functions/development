@@ -11,6 +11,7 @@ echo '1. Install development tools?'
 echo '2. Install Ubuntu SDK?'
 echo '3. Install Ubuntu Phablet Tools?'
 echo '4. Install Android development dependencies?'
+echo '5. Install RVM dependencies?'
 echo 'r. Return'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
@@ -26,7 +27,7 @@ case $REPLY in
     echo $package
     done
     echo ''
-    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    read -p 'Proceed? (Y)es (N)o : ' REPLY
     echo ''
     case $REPLY in
     # Positive action
@@ -43,7 +44,7 @@ case $REPLY in
         ;;
     # Error
     * )
-        clear && echo 'Sorry, try again.'
+        clear && echo 'Sorry try again.'
         development
         ;;
     esac
@@ -78,12 +79,20 @@ case $REPLY in
     echo 'Done.'
     development
     ;;
+# Install RVM dependencies
+5)
+    echo 'Installing RVM dependencies...'
+    echo 'Requires root privileges:'
+    sudo apt-get install -y libreadline6-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libgdbm-dev libncurses5-dev bison libffi-dev
+    echo 'Done.'
+    development
+    ;;
 # Return
 [Rr]*) 
     clear && main;;
 # Error
 * )
-    clear && echo 'Sorry, try again.' && development
+    clear && echo 'Sorry try again.' && development
     ;;
 esac
 }
