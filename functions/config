@@ -41,8 +41,8 @@ case $REPLY in
 # Startup Applications
 2)
     echo 'Changing display of startup applications.'
-    echo 'Requires root privileges:'    
-    cd /etc/xdg/autostart/ && sudo sed --in-place 's/NoDisplay=true/NoDisplay=false/g' *.desktop
+    echo 'Requires root privileges:'
+    sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
     cd
     echo 'Done.'
     config
