@@ -3,15 +3,17 @@
 # CUSTOMIZATION
 function customize {
 echo ''
+show_info 'What would you like to do? '
+echo ''
 echo '1. Configure system?'
 echo '2. Install Third-Party themes?'
 echo 'r. Return'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+show_info 'Enter your choice :' && read REPLY
 case $REPLY in
     1) clear && config;; # System Configuration
     2) clear && themes;; # Install Third-Party Themes
     [Rr]*) clear && main;; # Return
-    * ) clear && echo 'Not an option, try again.' && customize;; # Invalid choice
+    * ) clear && show_error '\aNot an option, try again.' && customize;; # Invalid choice
 esac
 }

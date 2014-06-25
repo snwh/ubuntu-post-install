@@ -2,28 +2,28 @@
 
 # THIRD PARTY THEMES
 function themes {
-echo 'What would you like to install? '
+show_info 'What would you like to install? '
 echo ''
 echo '1. Moka Project'
 echo 'r. Return'
 echo ''
-read -p 'Enter your choice: ' REPLY
+show_info 'Enter your choice :' && read REPLY
 case $REPLY in
 # Moka Icon Theme
 1)
     # Add repository
     echo 'Adding Moka Icon Theme repository to sources...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo add-apt-repository -y ppa:moka/stable
     # Update repository information
     echo 'Updating repository information...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get update
     # Install package(s)
     echo 'Installing Moka icon themes...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get install -y moka-desktop
-    echo 'Done.'
+    show_success 'Done.'
     themes
     ;;
 # Return
@@ -31,6 +31,6 @@ case $REPLY in
     clear && customize;;
 # Invalid choice
 * ) 
-    clear && echo 'Not an option, try again.' && themes;;
+    clear && show_error '\aNot an option, try again.' && themes;;
 esac
 }

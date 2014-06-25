@@ -21,8 +21,9 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, see <https://www.gnu.org/licenses/gpl-3.0.txt>
 
+# tab width
+tabs 4
 clear
-echo ''
 echo '#------------------------------------#'
 echo '#     Ubuntu Post-Install Script     #'
 echo '#------------------------------------#'
@@ -42,20 +43,26 @@ echo '#------------------------------------#'
 . functions/themes
 . functions/thirdparty
 
-#----- MAIN FUNCTIONS -----#
+#----- MESSAGE FUNCTIONS -----#
 
-# Quit
-function quit {
-read -p "Are you sure you want to quit? (Y)es, (N)o " REPLY
-case $REPLY in
-    [Yy]* ) exit 99;;
-    [Nn]* ) clear && main;;
-    * ) clear && echo 'Sorry, try again.' && quit;;
-esac
+show_info() {
+echo -e "\033[1;34m$@\033[0m"
 }
+
+show_success() {
+echo -e "\033[1;32m$@\033[0m"
+}
+
+show_error() {
+echo -e "\033[1;31m$@\033[m" 1>&2
+}
+
+#----- MAIN FUNCTIONS -----#
 
 # Main
 function main {
+echo ''
+show_info 'What would you like to do? '
 echo ''
 echo '1. Perform system update & upgrade?'
 echo '2. Install favourite applications?'
@@ -69,7 +76,7 @@ echo '9. Customize system?'
 echo '10. Cleanup the system?'
 echo 'q. Quit?'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+show_info 'Enter your choice :' && read REPLY
 case $REPLY in
     1) upgrade;; # System Upgrade
     2) clear && favourites;; # Install Favourite Applications
@@ -82,7 +89,17 @@ case $REPLY in
     9) clear && customize;; # Customize system
     10) clear && cleanup;; # Cleanup System
     [Qq]* ) echo '' && quit;; # Quit
-    * ) clear && echo 'Not an option, try again.' && main;;
+    * ) clear && show_error '\aNot an option, try again.' && main;;
+esac
+}
+
+# Quit
+function quit {
+read -p "Are you sure you want to quit? (Y)es, (N)o " REPLY
+case $REPLY in
+    [Yy]* ) exit 99;;
+    [Nn]* ) clear && main;;
+    * ) clear && show_error 'Sorry, try again.' && quit;;
 esac
 }
 

@@ -3,11 +3,13 @@
 # CONFIG
 function config {
 echo ''
+show_info 'What would you like to do? '
+echo ''
 echo '1. Set preferred application-specific settings?'
 echo '2. Show all startup applications?'
 echo 'r. Return'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+show_info 'Enter your choice:' && read REPLY
 case $REPLY in
 # GSettings
 1)
@@ -41,10 +43,10 @@ case $REPLY in
 # Startup Applications
 2)
     echo 'Changing display of startup applications.'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
     cd
-    echo 'Done.'
+    show_success 'Done.'
     config
     ;;
 # Return
@@ -52,6 +54,6 @@ case $REPLY in
     clear && main;;
 # Invalid choice
 * ) 
-    clear && echo 'Not an option, try again.' && config;;
+    clear && show_error '\aNot an option, try again.' && config;;
 esac
 }

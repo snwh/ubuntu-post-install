@@ -3,14 +3,15 @@
 # INSTALL UBUNTU RESTRICTED EXTRAS
 function codecs {
 echo ''
-read -p 'Install Ubuntu Restricted Extras? (Y)es, (N)o : ' REPLY
+show_info 'Install Ubuntu Restricted Extras? (Y)es, (N)o :'
+read REPLY
 case $REPLY in
 # Positive action
 [Yy]* ) 
     echo 'Installing...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get install -y ubuntu-restricted-extras
-    echo 'Done.'
+    show_success 'Done.'
     main
     ;;
 # Negative action
@@ -18,7 +19,7 @@ case $REPLY in
     clear && main;;
 # Error
 * )
-    clear && echo 'Sorry, try again.' 
+    clear && show_error '\aSorry, try again.' 
     codecs
     ;;
 esac

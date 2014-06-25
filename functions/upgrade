@@ -4,19 +4,20 @@
 function upgrade {
 # Perform system upgrade
 echo ''
-read -p 'Proceed with system upgrade? (Y)es, (N)o : ' REPLY
+show_info 'Proceed with system upgrade? (Y)es, (N)o : ' 
+read REPLY
 echo ''
 case $REPLY in
 # Positive action
 [Yy]* )
     # Update repository information
     echo 'Updating repository information...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get update
     # Dist-Upgrade
     echo 'Performing system upgrade...'
     sudo apt-get dist-upgrade -y
-    echo 'Done.'
+    show_success 'Done.'
     main
     ;;
 # Negative action
@@ -25,7 +26,7 @@ case $REPLY in
     ;;
 # Error
 * )
-    clear && echo 'Sorry, try again.'
+    clear && show_error '\aSorry, try again.'
     upgrade
     ;;
 esac

@@ -7,6 +7,8 @@ PURGED="data/purge.list"
 # CLEANUP SYSTEM
 function cleanup {
 echo ''
+show_info 'What would you like to do? '
+echo ''
 echo '1. Remove unused pre-installed packages?'
 echo '2. Remove old kernel(s)?'
 echo '3. Remove orphaned packages?'
@@ -14,7 +16,7 @@ echo '4. Remove leftover configuration files?'
 echo '5. Clean package cache?'
 echo 'r. Return?'
 echo ''
-read -p 'What would you like to do? (Enter your choice) : ' REPLY
+show_info 'Enter your choice:' && read REPLY
 case $REPLY in
 # Remove Unused Pre-installed Packages
 1)
@@ -24,17 +26,17 @@ case $REPLY in
     echo ''
     for package in $(cat $PURGED)
     do 
-    echo $package
+    echo -e '\t'$package
     done
     echo ''
-    read -p 'Proceed? (Y)es, (N)o : ' REPLY
+    show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
     echo ''
     case $REPLY in
     # Positive action
     [Yy]* )
-        echo 'Requires root privileges:'
+        show_info 'Requires root privileges:'
         sudo apt-get purge -y $(cat $PURGED)
-        echo 'Done.'
+        show_success 'Done.'
         cleanup
         ;;
     # Negative action
@@ -43,7 +45,7 @@ case $REPLY in
         ;;
     # Error
     * )
-        clear && echo 'Sorry, try again.'
+        clear && show_error '\aSorry, try again.'
         cleanup
         ;;
     esac
@@ -51,33 +53,33 @@ case $REPLY in
 # Remove Old Kernel
 2)
     echo 'Removing old Kernel(s)...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
-    echo 'Done.'
+    show_success 'Done.'
     cleanup
     ;;
 # Remove Orphaned Packages
 3)
     echo 'Removing orphaned packages...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get autoremove -y
-    echo 'Done.'
+    show_success 'Done.'
     cleanup
     ;;
 # Remove residual config files?
 4)
     echo 'Removing leftover configuration files...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
-    echo 'Done.'
+    show_success 'Done.'
     cleanup
     ;;
 # Clean Package Cache
 5)
     echo 'Cleaning package cache...'
-    echo 'Requires root privileges:'
+    show_info 'Requires root privileges:'
     sudo apt-get clean
-    echo 'Done.'
+    show_success 'Done.'
     cleanup
     ;;
 # Return
@@ -85,6 +87,6 @@ case $REPLY in
     clear && main;;
 # Invalid choice
 * ) 
-    clear && echo 'Not an option, try again.' && cleanup;;
+    clear && show_error '\aNot an option, try again.' && cleanup;;
 esac
 }
