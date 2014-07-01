@@ -7,6 +7,7 @@ show_info 'What would you like to do? '
 echo ''
 echo '1. Set preferred application-specific settings?'
 echo '2. Show all startup applications?'
+echo '3. Disable system crash dialogs (apport)?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -42,9 +43,18 @@ case $REPLY in
     ;;
 # Startup Applications
 2)
-    echo 'Changing display of startup applications.'
+    echo 'Changing display of startup applications...'
     show_info 'Requires root privileges:'
     sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
+    cd
+    show_success 'Done.'
+    config
+    ;;
+# Disable Apport
+3)
+    echo 'Disabling apport crash dialogs...'
+    show_info 'Requires root privileges:'
+    sudo sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
     cd
     show_success 'Done.'
     config

@@ -4,7 +4,7 @@
 function themes {
 show_info 'What would you like to install? '
 echo ''
-echo '1. Moka Project'
+echo '1. Moka Project themes'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice :' && read REPLY

@@ -1,6 +1,7 @@
 apache2
 aptitude
 dconf-tools
+filezilla
 openjdk-7-jdk
 openssh-server
 p7zip-full
