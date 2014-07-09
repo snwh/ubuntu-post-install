@@ -17,11 +17,11 @@ case $REPLY in
     # Font Sizes
     echo 'Setting font preferences...'
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
-    gsettings set org.gnome.desktop.interface document-font-name 'Ubuntu 10'
-    gsettings set org.gnome.desktop.interface font-name 'Ubuntu 10'
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 11'
-    gsettings set org.gnome.nautilus.desktop font 'Ubuntu 10'
-    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Ubuntu Bold 9'
+    gsettings set org.gnome.desktop.interface document-font-name 'Source Sans Pro 10' # Default: Ubuntu 11
+    gsettings set org.gnome.desktop.interface font-name 'Source Sans Pro 10' # Default: Ubuntu 11 
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata Mono 11' # Default: Ubuntu Mono 11  
+    gsettings set org.gnome.nautilus.desktop font 'Source Sans Pro 10' # Default: Ubuntu 11 
+    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Source Sans Pro Bold 9' # Default: Ubuntu Bold 11 
     gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
     gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
     # Unity Settings
