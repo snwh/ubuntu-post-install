@@ -16,25 +16,29 @@ case $REPLY in
 1)
     # Font Sizes
     echo 'Setting font preferences...'
+    gsettings set org.gnome.desktop.interface document-font-name 'Source Sans Pro 10' # This is a third-party font
+    gsettings set org.gnome.desktop.interface font-name 'Source Sans Pro 10'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata 11' # This is also a third-party font
     gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
-    gsettings set org.gnome.desktop.interface document-font-name 'Source Sans Pro 10' # Default: Ubuntu 11
-    gsettings set org.gnome.desktop.interface font-name 'Source Sans Pro 10' # Default: Ubuntu 11 
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata Mono 11' # Default: Ubuntu Mono 11  
-    gsettings set org.gnome.nautilus.desktop font 'Source Sans Pro 10' # Default: Ubuntu 11 
-    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Source Sans Pro Bold 9' # Default: Ubuntu Bold 11 
+    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Source Sans Pro Bold 9'
+    gsettings set org.gnome.nautilus.desktop font 'Source Sans Pro 10'
     gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
     gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
     # Unity Settings
     echo 'Setting Unity preferences...'
-    gsettings set com.canonical.Unity.ApplicationsLens display-available-apps false
-    gsettings set com.canonical.unity-greeter draw-user-backgrounds true 
+    com.canonical.indicator.keyboard visible false
     gsettings set com.canonical.indicator.power icon-policy 'charge'
+    gsettings set com.canonical.unity-greeter draw-user-backgrounds true 
+    gsettings set com.canonical.Unity.ApplicationsLens display-available-apps false
     gsettings set com.canonical.Unity.Lenses remote-content-search 'none'
-    # Nautilus Preferences
-    echo 'Setting Nautilus preferences...'
+    # Pantheon Settings
+    echo 'Setting Pantheon app preferences...'
+    org.pantheon.noise.settings update-folder-heirarchy false
+    org.pantheon.terminal.settings font "Inconsolata 11"
+    org.pantheon.terminal.settings remember-tabs false
+    # GNOME Preferences
+    echo 'Setting GNOME app preferences...'
     gsettings set org.gnome.nautilus.preferences sort-directories-first true
-    # Rhythmbox Preferences
-    echo 'Setting Rhythmbox preferences...'
     gsettings set org.gnome.rhythmbox.rhythmdb monitor-library true
     gsettings set org.gnome.rhythmbox.sources browser-views 'artists-albums'
     # Done

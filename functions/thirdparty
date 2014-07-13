@@ -37,7 +37,6 @@ case $REPLY in
     sudo apt-get install -fy
     # Cleanup and finish
     rm google-chrome*.deb
-    cd
     show_success 'Done.'
     thirdparty
     ;;
@@ -63,7 +62,6 @@ case $REPLY in
     sudo apt-get install -fy
     # Cleanup and finish
     rm google-talkplugin_current*.deb
-    cd
     show_success 'Done.'
     thirdparty
     ;;
@@ -89,7 +87,6 @@ case $REPLY in
     sudo apt-get install -fy
     # Cleanup and finish
     rm google-musicmanager*.deb
-    cd
     show_success 'Done.'
     thirdparty
     ;;
@@ -118,7 +115,6 @@ case $REPLY in
     sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
     # Cleanup and finish
     rm steam*.deb
-    cd
     show_success 'Done.'
     thirdparty
     ;;
@@ -149,7 +145,6 @@ case $REPLY in
     show_success 'Done.'
     # Cleanup and finish
     rm sublime-text_build-3059*.deb
-    cd
     show_success 'Done.'
     thirdparty
     ;;
