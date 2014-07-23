@@ -7,10 +7,8 @@ show_info 'What would you like to install? '
 echo ''
 echo '1. Google Chrome?'
 echo '2. Google Talk Plugin?'
-echo '3. Google Music Manager?'
-echo '4. Steam?'
-echo '5. Sublime Text 3 (build 3059)?'
-echo '6. Spotify client'
+echo '3. Steam?'
+echo '4. Sublime Text 3 (build 3059)?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -21,10 +19,14 @@ case $REPLY in
     # Download Debian file that matches system architecture
     case `uname -i` in
         i386|i486|i586|i686)
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+            # wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb # Uncomment this if you want to use the stable version
+            wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb # Uncomment this if you want to use the beta version
+            # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb # Uncomment this if you want to use the unstable version
             ;;
         x86_64)
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            # wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb # Uncomment this if you want to use the stable version
+            wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb # Uncomment this if you want to use the beta version
+            # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb # Uncomment this if you want to use the unstable version
             ;;
         *)
             show_error "Couldn't find a download that matches your system." && thirdparty
@@ -65,33 +67,8 @@ case $REPLY in
     show_success 'Done.'
     thirdparty
     ;;
-# Google Music Manager
-3)
-    echo 'Downloading Google Music Manager...'
-    # Download Debian file that matches system architecture
-    case `uname -i` in
-        i386|i486|i586|i686)
-            wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_i386.deb
-            ;;
-        x86_64)
-            wget https://dl.google.com/linux/direct/google-musicmanager-beta_current_amd64.deb
-            ;;
-        *)
-            show_error "Couldn't find a download that matches your system." && thirdparty
-            ;;
-    esac
-    # Install package(s)
-    echo 'Installing Google Music Manager...'
-    echo 'Requires root privileges:'
-    sudo dpkg -i google-musicmanager-*.deb
-    sudo apt-get install -fy
-    # Cleanup and finish
-    rm google-musicmanager*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
 # Steam
-4)
+3)
     echo 'Downloading Steam...'
     # Download Debian file that matches system architecture
     case `uname -i` in
@@ -119,7 +96,7 @@ case $REPLY in
     thirdparty
     ;;
 # Sublime Text 3 (build 3059)
-5)
+4)
     echo 'Downloading Sublime Text 3 (build 3059)...'
     # Download Debian file that matches system architecture
     case `uname -i` in
@@ -145,26 +122,6 @@ case $REPLY in
     show_success 'Done.'
     # Cleanup and finish
     rm sublime-text_build-3059*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Spotify
-6)
-    # Add repository
-    echo 'Adding Spotify repository to sources...'
-    echo 'Creating apt list file...'
-    touch spotify.list
-    echo "deb http://repository.spotify.com stable non-free" >> spotify.list
-    echo 'Requires root privileges:'
-    sudo mv -f spotify.list /etc/apt/sources.list.d/
-    show_success 'Done.'
-    # Update repository information
-    echo 'Adding repository key and updating repository information...'
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Spotify client...'
-    sudo apt-get install -y spotify-client
     show_success 'Done.'
     thirdparty
     ;;

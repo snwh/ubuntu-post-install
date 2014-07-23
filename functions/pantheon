@@ -1,0 +1,132 @@
+#!/bin/bash
+
+#----- DECLARATIONS -----#
+
+EXTRAS="data/pantheon-extras.list"
+
+# INSTALL PANTHEON
+function pantheon {
+echo ''
+echo '1. Add elementary stable PPA?'
+echo '2. Add elementary testing PPA?'
+echo '3. Install Pantheon Shell?'
+echo '4. Install Pantheon extras?'
+echo 'r. Return.'
+echo ''
+read -p 'What would you like to do? (Enter your choice) : ' REPLY
+case $REPLY in
+# Add GNOME3 PPA
+1)
+    # Add repository
+    echo 'Adding elementary stable PPA to software sources...'
+    show_info 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:elementary-os/daily
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    show_success 'Done.'
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        show_info 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        show_success 'Done.'
+        pantheon
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && pantheon
+        show_success 'Done.'
+        ;;
+    # Error
+    * )
+        clear && show_error '\aSorry, try again.'
+        pantheon
+        ;;
+    esac
+    ;;
+# Add elementary testing PPA
+2)
+    # Add repository
+    echo 'Adding elementary testing PPA to software sources...'
+    show_info 'Requires root privileges:'
+    sudo add-apt-repository -y ppa:elementary-os/testing
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    show_success 'Done.'
+    echo ''
+    # Upgrade system?
+    read -p 'Perform system upgrade? (Y)es, (N)o : ' REPLY
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        show_info 'Requires root privileges:'
+        sudo apt-get dist-upgrade -y
+        show_success 'Done.'
+        pantheon
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && pantheon
+        show_success 'Done.'
+        ;;
+    # Error
+    * )
+        clear && show_error '\aSorry, try again.'
+        pantheon
+        ;;
+    esac
+    ;;
+# Install Pantheon Desktop
+3)
+    echo 'Installing Pantheon Shell...'
+    show_info 'Requires root privileges:'
+    sudo apt-get install -y elementary-desktop
+    show_success 'Done.'
+    echo ''
+    pantheon
+    ;;
+# Install extra Pantheon apps
+4)
+    echo 'Installing extra Pantheon applications...'
+    echo ''
+    echo 'Current package list:'
+    echo ''
+    for package in $(cat $EXTRAS)
+    do 
+    echo -e '\t'$package
+    done
+    echo ''
+    show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
+    echo ''
+    case $REPLY in
+    # Positive action
+    [Yy]* )
+        show_info 'Requires root privileges:'
+        # Feel free to change the contents of "pantheon-extras.list" to whatever suits your preferences.
+        sudo apt-get install -y $(cat $EXTRAS)
+        show_success 'Done.'
+        pantheon
+        ;;
+    # Negative action
+    [Nn]* )
+        clear && pantheon
+        ;;
+    # Error
+    * )
+        clear && show_error '\aSorry, try again.'
+        pantheon
+        ;;
+    esac
+    ;;
+# Return
+[Rr]*) 
+    clear && main;;
+# Invalid choice
+* ) 
+    clear && show_error '\aNot an option, try again.' && pantheon;;
+esac
+}

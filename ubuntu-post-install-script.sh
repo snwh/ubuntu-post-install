@@ -38,6 +38,7 @@ echo '#------------------------------------#'
 . functions/development
 . functions/favourites
 . functions/gnome
+. functions/pantheon
 . functions/system
 . functions/upgrade
 . functions/themes
@@ -70,10 +71,11 @@ echo '3. Install favourite system utilities?'
 echo '4. Install development tools?'
 echo '5. Install design tools?'
 echo '6. Install extra GNOME components?'
-echo '7. Install Ubuntu Restricted Extras?'
-echo '8. Install third-party applications?'
-echo '9. Customize system?'
-echo '10. Cleanup the system?'
+echo '7. Install extra Pantheon components?'
+echo '8. Install Ubuntu Restricted Extras?'
+echo '9. Install third-party applications?'
+echo '10. Customize system?'
+echo '11. Cleanup the system?'
 echo 'q. Quit?'
 echo ''
 show_info 'Enter your choice :' && read REPLY
@@ -84,10 +86,11 @@ case $REPLY in
     4) clear && development;; # Install Dev Tools
     5) clear && design;; # Install Design Tools
     6) clear && gnome;; # Install GNOME components
-    7) clear && codecs;; # Install Ubuntu Restricted Extras
-    8) clear && thirdparty;; # Install Third-Party Applications
-    9) clear && customize;; # Customize system
-    10) clear && cleanup;; # Cleanup System
+    7) clear && pantheon;; # Install GNOME components
+    8) clear && codecs;; # Install Ubuntu Restricted Extras
+    9) clear && thirdparty;; # Install Third-Party Applications
+    10) clear && customize;; # Customize system
+    11) clear && cleanup;; # Cleanup System
     [Qq]* ) echo '' && quit;; # Quit
     * ) clear && show_error '\aNot an option, try again.' && main;;
 esac

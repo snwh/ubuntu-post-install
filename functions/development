@@ -10,10 +10,7 @@ echo ''
 show_info 'What would you like to install? '
 echo ''
 echo '1. Development tools?'
-echo '2. Ubuntu SDK?'
-echo '3. Ubuntu Phablet Tools?'
-echo '4. Android development dependencies?'
-echo '5. RVM dependencies?'
+echo '2. RVM dependencies?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -51,38 +48,8 @@ case $REPLY in
         ;;
     esac
     ;;
-# Install Ubuntu SDK
-2)
-    # Add repository
-    echo 'Adding Ubuntu SDK Team PPA to software sources...'
-    show_info 'Requires root privileges:'
-    sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install package(s)
-    echo 'Installing Ubuntu SDK...'
-    sudo apt-get install -y ubuntu-sdk
-    show_success 'Done.'
-    development
-    ;;
-# Install Ubuntu Phablet Tools
-3)
-    echo 'Installing Phablet Tools...'
-    sudo apt-get install -y phablet-tools
-    show_success 'Done.'
-    development
-    ;;
-# Install Android development dependencies
-4)
-    echo 'Installing Android development dependencies...'
-    show_info 'Requires root privileges:'
-    sudo apt-get install -y glibc.i686 libstdc++.i686  zlib.i686
-    show_success 'Done.'
-    development
-    ;;
 # Install RVM dependencies
-5)
+2)
     echo 'Installing RVM dependencies...'
     show_info 'Requires root privileges:'
     sudo apt-get install -y libreadline6-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libgdbm-dev libncurses5-dev bison libffi-dev

@@ -1,12 +1,13 @@
 bzr
-devscripts
-gcc-snapshot
+createrepo
 git
 gitg
 glade
 gnome-common
-gradle
 gtk-3-examples
+gtk-doc-tools
+libgtk-3-dev
+libgtksourceview-3.0-dev
 nodejs
 python-launchpadlib
 python3-distutils-extra

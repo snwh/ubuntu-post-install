@@ -35,7 +35,6 @@ case $REPLY in
     echo 'Setting Pantheon app preferences...'
     org.pantheon.noise.settings update-folder-heirarchy false
     org.pantheon.terminal.settings font "Inconsolata 11"
-    org.pantheon.terminal.settings remember-tabs false
     # GNOME Preferences
     echo 'Setting GNOME app preferences...'
     gsettings set org.gnome.nautilus.preferences sort-directories-first true

@@ -2,7 +2,8 @@ apache2
 aptitude
 dconf-tools
 filezilla
-libav-tools
+gnome-disk-utility
+icedtea-plugin
 openjdk-7-jdk
 openssh-server
 p7zip-full
