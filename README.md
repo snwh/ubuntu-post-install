@@ -17,6 +17,10 @@ Run from source folder:
 
     bash ubuntu-post-install-script.sh
 
+Or if you like, put it somewhere and add it to your custom Bash paths to run whenever.
+
+	export PATH=${PATH}:$HOME/whereever/post-install-script-ubuntu/
+
 ##About:
 
 This project provides a simple set of bash scripts for simplifying the setup of a fresh system installation by installing your favourite applications, setting up system configurations, etc.
