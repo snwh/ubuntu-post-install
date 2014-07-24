@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-PURGED="data/purge.list"
+dir="$(dirname "$0")"
+
+PURGED="$dir/data/purge.list"
 
 # CLEANUP SYSTEM
 function cleanup {

@@ -30,19 +30,21 @@ echo '#------------------------------------#'
 
 #----- FUNCTIONS -----#
 
-. functions/cleanup
-. functions/codecs
-. functions/config
-. functions/customize
-. functions/design
-. functions/development
-. functions/favourites
-. functions/gnome
-. functions/pantheon
-. functions/system
-. functions/upgrade
-. functions/themes
-. functions/thirdparty
+dir="$(dirname "$0")"
+
+. $dir/functions/cleanup
+. $dir/functions/codecs
+. $dir/functions/config
+. $dir/functions/customize
+. $dir/functions/design
+. $dir/functions/development
+. $dir/functions/favourites
+. $dir/functions/gnome
+. $dir/functions/pantheon
+. $dir/functions/system
+. $dir/functions/upgrade
+. $dir/functions/themes
+. $dir/functions/thirdparty
 
 #----- MESSAGE FUNCTIONS -----#
 

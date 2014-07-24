@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-DEVTOOLS="data/development.list"
+dir="$(dirname "$0")"
+
+DEVTOOLS="$dir/data/development.list"
 
 # INSTALL DEVELOPMENT TOOLS
 function development {

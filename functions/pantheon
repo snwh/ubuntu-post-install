@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-EXTRAS="data/pantheon-extras.list"
+dir="$(dirname "$0")"
+
+EXTRAS="$dir/data/pantheon-extras.list"
 
 # INSTALL PANTHEON
 function pantheon {

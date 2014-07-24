@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-UTILS="data/utilities.list"
+dir="$(dirname "$0")"
+
+UTILS="$dir/data/utilities.list"
 
 # INSTALL SYSTEM TOOLS
 function system {

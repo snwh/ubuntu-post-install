@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-DESTOOLS="data/design.list"
+dir="$(dirname "$0")"
+
+DESTOOLS="$dir/data/design.list"
 
 #INSTALL DESIGN TOOLS
 function design {

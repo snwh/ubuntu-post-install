@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-EXTRAS="data/gnome-extras.list"
+dir="$(dirname "$0")"
+
+EXTRAS="$dir/data/gnome-extras.list"
 
 # INSTALL GNOME COMPONENTS
 function gnome {

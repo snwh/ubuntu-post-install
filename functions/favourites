@@ -2,7 +2,9 @@
 
 #----- DECLARATIONS -----#
 
-FAVS="data/favourites.list"
+dir="$(dirname "$0")"
+
+FAVS="$dir/data/favourites.list"
 
 # INSTALL APPLICATIONS
 function favourites {
