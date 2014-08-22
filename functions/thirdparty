@@ -19,13 +19,13 @@ case $REPLY in
     # Download Debian file that matches system architecture
     case `uname -i` in
         i386|i486|i586|i686)
-            # wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb # Uncomment this if you want to use the stable version
-            wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb # Uncomment this if you want to use the beta version
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb # Uncomment this if you want to use the stable version
+            # wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb # Uncomment this if you want to use the beta version
             # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb # Uncomment this if you want to use the unstable version
             ;;
         x86_64)
-            # wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb # Uncomment this if you want to use the stable version
-            wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb # Uncomment this if you want to use the beta version
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb # Uncomment this if you want to use the stable version
+            # wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb # Uncomment this if you want to use the beta version
             # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb # Uncomment this if you want to use the unstable version
             ;;
         *)

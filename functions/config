@@ -24,17 +24,12 @@ case $REPLY in
     gsettings set org.gnome.nautilus.desktop font 'Source Sans Pro 10'
     gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
     gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
-    # Unity Settings
-    echo 'Setting Unity preferences...'
-    com.canonical.indicator.keyboard visible false
-    gsettings set com.canonical.indicator.power icon-policy 'charge'
-    gsettings set com.canonical.unity-greeter draw-user-backgrounds true 
-    gsettings set com.canonical.Unity.ApplicationsLens display-available-apps false
-    gsettings set com.canonical.Unity.Lenses remote-content-search 'none'
     # Pantheon Settings
     echo 'Setting Pantheon app preferences...'
     org.pantheon.noise.settings update-folder-heirarchy false
     org.pantheon.terminal.settings font "Inconsolata 11"
+    org.pantheon.desktop.wingpanel auto-adjust-alpha false
+    org.pantheon.desktop.wingpanel background-alpha 0.6
     # GNOME Preferences
     echo 'Setting GNOME app preferences...'
     gsettings set org.gnome.nautilus.preferences sort-directories-first true
