@@ -4,7 +4,7 @@
 
 dir="$(dirname "$0")"
 
-EXTRAS="$dir/data/pantheon-extras.list"
+PEXTRAS="$dir/data/pantheon-extras.list"
 
 # INSTALL PANTHEON
 function pantheon {
@@ -97,7 +97,7 @@ case $REPLY in
     echo ''
     echo 'Current package list:'
     echo ''
-    for package in $(cat $EXTRAS)
+    for package in $(cat $PEXTRAS)
     do 
     echo -e '\t'$package
     done
@@ -109,7 +109,7 @@ case $REPLY in
     [Yy]* )
         show_info 'Requires root privileges:'
         # Feel free to change the contents of "pantheon-extras.list" to whatever suits your preferences.
-        sudo apt-get install -y $(cat $EXTRAS)
+        sudo apt-get install -y $(cat $PEXTRAS)
         show_success 'Done.'
         pantheon
         ;;

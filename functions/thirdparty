@@ -8,7 +8,10 @@ echo ''
 echo '1. Google Chrome?'
 echo '2. Google Talk Plugin?'
 echo '3. Steam?'
-echo '4. Sublime Text 3 (build 3059)?'
+echo '4. Sublime Text 3 (build 3065)?'
+echo '5. Minecraft Installer?'
+echo '6. Birdie?'
+echo '7. SVG Cleaner?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -95,33 +98,77 @@ case $REPLY in
     show_success 'Done.'
     thirdparty
     ;;
-# Sublime Text 3 (build 3059)
+# Sublime Text 3 (build 3065)
 4)
-    echo 'Downloading Sublime Text 3 (build 3059)...'
+    echo 'Downloading Sublime Text 3 (build 3065)...'
     # Download Debian file that matches system architecture
     case `uname -i` in
         i386|i486|i586|i686)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_i386.deb
+            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_i386.deb
             ;;
         x86_64)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3059_amd64.deb
+            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd64.deb
             ;;
         *)
             show_error "Couldn't find a download that matches your system." && thirdparty
             ;;
     esac
     # Install package(s)
-    echo 'Installing Sublime Text 3 (build 3059)...'
+    echo 'Installing Sublime Text 3 (build 3065)...'
     echo 'Requires root privileges:'
-    sudo dpkg -i sublime-text_build-3059*.deb
+    sudo dpkg -i sublime-text_build-3065*.deb
     sudo apt-get install -fy
     # Create symbolic link
     echo 'Creating symbolic link...'
     echo 'Requires root privileges:'
     sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
-    show_success 'Done.'
     # Cleanup and finish
-    rm sublime-text_build-3059*.deb
+    rm sublime-text_build-3065*.deb
+    show_success 'Done.'
+    thirdparty
+    ;;
+# Minecraft Installer
+5)
+    # Add repository
+    echo 'Adding Minecraft Installer PPA to software sources...'
+    show_info 'Requires root privileges:'
+    sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    # Install
+    echo 'Installing Minecraft Installer...'
+    sudo apt-get install -y minecraft-installer
+    show_success 'Done.'
+    thirdparty
+    ;;
+# Birdie
+6)
+    # Add repository
+    echo 'Adding Birdie Team PPA to software sources...'
+    show_info 'Requires root privileges:'
+    sudo add-apt-repository ppa:birdie-team/stable
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    # Install
+    echo 'Installing Birdie...'
+    sudo apt-get install -y birdie
+    show_success 'Done.'
+    thirdparty
+    ;;
+# SVG Cleaner
+7)
+    # Add repository
+    echo 'Adding SVG Cleaner Team PPA to software sources...'
+    show_info 'Requires root privileges:'
+    sudo add-apt-repository ppa:svg-cleaner-team/svgcleaner
+    # Update repository information
+    echo 'Updating repository information...'
+    sudo apt-get update
+    # Install
+    echo 'Installing SVG Cleaner...'
+    sudo apt-get install -y svgcleaner
     show_success 'Done.'
     thirdparty
     ;;

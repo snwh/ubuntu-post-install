@@ -4,6 +4,7 @@ dconf-tools
 filezilla
 gnome-disk-utility
 icedtea-plugin
+libav-tools
 openjdk-7-jdk
 openssh-server
 p7zip-full
@@ -12,4 +13,5 @@ samba
 ssh
 symlinks
 synaptic
+virtualbox
 zsync

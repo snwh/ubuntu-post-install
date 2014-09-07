@@ -4,7 +4,7 @@
 
 dir="$(dirname "$0")"
 
-EXTRAS="$dir/data/gnome-extras.list"
+GEXTRAS="$dir/data/gnome-extras.list"
 
 # INSTALL GNOME COMPONENTS
 function gnome {
@@ -86,7 +86,7 @@ case $REPLY in
 3)
     echo 'Installing GNOME Shell...'
     show_info 'Requires root privileges:'
-    sudo apt-get install -y fonts-cantarell gdm gnome-shell gnome-shell-extensions gnome-session
+    sudo apt-get install -y fonts-cantarell gdm gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
     show_success 'Done.'
     echo ''
     gnome
@@ -97,7 +97,7 @@ case $REPLY in
     echo ''
     echo 'Current package list:'
     echo ''
-    for package in $(cat $EXTRAS)
+    for package in $(cat $GEXTRAS)
     do 
     echo -e '\t'$package
     done
@@ -109,7 +109,7 @@ case $REPLY in
     [Yy]* )
         show_info 'Requires root privileges:'
         # Feel free to change the contents of "gnome-extras.list" to whatever suits your preferences.
-        sudo apt-get install -y $(cat $EXTRAS)
+        sudo apt-get install -y $(cat $GEXTRAS)
         show_success 'Done.'
         gnome
         ;;
