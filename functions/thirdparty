@@ -10,8 +10,6 @@ echo '2. Google Talk Plugin?'
 echo '3. Steam?'
 echo '4. Sublime Text 3 (build 3065)?'
 echo '5. Minecraft Installer?'
-echo '6. Birdie?'
-echo '7. SVG Cleaner?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -139,36 +137,6 @@ case $REPLY in
     # Install
     echo 'Installing Minecraft Installer...'
     sudo apt-get install -y minecraft-installer
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Birdie
-6)
-    # Add repository
-    echo 'Adding Birdie Team PPA to software sources...'
-    show_info 'Requires root privileges:'
-    sudo add-apt-repository ppa:birdie-team/stable
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install
-    echo 'Installing Birdie...'
-    sudo apt-get install -y birdie
-    show_success 'Done.'
-    thirdparty
-    ;;
-# SVG Cleaner
-7)
-    # Add repository
-    echo 'Adding SVG Cleaner Team PPA to software sources...'
-    show_info 'Requires root privileges:'
-    sudo add-apt-repository ppa:svg-cleaner-team/svgcleaner
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install
-    echo 'Installing SVG Cleaner...'
-    sudo apt-get install -y svgcleaner
     show_success 'Done.'
     thirdparty
     ;;
