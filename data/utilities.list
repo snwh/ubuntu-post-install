@@ -5,8 +5,12 @@ filezilla
 gnome-disk-utility
 icedtea-plugin
 libav-tools
+mediainfo
 openjdk-7-jdk
 openssh-server
+openvpn
+network-manager-openvpn
+openvpn-auth-ldap
 p7zip-full
 ppa-purge
 samba

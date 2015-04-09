@@ -24,6 +24,7 @@
 # tab width
 tabs 4
 clear
+echo ''
 echo '#------------------------------------#'
 echo '#     Ubuntu Post-Install Script     #'
 echo '#------------------------------------#'
@@ -43,7 +44,6 @@ dir="$(dirname "$0")"
 . $dir/functions/pantheon
 . $dir/functions/system
 . $dir/functions/upgrade
-. $dir/functions/themes
 . $dir/functions/thirdparty
 
 #----- MESSAGE FUNCTIONS -----#

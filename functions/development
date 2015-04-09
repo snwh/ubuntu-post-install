@@ -54,7 +54,7 @@ case $REPLY in
 2)
     echo 'Installing RVM dependencies...'
     show_info 'Requires root privileges:'
-    sudo apt-get install -y libreadline6-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libgdbm-dev libncurses5-dev bison libffi-dev
+    sudo apt-get install -y curl libreadline6-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libgdbm-dev libncurses5-dev bison libffi-dev
     show_success 'Done.'
     development
     ;;

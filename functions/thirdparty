@@ -8,10 +8,9 @@ echo ''
 echo '1. Google Chrome?'
 echo '2. Google Talk Plugin?'
 echo '3. Steam?'
-echo '4. Sublime Text 3 (build 3065)?'
+echo '4. Sublime Text?'
 echo '5. Minecraft Installer?'
 echo '6. Inkscape Stable?'
-echo '7. SVG Cleaner?'
 echo 'r. Return'
 echo ''
 show_info 'Enter your choice:' && read REPLY
@@ -98,32 +97,32 @@ case $REPLY in
     show_success 'Done.'
     thirdparty
     ;;
-# Sublime Text 3 (build 3065)
+# Sublime Text 3 (build 3083)
 4)
-    echo 'Downloading Sublime Text 3 (build 3065)...'
+    echo 'Downloading Sublime Text 3 (build 3083)...'
     # Download Debian file that matches system architecture
     case `uname -i` in
         i386|i486|i586|i686)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_i386.deb
+            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_i386.deb
             ;;
         x86_64)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd64.deb
+            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb
             ;;
         *)
             show_error "Couldn't find a download that matches your system." && thirdparty
             ;;
     esac
     # Install package(s)
-    echo 'Installing Sublime Text 3 (build 3065)...'
+    echo 'Installing Sublime Text 3 (build 3083)...'
     echo 'Requires root privileges:'
-    sudo dpkg -i sublime-text_build-3065*.deb
+    sudo dpkg -i sublime-text_build-3083*.deb
     sudo apt-get install -fy
     # Create symbolic link
     echo 'Creating symbolic link...'
     echo 'Requires root privileges:'
     sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
     # Cleanup and finish
-    rm sublime-text_build-3065*.deb
+    rm sublime-text_build-3083*.deb
     show_success 'Done.'
     thirdparty
     ;;
