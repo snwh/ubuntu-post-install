@@ -4,7 +4,8 @@
 
 dir="$(dirname "$0")"
 
-DESTOOLS="$dir/data/design.list"
+#INSTALL DESIGN TOOLS
+DESTOOLS="$dir/data/design-tools.list"
 
 #INSTALL DESIGN TOOLS
 function design {
@@ -24,7 +25,7 @@ case $REPLY in
 # Positive action
 [Yy]* ) 
     show_info 'Requires root privileges:'
-    # Feel free to change the contents of "design-tools.list" to whatever suits your preferences.
+    # Feel free to change the contents of "design-tools.list" in the data folder to whatever suits your preference.
     sudo apt-get install -y $(cat $DESTOOLS)
     show_success 'Done.'
     main

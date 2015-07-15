@@ -8,6 +8,7 @@ gtk-doc-tools
 libgtk-3-dev
 nodejs
 npm
+php5-cli
 python-launchpadlib
 python3-distutils-extra
 rpm

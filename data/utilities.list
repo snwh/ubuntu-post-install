@@ -3,13 +3,15 @@ aptitude
 dconf-tools
 filezilla
 gnome-disk-utility
+grsync
 icedtea-plugin
 libav-tools
 mediainfo
+network-manager-openvpn
+network-manager-openvpn-gnome
 openjdk-7-jdk
 openssh-server
 openvpn
-network-manager-openvpn
 openvpn-auth-ldap
 p7zip-full
 ppa-purge
