@@ -8,6 +8,7 @@ UTILS="$dir/data/utilities.list"
 
 # INSTALL SYSTEM TOOLS
 function system {
+packages=''
 # Install Favourite System Utilities
 echo 'Installing favourite system utilities...'
 echo ''
@@ -15,9 +16,17 @@ echo 'Current package list:'
 echo ''
 for package in $(cat $UTILS)
 do
-echo -e '\t'$package
+	show_info 'Install '$package'? (Y)es, (N)o : ' && read REPLY1
+	echo ''
+	case $REPLY1 in
+	[Yy]* )
+		packages="$packages $package"
+		;; 
+	* )
+		;;
+	esac
 done
-echo ''
+clear && echo 'Packages selected: ' $packages
 show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
 echo ''
 case $REPLY in
@@ -25,7 +34,7 @@ case $REPLY in
 [Yy]* )
     show_info 'Requires root privileges:'
     # Feel free to change the contents of "utilities.list" in the data folder to whatever suits your preference.
-    sudo apt-get install -y --no-install-recommends $(cat $UTILS)
+    sudo apt-get install -y --no-install-recommends $packages
     show_success 'Done.'
     main
     ;;

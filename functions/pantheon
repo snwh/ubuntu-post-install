@@ -8,6 +8,7 @@ PEXTRAS="$dir/data/pantheon-extras.list"
 
 # INSTALL PANTHEON
 function pantheon {
+packages=''
 echo ''
 echo '1. Add elementary stable PPA?'
 echo '2. Add elementary testing PPA?'
@@ -99,9 +100,17 @@ case $REPLY in
     echo ''
     for package in $(cat $PEXTRAS)
     do 
-    echo -e '\t'$package
+		show_info 'Install '$package'? (Y)es, (N)o : ' && read REPLY1
+		echo ''
+		case $REPLY1 in
+		[Yy]* )
+			packages="$packages $package"
+			;; 
+		* )
+			;;
+		esac
     done
-    echo ''
+    clear && echo 'Packages selected: ' $packages
     show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
     echo ''
     case $REPLY in
@@ -109,7 +118,7 @@ case $REPLY in
     [Yy]* )
         show_info 'Requires root privileges:'
         # Feel free to change the contents of "pantheon-extras.list" in the data folder to whatever suits your preference.
-        sudo apt-get install -y $(cat $PEXTRAS)
+        sudo apt-get install -y $packages
         show_success 'Done.'
         pantheon
         ;;
