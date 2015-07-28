@@ -8,6 +8,7 @@ FAVS="$dir/data/favourites.list"
 
 # INSTALL APPLICATIONS
 function favourites {
+packages=''
 # Install Favourite Applications
 echo ''
 echo 'Installing selected favourite applications...'
@@ -16,9 +17,17 @@ echo 'Current package list:'
 echo ''
 for package in $(cat $FAVS)
 do
-echo -e '\t'$package
-done
+show_info 'Install '$package'? (Y)es, (N)o : ' && read REPLY1
 echo ''
+case $REPLY1 in
+[Yy]* )
+    packages="$packages $package"
+    ;; 
+* )
+    ;;
+esac
+done
+clear && echo 'Packages selected: ' $packages
 show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
 echo ''
 case $REPLY in
@@ -26,7 +35,7 @@ case $REPLY in
 [Yy]* ) 
     show_info 'Requires root privileges:'
     # Feel free to change the contents of 'favourites.list' in the data folder to whatever suits your preference.
-    sudo apt-get install -y --no-install-recommends $(cat $FAVS)
+    sudo apt-get install -y --no-install-recommends $packages
     show_success 'Done.'
     main
     ;;
