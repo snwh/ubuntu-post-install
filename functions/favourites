@@ -25,7 +25,7 @@ case $REPLY in
 # Positive action
 [Yy]* ) 
     show_info 'Requires root privileges:'
-    # Feel free to change the contents of 'favourites.list' to whatever suits your preferences.
+    # Feel free to change the contents of 'favourites.list' in the data folder to whatever suits your preference.
     sudo apt-get install -y --no-install-recommends $(cat $FAVS)
     show_success 'Done.'
     main
