@@ -4,6 +4,7 @@ dir="$(dirname "$0")"
 
 source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/google-chrome
+source $dir/functions/third-party/gnome
 source $dir/functions/third-party/minecraft
 source $dir/functions/third-party/owncloud
 source $dir/functions/third-party/rvm
@@ -24,6 +25,7 @@ show_listitem '\t5. Minecraft?'
 show_listitem '\t6. ownCloud?'
 show_listitem '\t7. Slack?'
 show_listitem '\t8. Ruby Version Manager (RVM)?'
+show_listitem '\t9. Latest GNOME desktop?'
 show_listitem '\tr. Return'
 echo ''
 show_question 'Enter your choice:' && read REPLY
@@ -36,6 +38,7 @@ case $REPLY in
     6) owncloud;;
     7) slack;;
     8) rvm;;
+    9) gnome;;
     # Return
     [Rr]*) clear && main;;
     # Invalid choice
