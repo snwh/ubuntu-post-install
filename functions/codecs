@@ -3,13 +3,13 @@
 # INSTALL UBUNTU RESTRICTED EXTRAS
 function codecs {
 echo ''
-show_info 'Install Ubuntu Restricted Extras? (Y)es, (N)o :'
+show_question 'Install Ubuntu Restricted Extras? (Y)es, (N)o :'
 read REPLY
 case $REPLY in
 # Positive action
 [Yy]* ) 
-    echo 'Installing...'
-    show_info 'Requires root privileges:'
+    show_info 'Installing...'
+    show_question 'Requires root privileges:'
     sudo apt-get install -y ubuntu-restricted-extras
     show_success 'Done.'
     main

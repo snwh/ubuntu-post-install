@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# ownCloud
+function owncloud {
+	# Add repository
+	show_info 'Adding ownCloud repository to software sources...'
+	show_question 'Requires root privileges:'
+	sudo sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Ubuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list"
+	show_success 'Done.'
+	show_question 'Adding repository key...'
+	curl -O http://download.opensuse.org/repositories/isv:ownCloud:desktop/Ubuntu_14.04/Release.key
+	sudo apt-key add - < Release.key 
+	show_success 'Done.'
+	# Update repository information
+	show_info 'Updating repository information...'
+	sudo apt-get update
+	# Install
+	show_info 'Installing ownCloud client...'
+	sudo apt-get install owncloud-client
+	show_success 'Done.'
+	thirdparty
+}

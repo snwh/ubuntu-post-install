@@ -18,12 +18,12 @@ do
 echo -e '\t'$package
 done
 echo ''
-show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
+show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
 echo ''
 case $REPLY in
 # Positive action
 [Yy]* )
-    show_info 'Requires root privileges:'
+    show_question 'Requires root privileges:'
     # Feel free to change the contents of "utilities.list" in the data folder to whatever suits your preference.
     sudo apt-get install -y --no-install-recommends $(cat $UTILS)
     show_success 'Done.'

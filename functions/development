@@ -6,64 +6,36 @@ dir="$(dirname "$0")"
 
 DEVTOOLS="$dir/data/development.list"
 
-# INSTALL DEVELOPMENT TOOLS
+#INSTALL DEVTOOLS TOOLS
 function development {
 echo ''
-show_info 'What would you like to install? '
+show_info 'Installing favourite development tools...'
 echo ''
-echo '1. Development tools?'
-echo '2. RVM dependencies?'
-echo 'r. Return'
+echo 'Current package list:'
 echo ''
-show_info 'Enter your choice:' && read REPLY
+for package in $(cat $DEVTOOLS)
+do 
+echo -e '\t'$package
+done
+echo ''
+show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
+echo ''
 case $REPLY in
-# Install Development Tools
-1)
-    echo 'Installing development tools...'
-    echo ''
-    echo 'Current package list:'
-    echo ''
-    for package in $(cat $DEVTOOLS)
-    do 
-    echo -e '\t'$package
-    done
-    echo ''
-    read -p 'Proceed? (Y)es (N)o : ' REPLY
-    echo ''
-    case $REPLY in
-    # Positive action
-    [Yy]* ) 
-        show_info 'Requires root privileges:'
-        # Feel free to change the contents of "dev-tools.list" in the data folder to whatever suits your preference.
-        sudo apt-get install -y $(cat $DEVTOOLS)
-        show_success 'Done.'
-        development
-        ;;
-    # Negative action
-    [Nn]* )
-        clear && development
-        ;;
-    # Error
-    * )
-        clear && echo 'Sorry try again.'
-        development
-        ;;
-    esac
-    ;;
-# Install RVM dependencies
-2)
-    echo 'Installing RVM dependencies...'
-    show_info 'Requires root privileges:'
-    sudo apt-get install -y curl libreadline6-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libgdbm-dev libncurses5-dev bison libffi-dev
+# Positive action
+[Yy]* ) 
+    show_question 'Requires root privileges:'
+    # Feel free to change the contents of "development-tools.list" in the data folder to whatever suits your preference.
+    sudo apt-get install -y $(cat $DEVTOOLS)
     show_success 'Done.'
-    development
+    main
     ;;
-# Return
-[Rr]*) 
-    clear && main;;
+# Negative action
+[Nn]* ) 
+    clear && main
+    ;;
 # Error
 * )
-    clear && echo 'Sorry try again.' && development
+    clear && show_error '\aSorry, try again.' && development
     ;;
 esac
 }

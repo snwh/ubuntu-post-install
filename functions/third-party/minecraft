@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Minecraft
+function minecraft {
+	# Add repository
+	echo 'Adding Minecraft Installer PPA to software sources...'
+	show_question 'Requires root privileges:'
+	sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
+	# Update repository information
+	show_info 'Updating repository information...'
+	sudo apt-get update
+	# Install
+	echo 'Installing Minecraft Installer...'
+	sudo apt-get install -y minecraft-installer
+	show_success 'Done.'
+	thirdparty
+}

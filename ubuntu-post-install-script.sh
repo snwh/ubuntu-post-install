@@ -22,7 +22,7 @@
 # this program; if not, see <https://www.gnu.org/licenses/gpl-3.0.txt>
 
 # tab width
-tabs 4
+# tabs 4
 clear
 echo ''
 echo '#------------------------------------#'
@@ -41,23 +41,34 @@ dir="$(dirname "$0")"
 . $dir/functions/development
 . $dir/functions/favourites
 . $dir/functions/gnome
-. $dir/functions/pantheon
 . $dir/functions/system
 . $dir/functions/upgrade
 . $dir/functions/thirdparty
 
 #----- MESSAGE FUNCTIONS -----#
 
-show_info() {
-echo -e "\033[1;34m$@\033[0m"
+show_listitem() {
+echo -e "\033[0;37m$@\033[0m"
+}
+
+show_error() {
+echo -e "\033[1;31m$@\033[m" 1>&2
 }
 
 show_success() {
 echo -e "\033[1;32m$@\033[0m"
 }
 
-show_error() {
-echo -e "\033[1;31m$@\033[m" 1>&2
+show_warning() {
+echo -e "\033[1;33m$@\033[0m"
+}
+
+show_question() {
+echo -e "\033[1;34m$@\033[0m"
+}
+
+show_info() {
+echo -e "\033[1;35m$@\033[0m"
 }
 
 #----- MAIN FUNCTIONS -----#
@@ -65,34 +76,30 @@ echo -e "\033[1;31m$@\033[m" 1>&2
 # Main
 function main {
 echo ''
-show_info 'What would you like to do? '
+show_question 'What would you like to do? '
 echo ''
-echo '1. Perform system update & upgrade?'
-echo '2. Install favourite applications?'
-echo '3. Install favourite system utilities?'
-echo '4. Install development tools?'
-echo '5. Install design tools?'
-echo '6. Install extra GNOME components?'
-echo '7. Install extra Pantheon components?'
-echo '8. Install Ubuntu Restricted Extras?'
-echo '9. Install third-party applications?'
-echo '10. Customize system?'
-echo '11. Cleanup the system?'
-echo 'q. Quit?'
+show_listitem '\t1. Perform system update & upgrade?'
+show_listitem '\t2. Install favourite applications?'
+show_listitem '\t3. Install favourite system utilities?'
+show_listitem '\t4. Install favourite development tools?'
+show_listitem '\t5. Install favourite design tools?'
+show_listitem '\t7. Install Ubuntu Restricted Extras?'
+show_listitem '\t8. Install third-party applications?'
+show_listitem '\t9. Customize system?'
+show_listitem '\t10. Cleanup the system?'
+show_listitem '\tq. Quit?'
 echo ''
-show_info 'Enter your choice :' && read REPLY
+show_question 'Enter your choice :' && read REPLY
 case $REPLY in
     1) upgrade;; # System Upgrade
     2) clear && favourites;; # Install Favourite Applications
     3) clear && system;; # Install Favourite Tools
     4) clear && development;; # Install Dev Tools
     5) clear && design;; # Install Design Tools
-    6) clear && gnome;; # Install GNOME components
-    7) clear && pantheon;; # Install GNOME components
-    8) clear && codecs;; # Install Ubuntu Restricted Extras
-    9) clear && thirdparty;; # Install Third-Party Applications
-    10) clear && customize;; # Customize system
-    11) clear && cleanup;; # Cleanup System
+    7) clear && codecs;; # Install Ubuntu Restricted Extras
+    8) clear && thirdparty;; # Install Third-Party Applications
+    9) clear && customize;; # Customize system
+    10) clear && cleanup;; # Cleanup System
     [Qq]* ) echo '' && quit;; # Quit
     * ) clear && show_error '\aNot an option, try again.' && main;;
 esac
@@ -100,7 +107,7 @@ esac
 
 # Quit
 function quit {
-read -p "Are you sure you want to quit? (Y)es, (N)o " REPLY
+show_question 'Are you sure you want quit? (Y)es, (N)o : ' && read REPLY
 case $REPLY in
     [Yy]* ) exit 99;;
     [Nn]* ) clear && main;;

@@ -9,22 +9,22 @@ GEXTRAS="$dir/data/gnome-extras.list"
 # INSTALL GNOME COMPONENTS
 function gnome {
 echo ''
-echo '1. Add GNOME3 PPA?'
-echo '2. Add GNOME3 Staging PPA?'
-echo '3. Install GNOME Shell?'
-echo '4. Install more GNOME components?'
-echo 'r. Return.'
+show_listitem '\t1. Add GNOME3 PPA?'
+show_listitem '\t2. Add GNOME3 Staging PPA?'
+show_listitem '\t3. Install GNOME Shell?'
+show_listitem '\t4. Install more GNOME components?'
+show_listitem '\tr. Return.'
 echo ''
 read -p 'What would you like to do? (Enter your choice) : ' REPLY
 case $REPLY in
 # Add GNOME3 PPA
 1)
     # Add repository
-    echo 'Adding GNOME3 PPA to software sources...'
-    show_info 'Requires root privileges:'
+    show_info 'Adding GNOME3 PPA to software sources...'
+    show_question 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
     # Update repository information
-    echo 'Updating repository information...'
+    show_info 'Updating repository information...'
     sudo apt-get update
     show_success 'Done.'
     # Upgrade system?
@@ -32,7 +32,7 @@ case $REPLY in
     case $REPLY in
     # Positive action
     [Yy]* )
-        show_info 'Requires root privileges:'
+        show_question 'Requires root privileges:'
         sudo apt-get dist-upgrade -y
         show_success 'Done.'
         gnome
@@ -53,10 +53,10 @@ case $REPLY in
 2)
     # Add repository
     echo 'Adding GNOME3 Staging PPA to software sources...'
-    show_info 'Requires root privileges:'
+    show_question 'Requires root privileges:'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
     # Update repository information
-    echo 'Updating repository information...'
+    show_info 'Updating repository information...'
     sudo apt-get update
     show_success 'Done.'
     echo ''
@@ -65,7 +65,7 @@ case $REPLY in
     case $REPLY in
     # Positive action
     [Yy]* )
-        show_info 'Requires root privileges:'
+        show_question 'Requires root privileges:'
         sudo apt-get dist-upgrade -y
         show_success 'Done.'
         gnome
@@ -85,7 +85,7 @@ case $REPLY in
 # Install GNOME Shell
 3)
     echo 'Installing GNOME Shell...'
-    show_info 'Requires root privileges:'
+    show_question 'Requires root privileges:'
     sudo apt-get install -y fonts-cantarell gdm gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
     show_success 'Done.'
     echo ''
@@ -102,12 +102,12 @@ case $REPLY in
     echo -e '\t'$package
     done
     echo ''
-    show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
+    show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
     echo ''
     case $REPLY in
     # Positive action
     [Yy]* )
-        show_info 'Requires root privileges:'
+        show_question 'Requires root privileges:'
         # Feel free to change the contents of "gnome-extras.list" in the data folder to whatever suits your preference.
         sudo apt-get install -y $(cat $GEXTRAS)
         show_success 'Done.'

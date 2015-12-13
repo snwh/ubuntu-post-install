@@ -9,7 +9,7 @@ PURGED="$dir/data/purge.list"
 # CLEANUP SYSTEM
 function cleanup {
 echo ''
-show_info 'What would you like to do? '
+show_question 'What would you like to do? '
 echo ''
 echo '1. Remove unused pre-installed packages?'
 echo '2. Remove old kernel(s)?'
@@ -18,11 +18,11 @@ echo '4. Remove leftover configuration files?'
 echo '5. Clean package cache?'
 echo 'r. Return?'
 echo ''
-show_info 'Enter your choice:' && read REPLY
+show_question 'Enter your choice:' && read REPLY
 case $REPLY in
 # Remove Unused Pre-installed Packages
 1)
-    echo 'Removing unused pre-installed applications...'
+    show_info 'Removing unused pre-installed applications...'
     echo ''
     echo 'Current package list:'
     echo ''
@@ -31,12 +31,12 @@ case $REPLY in
     echo -e '\t'$package
     done
     echo ''
-    show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
+    show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
     echo ''
     case $REPLY in
     # Positive action
     [Yy]* )
-        show_info 'Requires root privileges:'
+        show_question 'Requires root privileges:'
         sudo apt-get purge -y $(cat $PURGED)
         show_success 'Done.'
         cleanup
@@ -52,34 +52,43 @@ case $REPLY in
         ;;
     esac
     ;;
-# Remove Old Kernel
+# Remove Old Kernel(s)
 2)
-    echo 'Removing old Kernel(s)...'
-    show_info 'Requires root privileges:'
-    sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
-    show_success 'Done.'
+    show_info 'Removing old Kernel(s)...'
+    show_warning "If you're not currently using the newest kernel installed on your system, the following may break it."
+    show_question 'Are you sure you want proceed? (Y)es, (N)o : ' && read REPLY
+    case $REPLY in
+        [Yy]* ) 
+            show_question 'Requires root privileges:'
+            sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
+            show_success 'Done.'
+            cleanup
+            ;;
+        [Nn]* ) cleanup;;
+        * ) clear && show_error 'Sorry, try again.' &&  cleanup;;
+    esac
     cleanup
     ;;
 # Remove Orphaned Packages
 3)
-    echo 'Removing orphaned packages...'
-    show_info 'Requires root privileges:'
+    show_info 'Removing orphaned packages...'
+    show_question 'Requires root privileges:'
     sudo apt-get autoremove -y
     show_success 'Done.'
     cleanup
     ;;
 # Remove residual config files?
 4)
-    echo 'Removing leftover configuration files...'
-    show_info 'Requires root privileges:'
+    show_info 'Removing leftover configuration files...'
+    show_question 'Requires root privileges:'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     show_success 'Done.'
     cleanup
     ;;
 # Clean Package Cache
 5)
-    echo 'Cleaning package cache...'
-    show_info 'Requires root privileges:'
+    show_info 'Cleaning package cache...'
+    show_question 'Requires root privileges:'
     sudo apt-get clean
     show_success 'Done.'
     cleanup

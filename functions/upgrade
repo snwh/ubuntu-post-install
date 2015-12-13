@@ -4,15 +4,15 @@
 function upgrade {
 # Perform system upgrade
 echo ''
-show_info 'Proceed with system upgrade? (Y)es, (N)o : ' 
+show_question 'Proceed with system upgrade? (Y)es, (N)o : ' 
 read REPLY
 echo ''
 case $REPLY in
 # Positive action
 [Yy]* )
     # Update repository information
-    echo 'Updating repository information...'
-    show_info 'Requires root privileges:'
+    show_info 'Updating repository information...'
+    show_question 'Requires root privileges:'
     sudo apt-get update
     # Dist-Upgrade
     echo 'Performing system upgrade...'

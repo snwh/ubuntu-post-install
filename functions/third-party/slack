@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Slack
+function slack {
+	show_info 'Downloading Slack (v1.2.6)...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+	    i386|i486|i586|i686)
+	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-i386.deb
+	        ;;
+	    x86_64)
+	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb
+	        ;;
+	    *)
+	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        ;;
+	esac
+	# Install package(s)
+	show_info 'Installing Slack...'
+	show_question 'Requires root privileges:'
+	sudo dpkg -i slack-desktop-*.deb
+	sudo apt-get install -fy
+	# Cleanup and finish
+	rm slack-desktop-*.deb
+	show_success 'Done.'
+	thirdparty
+}

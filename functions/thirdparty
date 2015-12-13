@@ -1,166 +1,44 @@
 #!/bin/bash
 
+dir="$(dirname "$0")"
+
+source $dir/functions/third-party/dropbox
+source $dir/functions/third-party/google-chrome
+source $dir/functions/third-party/minecraft
+source $dir/functions/third-party/owncloud
+source $dir/functions/third-party/rvm
+source $dir/functions/third-party/slack
+source $dir/functions/third-party/steam
+source $dir/functions/third-party/sublime-text-3
+
 # THIRD PARTY APPLICATIONS
 function thirdparty {
 echo ''
-show_info 'What would you like to install? '
+show_question 'What would you like to install? '
 echo ''
-echo '1. Google Chrome?'
-echo '2. Google Talk Plugin?'
-echo '3. Steam?'
-echo '4. Sublime Text?'
-echo '5. Minecraft Installer?'
-echo '6. Inkscape Stable?'
-echo 'r. Return'
+show_listitem '\t1. Google Chrome?'
+show_listitem '\t2. Dropbox?'
+show_listitem '\t3. Steam?'
+show_listitem '\t4. Sublime Text 3?'
+show_listitem '\t5. Minecraft?'
+show_listitem '\t6. ownCloud?'
+show_listitem '\t7. Slack?'
+show_listitem '\t8. Ruby Version Manager (RVM)?'
+show_listitem '\tr. Return'
 echo ''
-show_info 'Enter your choice:' && read REPLY
+show_question 'Enter your choice:' && read REPLY
 case $REPLY in
-# Google Chrome
-1) 
-    echo 'Downloading Google Chrome...'
-    # Download Debian file that matches system architecture
-    case `uname -i` in
-        i386|i486|i586|i686)
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb # Uncomment this if you want to use the stable version
-            # wget https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb # Uncomment this if you want to use the beta version
-            # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb # Uncomment this if you want to use the unstable version
-            ;;
-        x86_64)
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb # Uncomment this if you want to use the stable version
-            # wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb # Uncomment this if you want to use the beta version
-            # wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb # Uncomment this if you want to use the unstable version
-            ;;
-        *)
-            show_error "Couldn't find a download that matches your system." && thirdparty
-            ;;
-    esac
-    # Install package(s)
-    echo 'Installing Google Chrome...'
-    echo 'Requires root privileges:'
-    sudo dpkg -i google-chrome*.deb
-    sudo apt-get install -fy
-    # Cleanup and finish
-    rm google-chrome*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Google Talk Plugin
-2)
-    echo 'Downloading Google Talk Plugin...'
-    # Download Debian file that matches system architecture
-    case `uname -i` in
-        i386|i486|i586|i686)
-            wget https://dl.google.com/linux/direct/google-talkplugin_current_i386.deb
-            ;;
-        x86_64)
-            wget https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb
-            ;;
-        *)
-            show_error "Couldn't find a download that matches your system." && thirdparty
-            ;;
-    esac
-    # Install package(s)
-    echo 'Installing Google Talk Plugin...'
-    echo 'Requires root privileges:'
-    sudo dpkg -i google-talkplugin_current*.deb
-    sudo apt-get install -fy
-    # Cleanup and finish
-    rm google-talkplugin_current*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Steam
-3)
-    echo 'Downloading Steam...'
-    # Download Debian file that matches system architecture
-    case `uname -i` in
-        i386|i486|i586|i686)
-            wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
-            ;;
-        x86_64)
-            wget http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
-            ;;
-        *)
-            show_error "Couldn't find a download that matches your system." && thirdparty
-            ;; 
-    esac
-    # Install package(s)
-    echo 'Installing Steam...'
-    echo 'Requires root privileges:'
-    sudo dpkg -i steam*.deb
-    sudo apt-get install -fy
-    echo 'Installing Steam dependencies...'
-    echo 'Requires root privileges:'
-    sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
-    # Cleanup and finish
-    rm steam*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Sublime Text 3 (build 3083)
-4)
-    echo 'Downloading Sublime Text 3 (build 3083)...'
-    # Download Debian file that matches system architecture
-    case `uname -i` in
-        i386|i486|i586|i686)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_i386.deb
-            ;;
-        x86_64)
-            wget http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb
-            ;;
-        *)
-            show_error "Couldn't find a download that matches your system." && thirdparty
-            ;;
-    esac
-    # Install package(s)
-    echo 'Installing Sublime Text 3 (build 3083)...'
-    echo 'Requires root privileges:'
-    sudo dpkg -i sublime-text_build-3083*.deb
-    sudo apt-get install -fy
-    # Create symbolic link
-    echo 'Creating symbolic link...'
-    echo 'Requires root privileges:'
-    sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
-    # Cleanup and finish
-    rm sublime-text_build-3083*.deb
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Minecraft Installer
-5)
-    # Add repository
-    echo 'Adding Minecraft Installer PPA to software sources...'
-    show_info 'Requires root privileges:'
-    sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install
-    echo 'Installing Minecraft Installer...'
-    sudo apt-get install -y minecraft-installer
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Inkscape Stable
-6)
-    # Add repository
-    echo 'Adding Inkscape Stable PPA to software sources...'
-    show_info 'Requires root privileges:'
-    sudo add-apt-repository ppa:inkscape.dev/stable
-    # Update repository information
-    echo 'Updating repository information...'
-    sudo apt-get update
-    # Install
-    echo 'Installing Inkscape Stable...'
-    sudo apt-get install --only-upgrade -y inkscape
-    show_success 'Done.'
-    thirdparty
-    ;;
-# Return
-[Rr]*) 
-    clear && main;;
-# Invalid choice
-* ) 
-    clear && show_error '\aNot an option, try again.' && thirdparty;;
+    1) google-chrome;;
+    2) dropbox;;
+    3) steam;;
+    4) sublime-text-3;;
+    5) minecraft;;
+    6) owncloud;;
+    7) slack;;
+    8) rvm;;
+    # Return
+    [Rr]*) clear && main;;
+    # Invalid choice
+    * )  clear && show_error '\aNot an option, try again.' && thirdparty;;
 esac
 }

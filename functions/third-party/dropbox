@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Dropbox
+function dropbox {
+	show_info 'Downloading Dropbox (2015.10.28)...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+	    i386|i486|i586|i686)
+	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_i386.deb
+	        ;;
+	    x86_64)
+	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+	        ;;
+	    *)
+	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        ;;
+	esac
+	# Install package(s)
+	show_info 'Installing Dropbox...'
+	show_question 'Requires root privileges:'
+	sudo dpkg -i dropbox*.deb
+	sudo apt-get install -fy
+	# Cleanup and finish
+	rm dropbox*.deb
+	show_success 'Done.'
+	thirdparty
+}

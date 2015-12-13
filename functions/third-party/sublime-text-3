@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Sublime Text 3
+function sublime-text-3 {
+	show_info 'Downloading Sublime Text 3 (build 3083)...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+	    i386|i486|i586|i686)
+	        curl -O http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_i386.deb
+	        ;;
+	    x86_64)
+	        curl -O http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3083_amd64.deb
+	        ;;
+	    *)
+	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        ;;
+	esac
+	# Install package(s)
+	show_info 'Installing Sublime Text 3 (build 3083)...'
+	show_question 'Requires root privileges:'
+	sudo dpkg -i sublime-text_build-3083*.deb
+	sudo apt-get install -fy
+	# Create symbolic link
+	echo 'Creating symbolic link...'
+	show_question 'Requires root privileges:'
+	sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
+	# Cleanup and finish
+	rm sublime-text_build-3083*.deb
+	show_success 'Done.'
+	thirdparty
+}

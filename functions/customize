@@ -3,12 +3,12 @@
 # CUSTOMIZATION
 function customize {
 echo ''
-show_info 'What would you like to do? '
+show_question 'What would you like to do? '
 echo ''
 echo '1. Configure system?'
 echo 'r. Return'
 echo ''
-show_info 'Enter your choice :' && read REPLY
+show_question 'Enter your choice :' && read REPLY
 case $REPLY in
     1) clear && config;; # System Configuration
     [Rr]*) clear && main;; # Return

@@ -10,7 +10,7 @@ FAVS="$dir/data/favourites.list"
 function favourites {
 # Install Favourite Applications
 echo ''
-echo 'Installing selected favourite applications...'
+show_info 'Installing favourite applications...'
 echo ''
 echo 'Current package list:'
 echo ''
@@ -19,12 +19,12 @@ do
 echo -e '\t'$package
 done
 echo ''
-show_info 'Proceed? (Y)es, (N)o : ' && read REPLY
+show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
 echo ''
 case $REPLY in
 # Positive action
 [Yy]* ) 
-    show_info 'Requires root privileges:'
+    show_question 'Requires root privileges:'
     # Feel free to change the contents of 'favourites.list' in the data folder to whatever suits your preference.
     sudo apt-get install -y --no-install-recommends $(cat $FAVS)
     show_success 'Done.'
