@@ -17,7 +17,7 @@ function dropbox {
 	esac
 	# Install package(s)
 	show_info 'Installing Dropbox...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo dpkg -i dropbox*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish

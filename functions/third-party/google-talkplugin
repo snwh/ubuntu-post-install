@@ -17,7 +17,7 @@ function google-talkplugin {
 	esac
 	# Install package(s)
 	echo 'Installing Google Talk Plugin...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo dpkg -i google-talkplugin_current*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish

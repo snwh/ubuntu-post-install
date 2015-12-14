@@ -12,7 +12,7 @@ case $REPLY in
 [Yy]* )
     # Update repository information
     show_info 'Updating repository information...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo apt-get update
     # Dist-Upgrade
     echo 'Performing system upgrade...'

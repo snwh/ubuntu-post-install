@@ -4,7 +4,7 @@
 function inkscape {
 	# Add repository
 	show_info 'Adding Inkscape Stable PPA to software sources...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo add-apt-repository ppa:inkscape.dev/stable
 	# Update repository information
 	show_info 'Updating repository information...'

@@ -9,7 +9,7 @@ case $REPLY in
 # Positive action
 [Yy]* ) 
     show_info 'Installing...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo apt-get install -y ubuntu-restricted-extras
     show_success 'Done.'
     main

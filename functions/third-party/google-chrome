@@ -21,7 +21,7 @@ function google-chrome {
     esac
     # Install package(s)
     echo 'Installing Google Chrome...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo dpkg -i google-chrome*.deb
     sudo apt-get install -fy
     # Cleanup and finish

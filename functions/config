@@ -5,10 +5,10 @@ function config {
 echo ''
 show_question 'What would you like to do? '
 echo ''
-show_listitem '\t1. Set preferred application-specific settings?'
-show_listitem '\t2. Show all startup applications?'
-show_listitem '\t3. Disable system crash dialogs (apport)?'
-show_listitem '\tr. Return'
+show_listitem '1. Set preferred application-specific settings?'
+show_listitem '2. Show all startup applications?'
+show_listitem '3. Disable system crash dialogs (apport)?'
+show_listitem 'r. Return'
 echo ''
 show_question 'Enter your choice:' && read REPLY
 case $REPLY in
@@ -42,7 +42,7 @@ case $REPLY in
 # Startup Applications
 2)
     show_info 'Changing display of startup applications...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
     cd
     show_success 'Done.'
@@ -51,7 +51,7 @@ case $REPLY in
 # Disable Apport
 3)
     show_info 'Disabling apport crash dialogs...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
     cd
     show_success 'Done.'

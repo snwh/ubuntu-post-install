@@ -17,7 +17,7 @@ function slack {
 	esac
 	# Install package(s)
 	show_info 'Installing Slack...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo dpkg -i slack-desktop-*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish

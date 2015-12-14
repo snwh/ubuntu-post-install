@@ -4,7 +4,7 @@
 function minecraft {
 	# Add repository
 	echo 'Adding Minecraft Installer PPA to software sources...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
 	# Update repository information
 	show_info 'Updating repository information...'

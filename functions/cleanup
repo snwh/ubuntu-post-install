@@ -36,7 +36,7 @@ case $REPLY in
     case $REPLY in
     # Positive action
     [Yy]* )
-        show_question 'Requires root privileges:'
+        show_warning 'Requires root privileges:'
         sudo apt-get purge -y $(cat $PURGED)
         show_success 'Done.'
         cleanup
@@ -59,7 +59,7 @@ case $REPLY in
     show_question 'Are you sure you want proceed? (Y)es, (N)o : ' && read REPLY
     case $REPLY in
         [Yy]* ) 
-            show_question 'Requires root privileges:'
+            show_warning 'Requires root privileges:'
             sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
             show_success 'Done.'
             cleanup
@@ -72,7 +72,7 @@ case $REPLY in
 # Remove Orphaned Packages
 3)
     show_info 'Removing orphaned packages...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo apt-get autoremove -y
     show_success 'Done.'
     cleanup
@@ -80,7 +80,7 @@ case $REPLY in
 # Remove residual config files?
 4)
     show_info 'Removing leftover configuration files...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     show_success 'Done.'
     cleanup
@@ -88,7 +88,7 @@ case $REPLY in
 # Clean Package Cache
 5)
     show_info 'Cleaning package cache...'
-    show_question 'Requires root privileges:'
+    show_warning 'Requires root privileges:'
     sudo apt-get clean
     show_success 'Done.'
     cleanup

@@ -24,10 +24,6 @@
 # tab width
 tabs 4
 clear
-echo ''
-echo '#------------------------------------#'
-echo '#     Ubuntu Post-Install Script     #'
-echo '#------------------------------------#'
 
 #----- FUNCTIONS -----#
 
@@ -40,22 +36,17 @@ dir="$(dirname "$0")"
 . $dir/functions/design
 . $dir/functions/development
 . $dir/functions/favourites
-. $dir/functions/gnome
 . $dir/functions/system
 . $dir/functions/upgrade
 . $dir/functions/thirdparty
 
 #----- MESSAGE FUNCTIONS -----#
 
-show_listitem() {
-echo -e "\033[0;37m$@\033[0m"
-}
-
 show_error() {
 echo -e "\033[1;31m$@\033[m" 1>&2
 }
 
-show_success() {
+show_info() {
 echo -e "\033[1;32m$@\033[0m"
 }
 
@@ -67,8 +58,16 @@ show_question() {
 echo -e "\033[1;34m$@\033[0m"
 }
 
-show_info() {
+show_success() {
 echo -e "\033[1;35m$@\033[0m"
+}
+
+show_header() {
+echo -e "\033[1;36m$@\033[0m"
+}
+
+show_listitem() {
+echo -e "\033[0;37m$@\033[0m"
 }
 
 #----- MAIN FUNCTIONS -----#
@@ -76,18 +75,22 @@ echo -e "\033[1;35m$@\033[0m"
 # Main
 function main {
 echo ''
+show_header '#------------------------------------#'
+show_header '#     Ubuntu Post-Install Script     #'
+show_header '#------------------------------------#'
+echo ''
 show_question 'What would you like to do? '
 echo ''
-show_listitem '\t1. Perform system update & upgrade?'
-show_listitem '\t2. Install favourite applications?'
-show_listitem '\t3. Install favourite system utilities?'
-show_listitem '\t4. Install favourite development tools?'
-show_listitem '\t5. Install favourite design tools?'
-show_listitem '\t7. Install Ubuntu Restricted Extras?'
-show_listitem '\t8. Install third-party applications?'
-show_listitem '\t9. Customize system?'
-show_listitem '\t10. Cleanup the system?'
-show_listitem '\tq. Quit?'
+show_listitem '1. Perform system update & upgrade?'
+show_listitem '2. Install favourite applications?'
+show_listitem '3. Install favourite system utilities?'
+show_listitem '4. Install favourite development tools?'
+show_listitem '5. Install favourite design tools?'
+show_listitem '7. Install Ubuntu Restricted Extras?'
+show_listitem '8. Install third-party applications?'
+show_listitem '9. Customize system?'
+show_listitem '10. Cleanup the system?'
+show_listitem 'q. Quit?'
 echo ''
 show_question 'Enter your choice :' && read REPLY
 case $REPLY in

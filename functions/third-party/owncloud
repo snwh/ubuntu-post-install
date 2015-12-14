@@ -4,7 +4,7 @@
 function owncloud {
 	# Add repository
 	show_info 'Adding ownCloud repository to software sources...'
-	show_question 'Requires root privileges:'
+	show_warning 'Requires root privileges:'
 	sudo sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/desktop/Ubuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list"
 	show_success 'Done.'
 	show_question 'Adding repository key...'
