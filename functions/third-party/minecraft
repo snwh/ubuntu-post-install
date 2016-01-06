@@ -3,14 +3,14 @@
 # Minecraft
 function minecraft {
 	# Add repository
-	echo 'Adding Minecraft Installer PPA to software sources...'
+	show_info 'Adding Minecraft Installer PPA to software sources...'
 	show_warning 'Requires root privileges'
 	sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
 	# Update repository information
 	show_info 'Updating repository information...'
 	sudo apt-get update
 	# Install
-	echo 'Installing Minecraft Installer...'
+	show_info 'Installing Minecraft Installer...'
 	sudo apt-get install -y minecraft-installer
     # Done
     show_success 'Done.'

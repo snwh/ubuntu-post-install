@@ -64,11 +64,12 @@ echo -e "\033[0;37m$@\033[0m"
 
 # Main
 function main {
+    eval `resize`
     MAIN=$(whiptail \
         --title "Ubuntu Post-Install Script" \
         --menu "\nWhat would you like to do?" \
         --cancel-button "Quit" \
-        20 78 8 \
+        $LINES $COLUMNS $(( $LINES - 8 )) \
         update      '  Perform system update' \
         favourites  '  Install favourite applications' \
         utilities   '  Install favourite system utilities' \

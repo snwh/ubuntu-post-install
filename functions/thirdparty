@@ -16,12 +16,13 @@ source $dir/functions/third-party/sublime-text
 
 # Install Third-Party Applications
 function thirdparty {
+    eval `resize`
     THIRDPARTY=$(whiptail \
         --title "Third-Party Installation" \
         --menu "\nWhat third-party software would you like to install?" \
         --ok-button "Install" \
         --cancel-button "Go Back" \
-        30 78 12 \
+        $LINES $COLUMNS $(( $LINES - 8 )) \
         'dropbox'           '  Dropbox' \
         'gnome'             '  Latest GNOME desktop' \
         'google-chrome'     '  Google Chrome' \

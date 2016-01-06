@@ -21,7 +21,7 @@ function sublime-text-3 {
 	sudo dpkg -i sublime-text_build-3083*.deb
 	sudo apt-get install -fy
 	# Create symbolic link
-	echo 'Creating symbolic link...'
+	show_info 'Creating symbolic link...'
 	show_warning 'Requires root privileges'
 	sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
 	# Cleanup and finish

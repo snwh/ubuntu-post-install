@@ -2,6 +2,7 @@
 
 # Google Chrome
 function google-chrome {
+eval `resize` 
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     status="0"
@@ -13,7 +14,7 @@ if [ $exitstatus = 0 ]; then
         "Which version of Chrome would you like to install?" \
         --ok-button "Install" \
         --cancel-button "Go Back" \
-        20 78 3 \
+        $LINES $COLUMNS $(( $LINES - 8 )) \
         "stable"    "Stable builds" ON \
         "beta"      "Beta builds" OFF \
         "unstable"  "Unstable builds" OFF \

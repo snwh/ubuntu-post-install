@@ -3,14 +3,14 @@
 # Java
 function oracle-java {
 	# Add repository
-	echo 'Adding WebUpd8 Oracle Java PPA to software sources...'
+	show_info 'Adding WebUpd8 Oracle Java PPA to software sources...'
 	show_warning 'Requires root privileges'
 	sudo add-apt-repository ppa:webupd8team/java
 	# Update repository information
 	show_info 'Updating repository information...'
 	sudo apt-get update
 	# Install
-	echo 'Installing Oracle Java 8...'
+	show_info 'Installing Oracle Java 8...'
 	sudo apt-get install -y oracle-java8-installer
     # Done
     show_success 'Done.'

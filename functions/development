@@ -6,7 +6,7 @@ DEVTOOLS="$dir/data/development.list"
 
 # Install Development Applications
 function development {
-    if (whiptail --title "Favourite Development Applications"  --yesno "Current list of favourite development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" 30 78) then
+    if (eval `resize` && whiptail --title "Favourite Development Applications"  --yesno "Current list of favourite development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" $LINES $COLUMNS $(( $LINES - 8 ))) then
         show_info 'Installing...'
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'development.list' in the data folder to whatever suits your preference.
