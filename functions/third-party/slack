@@ -12,16 +12,18 @@ function slack {
 	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb
 	        ;;
 	    *)
-	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        show_error "No packages available to download that matches your system." && thirdparty
 	        ;;
 	esac
 	# Install package(s)
 	show_info 'Installing Slack...'
-	show_warning 'Requires root privileges:'
+	show_warning 'Requires root privileges'
 	sudo dpkg -i slack-desktop-*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish
 	rm slack-desktop-*.deb
-	show_success 'Done.'
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty
 }

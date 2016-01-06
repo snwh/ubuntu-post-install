@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Spotify
+function spotify {
+	# Add the Spotify repository signing key to be able to verify downloaded packages
+	show_info 'Adding Spotify signing key to keyring...'
+	show_warning 'Requires root privileges'
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+	show_success 'Done.'
+	# Add the Spotify repository
+	show_info 'Adding Spotify repository to software sources...'
+	show_warning 'Requires root privileges'
+	echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
+	# Update repository information
+	show_info 'Updating repository information...'
+	sudo apt-get update
+	# Install
+	show_info 'Installing Spotify Client...'
+	sudo apt-get install spotify-client
+	show_success 'Done.'
+	# Fix shared libraries error for 'libgcrypt.so.11'
+	show_info "Downloading package to provide missing 'libgcrypt.so.11'..."
+	case `uname -i` in
+	    i386|i486|i586|i686)
+	        curl -O https://launchpadlibrarian.net/201289903/libgcrypt11_1.5.3-2ubuntu4.2_i386.deb
+	        ;;
+	    x86_64)
+	        curl -O https://launchpadlibrarian.net/201289896/libgcrypt11_1.5.3-2ubuntu4.2_amd64.deb
+	        ;;
+	    *)
+	        show_error "No packages available to download that matches your system." && thirdparty
+	        ;; 
+	esac
+	show_info "Installing 'libgcrypt11'..."
+	show_warning 'Requires root privileges'
+	sudo dpkg -i libgcrypt11*.deb
+	sudo apt-get install -fy
+	# Cleanup and finish
+	rm libgcrypt11*.deb
+	show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
+	thirdparty
+}

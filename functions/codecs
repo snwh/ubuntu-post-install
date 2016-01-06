@@ -1,26 +1,17 @@
 #!/bin/bash
 
-# INSTALL UBUNTU RESTRICTED EXTRAS
+# Install Ubuntu Restricted Extras
 function codecs {
-echo ''
-show_question 'Install Ubuntu Restricted Extras? (Y)es, (N)o :'
-read REPLY
-case $REPLY in
-# Positive action
-[Yy]* ) 
+if (whiptail --title "Multimedia Codecs" --yesno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
+    # Install Ubuntu Restricted Extras
     show_info 'Installing...'
-    show_warning 'Requires root privileges:'
+    show_warning 'Requires root privileges'
     sudo apt-get install -y ubuntu-restricted-extras
+    # Done
     show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
     main
-    ;;
-# Negative action
-[Nn]* )
-    clear && main;;
-# Error
-* )
-    clear && show_error '\aSorry, try again.' 
-    codecs
-    ;;
-esac
+else
+    clear && main
+fi
 }

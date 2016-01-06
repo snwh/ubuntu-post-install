@@ -1,103 +1,84 @@
 #!/bin/bash
 
-#----- DECLARATIONS -----#
-
 dir="$(dirname "$0")"
 
 PURGED="$dir/data/purge.list"
 
-# CLEANUP SYSTEM
-function cleanup {
-echo ''
-show_question 'What would you like to do? '
-echo ''
-echo '1. Remove unused pre-installed packages?'
-echo '2. Remove old kernel(s)?'
-echo '3. Remove orphaned packages?'
-echo '4. Remove leftover configuration files?'
-echo '5. Clean package cache?'
-echo 'r. Return?'
-echo ''
-show_question 'Enter your choice:' && read REPLY
-case $REPLY in
-# Remove Unused Pre-installed Packages
-1)
-    show_info 'Removing unused pre-installed applications...'
-    echo ''
-    echo 'Current package list:'
-    echo ''
-    for package in $(cat $PURGED)
-    do 
-    echo -e '\t'$package
-    done
-    echo ''
-    show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
-    echo ''
-    case $REPLY in
-    # Positive action
-    [Yy]* )
-        show_warning 'Requires root privileges:'
-        sudo apt-get purge -y $(cat $PURGED)
+function unused {
+    if (whiptail --title "Remove Pre-installed Applications"  --yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" 30 78) then
+        show_info 'Removing pre-installed applications...'
+        show_warning 'Requires root privileges'
+        # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
+        sudo apt-get remove -y $(cat $PURGED)
+        # Done
         show_success 'Done.'
+        whiptail --title "Finished" --msgbox "Installation complete." 8 78
+        main
+    else
+        clear && main
+    fi
+}
+
+# Remove old kernels
+function kernels {
+    if (whiptail --title "Remove Outdated Kernels" --yesno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
+        show_info 'Removing outdated kernel(s)...'
+        show_warning 'Requires root privileges'
+        sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
+        show_success 'Done.'
+        whiptail --title "Finished" --msgbox "Outdated kernels have been successfully removed." 8 78
         cleanup
-        ;;
-    # Negative action
-    [Nn]* )
+    else
         clear && cleanup
-        ;;
-    # Error
-    * )
-        clear && show_error '\aSorry, try again.'
-        cleanup
-        ;;
-    esac
-    ;;
-# Remove Old Kernel(s)
-2)
-    show_info 'Removing old Kernel(s)...'
-    show_warning "If you're not currently using the newest kernel installed on your system, the following may break it."
-    show_question 'Are you sure you want proceed? (Y)es, (N)o : ' && read REPLY
-    case $REPLY in
-        [Yy]* ) 
-            show_warning 'Requires root privileges:'
-            sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
-            show_success 'Done.'
-            cleanup
-            ;;
-        [Nn]* ) cleanup;;
-        * ) clear && show_error 'Sorry, try again.' &&  cleanup;;
-    esac
-    cleanup
-    ;;
+    fi
+}
+
 # Remove Orphaned Packages
-3)
+function orphaned {
     show_info 'Removing orphaned packages...'
-    show_warning 'Requires root privileges:'
+    show_warning 'Requires root privileges'
     sudo apt-get autoremove -y
     show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
     cleanup
-    ;;
-# Remove residual config files?
-4)
+}
+
+function leftovers {
     show_info 'Removing leftover configuration files...'
-    show_warning 'Requires root privileges:'
+    show_warning 'Requires root privileges'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
     cleanup
-    ;;
-# Clean Package Cache
-5)
+}
+
+function clean-cache {
     show_info 'Cleaning package cache...'
-    show_warning 'Requires root privileges:'
+    show_warning 'Requires root privileges'
     sudo apt-get clean
     show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
     cleanup
-    ;;
-# Return
-[Rr]*) 
-    clear && main;;
-# Invalid choice
-* ) 
-    clear && show_error '\aNot an option, try again.' && cleanup;;
-esac
+}
+
+# Cleanup System
+function cleanup {
+    CLEANUP=$(whiptail \
+        --title "System Cleanup" \
+        --menu "\nWhat would you like to do?" \
+        --cancel-button "Go Back" \
+        20 78 5 \
+        clean-cache '  Clean package cache' \
+        kernels     '  Remove old kernel(s)' \
+        leftovers   '  Remove leftover configuration files' \
+        orphaned    '  Remove orphaned packages' \
+        unused      '  Remove unused pre-installed packages' \
+        3>&1 1>&2 2>&3)
+     
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        clear && $CLEANUP
+    else
+        clear && main
+    fi
 }

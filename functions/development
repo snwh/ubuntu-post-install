@@ -1,41 +1,21 @@
 #!/bin/bash
 
-#----- DECLARATIONS -----#
-
 dir="$(dirname "$0")"
 
 DEVTOOLS="$dir/data/development.list"
 
-#INSTALL DEVTOOLS TOOLS
+# Install Development Applications
 function development {
-echo ''
-show_info 'Installing favourite development tools...'
-echo ''
-echo 'Current package list:'
-echo ''
-for package in $(cat $DEVTOOLS)
-do 
-echo -e '\t'$package
-done
-echo ''
-show_question 'Proceed? (Y)es, (N)o : ' && read REPLY
-echo ''
-case $REPLY in
-# Positive action
-[Yy]* ) 
-    show_warning 'Requires root privileges:'
-    # Feel free to change the contents of "development-tools.list" in the data folder to whatever suits your preference.
-    sudo apt-get install -y $(cat $DEVTOOLS)
-    show_success 'Done.'
-    main
-    ;;
-# Negative action
-[Nn]* ) 
-    clear && main
-    ;;
-# Error
-* )
-    clear && show_error '\aSorry, try again.' && development
-    ;;
-esac
+    if (whiptail --title "Favourite Development Applications"  --yesno "Current list of favourite development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" 30 78) then
+        show_info 'Installing...'
+        show_warning 'Requires root privileges'
+        # Feel free to change the contents of 'development.list' in the data folder to whatever suits your preference.
+        sudo apt-get install -y $(cat $DEVTOOLS)
+        # Done
+        show_success 'Done.'
+        whiptail --title "Finished" --msgbox "Installation complete." 8 78
+        main
+    else
+        clear && main
+    fi
 }

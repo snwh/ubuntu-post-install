@@ -12,20 +12,22 @@ function steam {
 	        curl -O http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
 	        ;;
 	    *)
-	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        show_error "No packages available to download that matches your system." && thirdparty
 	        ;; 
 	esac
 	# Install package(s)
 	show_info 'Installing Steam...'
-	show_warning 'Requires root privileges:'
+	show_warning 'Requires root privileges'
 	sudo dpkg -i steam*.deb
 	sudo apt-get install -fy
 	# Install dependencies
 	show_info 'Installing Steam dependencies...'
-	show_warning 'Requires root privileges:'
+	show_warning 'Requires root privileges'
 	sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
 	# Cleanup and finish
 	rm steam*.deb
-	show_success 'Done.'
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty
 }

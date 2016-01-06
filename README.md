@@ -1,13 +1,11 @@
 Ubuntu Post Install Script
 ==========================
 
-Original Author: Sam Hewitt
+This project provides a set of shell scripts to be run after a fresh install of an Ubuntu(-based) OS. It will install your favourite applications, set your preferred settings, etc.
 
-License: GPLv3
+Feel free to copy, improve and distribute.
 
-Original source can be found [here](https://github.com/snwh/ubuntu-post-install).
-
-You can get the latest version from the git repository:
+You can get the latest version from the original git repository:
 
     git clone https://github.com/snwh/ubuntu-post-install.git
 
@@ -15,16 +13,10 @@ You can get the latest version from the git repository:
 
 Run from source folder:
 
-    bash ubuntu-post-install-script.sh
+    ./ubuntu-post-install-script.sh
 
-Or if you like, put it somewhere and add it to your custom Bash paths to run whenever.
+Or if you like, add the script's location to your custom shell paths to run on-demand.
 
-	export PATH=${PATH}:$HOME/whereever/post-install-script-ubuntu/
+	export PATH=${PATH}:$HOME/whereever/ubuntu-post-install/
 
-##About:
-
-This project provides a simple set of bash scripts for simplifying the setup of a fresh system installation by installing your favourite applications, setting up system configurations, etc.
-
-It is compatible with both 32 and 64 bit architectures 
-
-Feel free to copy, improve and distribute.
+Note: The included [preferences](functions/configure) and [lists of packages](data) are those of the original author, you will have to change them to suit yourself.

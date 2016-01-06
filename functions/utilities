@@ -1,0 +1,21 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+UTILS="$dir/data/utilities.list"
+
+# Install Favourite System Utilities
+function utilities {
+    if (whiptail --title "Favourite System Utilities"  --yesno "Current list of favourite system utilities: \n\n$(cat $UTILS) \n\nProceed with installation?" 30 78) then
+        show_info 'Installing...'
+        show_warning 'Requires root privileges'
+        # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
+        sudo apt-get install -y --no-install-recommends $(cat $UTILS)
+        # Done
+        show_success 'Done.'
+        whiptail --title "Finished" --msgbox "Installation complete." 8 78
+        main
+    else
+        clear && main
+    fi
+}

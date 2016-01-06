@@ -3,45 +3,44 @@
 dir="$(dirname "$0")"
 
 source $dir/functions/third-party/dropbox
-source $dir/functions/third-party/google-chrome
 source $dir/functions/third-party/gnome
+source $dir/functions/third-party/google-chrome
 source $dir/functions/third-party/minecraft
+source $dir/functions/third-party/oracle-java
 source $dir/functions/third-party/owncloud
 source $dir/functions/third-party/rvm
 source $dir/functions/third-party/slack
+source $dir/functions/third-party/spotify
 source $dir/functions/third-party/steam
-source $dir/functions/third-party/sublime-text-3
+source $dir/functions/third-party/sublime-text
 
-# THIRD PARTY APPLICATIONS
+# Install Third-Party Applications
 function thirdparty {
-echo ''
-show_question 'What would you like to install? '
-echo ''
-show_listitem '1. Google Chrome?'
-show_listitem '2. Dropbox?'
-show_listitem '3. Steam?'
-show_listitem '4. Sublime Text 3?'
-show_listitem '5. Minecraft?'
-show_listitem '6. ownCloud?'
-show_listitem '7. Slack?'
-show_listitem '8. Ruby Version Manager (RVM)?'
-show_listitem '9. Latest GNOME desktop?'
-show_listitem 'r. Return'
-echo ''
-show_question 'Enter your choice:' && read REPLY
-case $REPLY in
-    1) google-chrome;;
-    2) dropbox;;
-    3) steam;;
-    4) sublime-text-3;;
-    5) minecraft;;
-    6) owncloud;;
-    7) slack;;
-    8) rvm;;
-    9) gnome;;
-    # Return
-    [Rr]*) clear && main;;
-    # Invalid choice
-    * )  clear && show_error '\aNot an option, try again.' && thirdparty;;
-esac
+    THIRDPARTY=$(whiptail \
+        --title "Third-Party Installation" \
+        --menu "\nWhat third-party software would you like to install?" \
+        --ok-button "Install" \
+        --cancel-button "Go Back" \
+        30 78 12 \
+        'dropbox'           '  Dropbox' \
+        'gnome'             '  Latest GNOME desktop' \
+        'google-chrome'     '  Google Chrome' \
+        'minecraft'         '  Minecraft' \
+        'oracle-java'       '  Oracle Java 8' \
+        'owncloud'          '  ownCloud client' \
+        'rvm'               '  Ruby Version Manager (RVM)' \
+        'slack'             '  Slack' \
+        'spotify'           '  Spotify' \
+        'steam'             '  Steam' \
+        'sublime-text'      '  Sublime Text 3' \
+        'vocal'             '  Vocal podcast app' \
+        3>&1 1>&2 2>&3)
+     
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        clear && $THIRDPARTY
+    else
+        clear && main
+    fi
 }
+

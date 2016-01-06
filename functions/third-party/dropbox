@@ -12,16 +12,18 @@ function dropbox {
 	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
 	        ;;
 	    *)
-	        show_error "Couldn't find a download that matches your system." && thirdparty
+	        show_error "No packages available to download that matches your system." && thirdparty
 	        ;;
 	esac
 	# Install package(s)
 	show_info 'Installing Dropbox...'
-	show_warning 'Requires root privileges:'
+	show_warning 'Requires root privileges'
 	sudo dpkg -i dropbox*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish
 	rm dropbox*.deb
-	show_success 'Done.'
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty
 }
