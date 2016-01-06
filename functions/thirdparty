@@ -18,23 +18,24 @@ source $dir/functions/third-party/sublime-text
 function thirdparty {
     eval `resize`
     THIRDPARTY=$(whiptail \
+        --notags \
         --title "Third-Party Installation" \
         --menu "\nWhat third-party software would you like to install?" \
         --ok-button "Install" \
         --cancel-button "Go Back" \
-        $LINES $COLUMNS $(( $LINES - 8 )) \
-        'dropbox'           '  Dropbox' \
-        'gnome'             '  Latest GNOME desktop' \
-        'google-chrome'     '  Google Chrome' \
-        'minecraft'         '  Minecraft' \
-        'oracle-java'       '  Oracle Java 8' \
-        'owncloud'          '  ownCloud client' \
-        'rvm'               '  Ruby Version Manager (RVM)' \
-        'slack'             '  Slack' \
-        'spotify'           '  Spotify' \
-        'steam'             '  Steam' \
-        'sublime-text'      '  Sublime Text 3' \
-        'vocal'             '  Vocal podcast app' \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        'dropbox'           'Dropbox' \
+        'gnome'             'Latest GNOME desktop' \
+        'google-chrome'     'Google Chrome' \
+        'minecraft'         'Minecraft' \
+        'oracle-java'       'Oracle Java 8' \
+        'owncloud'          'ownCloud client' \
+        'rvm'               'Ruby Version Manager (RVM)' \
+        'slack'             'Slack' \
+        'spotify'           'Spotify' \
+        'steam'             'Steam' \
+        'sublime-text'      'Sublime Text 3' \
+        'vocal'             'Vocal podcast app' \
         3>&1 1>&2 2>&3)
      
     exitstatus=$?

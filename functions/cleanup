@@ -5,7 +5,11 @@ dir="$(dirname "$0")"
 PURGED="$dir/data/purge.list"
 
 function unused {
-    if (whiptail --title "Remove Pre-installed Applications"  --yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" 10 78) then
+    if (eval `resize` && whiptail \
+        --title "Remove Pre-installed Applications" \
+        --yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        --scrolltext ) then
         show_info 'Removing pre-installed applications...'
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
@@ -65,15 +69,16 @@ function clean-cache {
 function cleanup {
     eval `resize` 
     CLEANUP=$(whiptail \
+        --notags \
         --title "System Cleanup" \
         --menu "\nWhat would you like to do?" \
         --cancel-button "Go Back" \
-        $LINES $COLUMNS $(( $LINES - 8 )) \
-        clean-cache '  Clean package cache' \
-        kernels     '  Remove old kernel(s)' \
-        leftovers   '  Remove leftover configuration files' \
-        orphaned    '  Remove orphaned packages' \
-        unused      '  Remove unused pre-installed packages' \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        clean-cache 'Clean package cache' \
+        leftovers   'Remove leftover configuration files' \
+        orphaned    'Remove orphaned packages' \
+        unused      'Remove unused pre-installed packages' \
+        kernels     'Remove old kernel(s)' \
         3>&1 1>&2 2>&3)
      
     exitstatus=$?

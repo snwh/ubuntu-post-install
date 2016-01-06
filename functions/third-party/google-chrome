@@ -14,7 +14,7 @@ if [ $exitstatus = 0 ]; then
         "Which version of Chrome would you like to install?" \
         --ok-button "Install" \
         --cancel-button "Go Back" \
-        $LINES $COLUMNS $(( $LINES - 8 )) \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
         "stable"    "Stable builds" ON \
         "beta"      "Beta builds" OFF \
         "unstable"  "Unstable builds" OFF \

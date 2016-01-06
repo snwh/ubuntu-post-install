@@ -66,18 +66,19 @@ echo -e "\033[0;37m$@\033[0m"
 function main {
     eval `resize`
     MAIN=$(whiptail \
+        --notags \
         --title "Ubuntu Post-Install Script" \
         --menu "\nWhat would you like to do?" \
         --cancel-button "Quit" \
-        $LINES $COLUMNS $(( $LINES - 8 )) \
-        update      '  Perform system update' \
-        favourites  '  Install favourite applications' \
-        utilities   '  Install favourite system utilities' \
-        development '  Install favourite development tools' \
-        codecs      '  Install Ubuntu Restricted Extras' \
-        thirdparty  '  Install third-party applications' \
-        configure   '  Configure system' \
-        cleanup     '  Cleanup the system' \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        update      'Perform system update' \
+        favourites  'Install favourite applications' \
+        utilities   'Install favourite system utilities' \
+        development 'Install favourite development tools' \
+        codecs      'Install Ubuntu Restricted Extras' \
+        thirdparty  'Install third-party applications' \
+        configure   'Configure system' \
+        cleanup     'Cleanup the system' \
         3>&1 1>&2 2>&3)
      
     exitstatus=$?
