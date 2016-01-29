@@ -12,7 +12,7 @@ source $dir/functions/third-party/rvm
 source $dir/functions/third-party/slack
 source $dir/functions/third-party/spotify
 source $dir/functions/third-party/steam
-source $dir/functions/third-party/sublime-text
+source $dir/functions/third-party/sublime-text3
 
 # Install Third-Party Applications
 function thirdparty {
@@ -34,7 +34,7 @@ function thirdparty {
         'slack'             'Slack' \
         'spotify'           'Spotify' \
         'steam'             'Steam' \
-        'sublime-text'      'Sublime Text 3' \
+        'sublime-text3'      'Sublime Text 3' \
         'vocal'             'Vocal podcast app' \
         3>&1 1>&2 2>&3)
      

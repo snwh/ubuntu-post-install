@@ -1,18 +1,24 @@
 #!/bin/bash
 
+dir="$(dirname "$0")"
+
+DEPS="$dir/data/dependencies.list"
+
 # Dependency Check
 function check {
     show_info "Checking dependencies..."
-    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' whiptail|grep "install ok installed")
+    for package in $(cat $DEPS)
+    do 
+    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info "This script makes use of 'whiptail' and it is not present on your system."
+        show_info "This script makes use of '$package' and it is not present on your system."
         show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
         echo ''
         case $REPLY in
         # Positive action
         [Yy]* ) 
             show_warning 'Requires root privileges'
-            sudo apt-get --force-yes --yes install whiptail
+            sudo apt-get --force-yes --yes install $package
             show_success 'Done. Proceeding.'
             main
             ;;
@@ -23,10 +29,12 @@ function check {
             ;;
         # Error
         * )
-            clear && show_error '\aSorry, try again.' && dependencies
+            clear && show_error '\aSorry, try again.' && check
             ;;
         esac
     else
         show_info "All clear."
     fi
+    done
+    
 }
