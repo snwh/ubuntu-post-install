@@ -16,7 +16,7 @@ function owncloud {
 	sudo apt-get update
 	# Install
 	show_info 'Installing ownCloud client...'
-	sudo apt-get install owncloud-client
+	sudo apt-get install -y owncloud-client
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

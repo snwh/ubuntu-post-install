@@ -16,7 +16,7 @@ function spotify {
 	sudo apt-get update
 	# Install
 	show_info 'Installing Spotify Client...'
-	sudo apt-get install spotify-client
+	sudo apt-get install -y spotify-client
 	show_success 'Done.'
 	# Fix shared libraries error for 'libgcrypt.so.11'
 	show_info "Downloading package to provide missing 'libgcrypt.so.11'..."
