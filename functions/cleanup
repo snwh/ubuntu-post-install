@@ -17,9 +17,9 @@ function unused {
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Installation complete." 8 78
-        main
+        cleanup
     else
-        clear && main
+        clear && cleanup
     fi
 }
 

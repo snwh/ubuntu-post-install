@@ -33,8 +33,7 @@ function check {
             ;;
         esac
     else
-        show_info "All clear."
+        show_info "'$package' is installed. Proceeding"
     fi
     done
-    
 }

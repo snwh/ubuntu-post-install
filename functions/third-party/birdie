@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Birdie
+function birdie {
+	# Add repository
+	show_info 'Adding Birdie (Daily) PPA to software sources...'
+	show_warning 'Requires root privileges'
+	sudo add-apt-repository ppa:birdie-team/daily
+	# Update repository information
+	show_info 'Updating repository information...'
+	sudo apt-get update
+	# Install
+	show_info 'Installing Birdie...'
+	sudo apt-get install -y birdie
+	show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
+	thirdparty
+}
