@@ -6,17 +6,17 @@ PURGED="$dir/data/purge.list"
 
 function unused {
     if (eval `resize` && whiptail \
-        --title "Remove Pre-installed Applications" \
+        --title "Remove Un-used Pre-installed Applications" \
         --yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then
-        show_info 'Removing pre-installed applications...'
+        show_info 'Removing unused pre-installed applications...'
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
         sudo apt-get remove -y $(cat $PURGED)
         # Done
         show_success 'Done.'
-        whiptail --title "Finished" --msgbox "Installation complete." 8 78
+        whiptail --title "Finished" --msgbox "Removal complete." 8 78
         cleanup
     else
         clear && cleanup

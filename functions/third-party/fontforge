@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# FontForge
+function fontforge {
+    # Add repository
+    show_info 'Adding FontForge PPA to software sources...'
+    show_warning 'Requires root privileges'
+    sudo add-apt-repository ppa:fontforge/fontforge
+    # Update repository information
+    show_info 'Updating repository information...'
+    sudo apt-get update
+    # Install
+    show_info 'Installing fontforge Stable...'
+    sudo apt-get install --only-upgrade -y fontforge
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
+    thirdparty
+}

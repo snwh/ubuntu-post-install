@@ -20,7 +20,6 @@ function check {
             show_warning 'Requires root privileges'
             sudo apt-get --force-yes --yes install $package
             show_success 'Done. Proceeding.'
-            main
             ;;
         # Negative action
         [Nn]* )
