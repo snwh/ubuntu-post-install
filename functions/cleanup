@@ -7,7 +7,7 @@ PURGED="$dir/data/purge.list"
 function unused {
     if (eval `resize` && whiptail \
         --title "Remove Un-used Pre-installed Applications" \
-        --yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
+        -yno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then
         show_info 'Removing unused pre-installed applications...'
@@ -25,7 +25,7 @@ function unused {
 
 # Remove old kernels
 function kernels {
-    if (whiptail --title "Remove Outdated Kernels" --yesno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
+    if (whiptail --title "Remove Outdated Kernels" -yno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
         show_info 'Removing outdated kernel(s)...'
         show_warning 'Requires root privileges'
         sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge

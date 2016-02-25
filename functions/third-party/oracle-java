@@ -8,10 +8,11 @@ function oracle-java {
 	sudo add-apt-repository ppa:webupd8team/java
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update
+	sudo apt-get update -qq -y
+    show_success 'Done.'
 	# Install
 	show_info 'Installing Oracle Java 8...'
-	sudo apt-get install -y oracle-java8-installer
+	sudo apt-get install -y -qq oracle-java8-installer
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

@@ -8,10 +8,11 @@ function vocal {
 	sudo add-apt-repository ppa:nathandyer/vocal-daily
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update
+	sudo apt-get update -qq -y
+    show_success 'Done.'
 	# Install
 	show_info 'Installing Vocal...'
-	sudo apt-get install -y vocal
+	sudo apt-get install -y -qq vocal
 	show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty

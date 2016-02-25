@@ -18,7 +18,7 @@ function check {
         # Positive action
         [Yy]* ) 
             show_warning 'Requires root privileges'
-            sudo apt-get --force-yes --yes install $package
+            sudo apt-get --force-yes -y install $package
             show_success 'Done. Proceeding.'
             ;;
         # Negative action

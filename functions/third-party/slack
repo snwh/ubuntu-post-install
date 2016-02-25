@@ -2,14 +2,14 @@
 
 # Slack
 function slack {
-	show_info 'Downloading Slack (v1.2.6)...'
+	show_info 'Downloading Slack (v2.0.0)...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 	    i386|i486|i586|i686)
-	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-i386.deb
+	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-i386.deb
 	        ;;
 	    x86_64)
-	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb
+	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-amd64.deb
 	        ;;
 	    *)
 	        show_error "No packages available to download that matches your system." && thirdparty

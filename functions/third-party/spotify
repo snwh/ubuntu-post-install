@@ -13,10 +13,11 @@ function spotify {
 	echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update
+	sudo apt-get update -qq -y
+    show_success 'Done.'
 	# Install
 	show_info 'Installing Spotify Client...'
-	sudo apt-get install -y spotify-client
+	sudo apt-get install -y -qq spotify-client
 	show_success 'Done.'
 	# Fix shared libraries error for 'libgcrypt.so.11'
 	show_info "Downloading package to provide missing 'libgcrypt.so.11'..."
