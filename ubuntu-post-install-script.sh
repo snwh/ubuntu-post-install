@@ -91,7 +91,7 @@ function main {
 
 # Quit
 function quit {
-    if (whiptail --title "Quit" -yesno "Are you sure you want quit?" 10 60) then
+    if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
         exit 99
     else
         clear && main
