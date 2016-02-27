@@ -7,7 +7,7 @@ UTILS="$dir/data/utilities.list"
 # Install Favourite System Utilities
 function utilities {
     if (eval `resize` && whiptail --title \
-        "Favourite System Utilities"  -yno \
+        "Favourite System Utilities"  -yesno \
         "Current list of favourite system utilities: \n\n$(cat $UTILS) \n\nProceed with installation?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then

@@ -2,7 +2,7 @@
 
 # Install Ubuntu Restricted Extras
 function codecs {
-if (whiptail --title "Multimedia Codecs" -yno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
+if (whiptail --title "Multimedia Codecs" -yesno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
     # Install Ubuntu Restricted Extras
     show_info 'Installing...'
     show_warning 'Requires root privileges'
