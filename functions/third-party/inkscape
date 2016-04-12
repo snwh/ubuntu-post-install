@@ -8,7 +8,7 @@ function inkscape {
 	sudo add-apt-repository ppa:inkscape.dev/stable
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -qq -y
+	sudo apt-get update -y
     show_success 'Done.'
 	# Install
 	show_info 'Installing Inkscape Stable...'

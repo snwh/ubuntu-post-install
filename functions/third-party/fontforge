@@ -8,7 +8,7 @@ function fontforge {
     sudo add-apt-repository ppa:fontforge/fontforge
     # Update repository information
     show_info 'Updating repository information...'
-    sudo apt-get update -qq -y
+    sudo apt-get update -y
     show_success 'Done.'
     # Install
     show_info 'Installing fontforge Stable...'

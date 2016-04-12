@@ -14,7 +14,7 @@ function favourites {
         show_info 'Installing...'
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'favourites.list' in the data folder to whatever suits your preference.
-        sudo apt-get install -y -qq --no-install-recommends $(cat $FAVS)
+        sudo apt-get install -y --no-install-recommends $(cat $FAVS)
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Installation complete." 8 78

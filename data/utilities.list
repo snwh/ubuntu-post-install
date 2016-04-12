@@ -1,12 +1,7 @@
-brasero
 dconf-tools
 gnome-disk-utility
 icedtea-plugin
-icontool
-libav-tools
-mediainfo
-mtpfs
-openjdk-7-jdk
+openjdk-9-jdk
 openssh-server
 p7zip-full
 ppa-purge
@@ -16,6 +11,4 @@ software-properties-common
 ssh
 symlinks
 synaptic
-vino
-virtualbox
 zsync

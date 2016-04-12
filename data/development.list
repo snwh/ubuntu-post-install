@@ -9,6 +9,6 @@ libgtk-3-dev
 nodejs
 npm
 ruby
-php5-cli
+php-cli
 valac
 x11-apps

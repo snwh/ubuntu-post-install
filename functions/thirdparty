@@ -2,11 +2,12 @@
 
 dir="$(dirname "$0")"
 
-source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/birdie
+source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/fontforge
 source $dir/functions/third-party/gnome
 source $dir/functions/third-party/google-chrome
+source $dir/functions/third-party/keybase
 source $dir/functions/third-party/minecraft
 source $dir/functions/third-party/oracle-java
 source $dir/functions/third-party/owncloud
@@ -31,6 +32,7 @@ function thirdparty {
         'dropbox'           'Dropbox' \
         'gnome'             'Latest GNOME desktop' \
         'google-chrome'     'Google Chrome' \
+        'keybase'           'Keybase' \
         'fontforge'         'FontForge' \
         'minecraft'         'Minecraft' \
         'oracle-java'       'Oracle Java 8' \

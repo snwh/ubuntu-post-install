@@ -8,12 +8,12 @@ function gnome {
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -qq -y
+	sudo apt-get update -y
     show_success 'Done.'
 	# Install
     echo 'Installing GNOME Desktop...'
     show_warning 'Requires root privileges'
-    sudo apt-get install -y -qq fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
+    sudo apt-get install -y fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# keybase
+function keybase {
+	show_info 'Downloading Keybase...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+	    i386|i486|i586|i686)
+	        curl -O https://dist.keybase.io/linux/deb/keybase-latest-i386.deb
+	        ;;
+	    x86_64)
+	        curl -O https://dist.keybase.io/linux/deb/keybase-latest-amd64.deb
+	        ;;
+	    *)
+	        show_error "No packages available to download that matches your system." && thirdparty
+	        ;;
+	esac
+	# Install package(s)
+	show_info 'Installing Keybase...'
+	show_warning 'Requires root privileges'
+	sudo dpkg -i keybase-latest*.deb
+	sudo apt-get install -fy
+	# Cleanup and finish
+	rm keybase-latest*.deb
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Installation complete." 8 78
+	thirdparty
+}

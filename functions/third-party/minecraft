@@ -8,11 +8,11 @@ function minecraft {
 	sudo add-apt-repository ppa:minecraft-installer-peeps/minecraft-installer
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -qq -y
+	sudo apt-get update -y
     show_success 'Done.'
 	# Install
 	show_info 'Installing Minecraft Installer...'
-	sudo apt-get install -y -qq minecraft-installer
+	sudo apt-get install -y minecraft-installer
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

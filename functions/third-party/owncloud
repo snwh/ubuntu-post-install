@@ -13,11 +13,11 @@ function owncloud {
 	show_success 'Done.'
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -qq -y
+	sudo apt-get update -y
     show_success 'Done.'
 	# Install
 	show_info 'Installing ownCloud client...'
-	sudo apt-get install -y -qq owncloud-client
+	sudo apt-get install -y owncloud-client
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

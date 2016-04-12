@@ -8,11 +8,11 @@ function birdie {
 	sudo add-apt-repository ppa:birdie-team/daily
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -qq -y
+	sudo apt-get update -y
     show_success 'Done.'
 	# Install
 	show_info 'Installing Birdie...'
-	sudo apt-get install -y -qq birdie
+	sudo apt-get install -y birdie
 	show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty

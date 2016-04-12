@@ -6,7 +6,7 @@ if (whiptail --title "Multimedia Codecs" --yesno "Install Ubuntu Restricted Extr
     # Install Ubuntu Restricted Extras
     show_info 'Installing...'
     show_warning 'Requires root privileges'
-    sudo apt-get install -y -qq ubuntu-restricted-extras
+    sudo apt-get install -y ubuntu-restricted-extras
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78
