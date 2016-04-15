@@ -30,7 +30,7 @@ function thirdparty {
         $LINES $COLUMNS $(( $LINES - 12 )) \
         'birdie'            'Birdie Twitter client' \
         'dropbox'           'Dropbox' \
-        'gnome'             'Latest GNOME desktop' \
+        'gnome'             'GNOME desktop' \
         'google-chrome'     'Google Chrome' \
         'keybase'           'Keybase' \
         'fontforge'         'FontForge' \

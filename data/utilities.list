@@ -1,13 +1,11 @@
 dconf-tools
 gnome-disk-utility
-icedtea-plugin
-openjdk-9-jdk
+gnome-tweak-tool
 openssh-server
 p7zip-full
-ppa-purge
 rsync
 samba
-software-properties-common
+laptop-mode-tools
 ssh
 symlinks
 synaptic

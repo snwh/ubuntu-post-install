@@ -1,21 +1,75 @@
 #!/bin/bash
 
-# GNOME
+dir="$(dirname "$0")"
+
+GNOMEAPPS="$dir/data/gnome-apps.list"
+
+# Cleanup System
 function gnome {
+    eval `resize` 
+    GNOME=$(whiptail \
+        --notags \
+        --title "Install Latest GNOME" \
+        --menu "\nWhat would you like to do?" \
+        --cancel-button "Go Back" \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        gnome-desktop   'Install GNOME Desktop' \
+        gnome-apps      'Install GNOME Apps' \
+        gnome-upgrade   'Update GNOME' \
+        3>&1 1>&2 2>&3)
+     
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        clear && $GNOME
+    else
+        clear && main
+    fi
+}
+
+# Add GNOME PPA
+function gnome-upgrade {
     # Add repository
     show_info 'Adding GNOME3 PPA to software sources...'
     show_warning 'Requires root privileges'
     sudo add-apt-repository -y ppa:gnome3-team/gnome3
-	# Update repository information
-	show_info 'Updating repository information...'
-	sudo apt-get update -y
+    # Update repository information
+    show_info 'Updating repository information...'
+    sudo apt-get update -y
     show_success 'Done.'
+    # Upgrade GNOME
+    show_info 'Updating repository information...'
+    sudo apt-get dist-upgrade -y
+    show_success 'Done.'
+    gnome
+}
+
+# Install GNOME Desktop
+function gnome-desktop {
 	# Install
     echo 'Installing GNOME Desktop...'
     show_warning 'Requires root privileges'
     sudo apt-get install -y fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
     # Done
     show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
-	thirdparty
+    gnome
+}
+
+# Install GNOME Apps
+function gnome-apps {
+    if (eval `resize` && whiptail --title \
+        "GNOME Apps"  --yesno \
+        "Current list of GNOME apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install the GNOME app suite?" \
+        $LINES $COLUMNS $(( $LINES - 12 )) \
+        --scrolltext ) then
+        show_info 'Installing...'
+        show_warning 'Requires root privileges'
+        # Feel free to change the contents of 'gnome-apps.list' in the data folder to whatever suits your preference.
+        sudo apt-get install -y --no-install-recommends $(cat $GNOMEAPPS)
+        # Done
+        show_success 'Done.'
+        whiptail --title "Finished" --msgbox "Installation complete." 8 78
+        gnome
+    else
+        clear && gnome
+    fi
 }

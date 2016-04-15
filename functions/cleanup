@@ -4,6 +4,7 @@ dir="$(dirname "$0")"
 
 PURGED="$dir/data/purge.list"
 
+# Remove unused packages
 function unused {
     if (eval `resize` && whiptail \
         --title "Remove Un-used Pre-installed Applications" \
@@ -12,7 +13,7 @@ function unused {
         --scrolltext ) then
         show_info 'Removing unused pre-installed applications...'
         show_warning 'Requires root privileges'
-        # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
+        # Feel free to change the contents of 'purge.list' in the data folder to whatever suits your preference.
         sudo apt-get remove -y $(cat $PURGED)
         # Done
         show_success 'Done.'
@@ -47,6 +48,7 @@ function orphaned {
     cleanup
 }
 
+# Remove Leftover Config files
 function leftovers {
     show_info 'Removing leftover configuration files...'
     show_warning 'Requires root privileges'
@@ -56,6 +58,7 @@ function leftovers {
     cleanup
 }
 
+# Clean apt cache
 function clean-cache {
     show_info 'Cleaning package cache...'
     show_warning 'Requires root privileges'
