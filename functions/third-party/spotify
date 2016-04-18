@@ -19,26 +19,6 @@ function spotify {
 	show_info 'Installing Spotify Client...'
 	sudo apt-get install -y spotify-client
 	show_success 'Done.'
-	# Fix shared libraries error for 'libgcrypt.so.11'
-	show_info "Downloading package to provide missing 'libgcrypt.so.11'..."
-	case `uname -i` in
-	    i386|i486|i586|i686)
-	        curl -O https://launchpadlibrarian.net/201289903/libgcrypt11_1.5.3-2ubuntu4.2_i386.deb
-	        ;;
-	    x86_64)
-	        curl -O https://launchpadlibrarian.net/201289896/libgcrypt11_1.5.3-2ubuntu4.2_amd64.deb
-	        ;;
-	    *)
-	        show_error "No packages available to download that matches your system." && thirdparty
-	        ;; 
-	esac
-	show_info "Installing 'libgcrypt11'..."
-	show_warning 'Requires root privileges'
-	sudo dpkg -i libgcrypt11*.deb
-	sudo apt-get install -fy
-	# Cleanup and finish
-	rm libgcrypt11*.deb
-	show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty
 }

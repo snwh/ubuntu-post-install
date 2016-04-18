@@ -3,6 +3,7 @@ gnome-disk-utility
 gnome-tweak-tool
 openssh-server
 p7zip-full
+ppa-purge
 rsync
 samba
 laptop-mode-tools

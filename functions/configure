@@ -2,29 +2,15 @@
 
 # Preferred settings
 function preferences {
-    # Font Sizes
-    show_info 'Setting font preferences...'
-    gsettings set org.gnome.desktop.interface document-font-name 'Source Sans Pro 10' # This is a third-party font
-    gsettings set org.gnome.desktop.interface font-name 'Source Sans Pro 10'
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata 11' # This is also a third-party font
-    gsettings set org.gnome.desktop.interface text-scaling-factor '1.0'
-    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Source Sans Pro Bold 9'
-    gsettings set org.gnome.nautilus.desktop font 'Source Sans Pro 10'
-    gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing 'rgba'
-    gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'slight'
     # Pantheon Settings
     show_info 'Setting Pantheon app preferences...'
     gsettings set org.pantheon.noise.settings update-folder-heirarchy false
-    gsettings set org.pantheon.terminal.settings font "Inconsolata 11"
-    gsettings set org.pantheon.desktop.wingpanel auto-adjust-alpha false
-    gsettings set org.pantheon.desktop.wingpanel background-alpha 0.6
+    gsettings set org.pantheon.terminal.settings natural-copy-paste false
     # GNOME Preferences
     show_info 'Setting GNOME app preferences...'
     gsettings set org.gnome.desktop.interface clock-format 12h
     gsettings set org.gnome.desktop.interface clock-show-date true
     gsettings set org.gnome.nautilus.preferences sort-directories-first true
-    gsettings set org.gnome.rhythmbox.rhythmdb monitor-library true
-    gsettings set org.gnome.rhythmbox.sources browser-views 'artists-albums'
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
