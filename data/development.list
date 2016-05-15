@@ -5,6 +5,7 @@ git
 gnome-builder
 gtk-3-examples
 gtk-doc-tools
+icontool
 libgtk-3-dev
 nodejs
 npm
