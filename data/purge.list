@@ -1,10 +1,14 @@
 aisleriot
+gnome-mahjongg
 gnome-mines
 gnome-sudoku
+hplip
 landscape-client-ui-install
 overlay-scrollbar
 overlay-scrollbar-gtk2
 overlay-scrollbar-gtk3
+thunderbird
+rhythmbox
 unity-scope-calculator
 unity-scope-chromiumbookmarks
 unity-scope-colourlovers
@@ -20,3 +24,4 @@ unity-scope-virtualbox
 unity-scope-yelp
 unity-scope-zotero
 webbrowser-app
+xdiagnose

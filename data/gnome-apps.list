@@ -1,12 +1,9 @@
 bijiben
-epiphany-browser
-evolution
 gedit
 gnome-builder
 gnome-calculator
 gnome-calendar
 gnome-clocks
-gnome-contacts
 gnome-disk-utility
 gnome-documents
 gnome-logs
@@ -18,4 +15,3 @@ gnome-software
 gnome-system-monitor
 gnome-terminal
 gnome-weather
-polari

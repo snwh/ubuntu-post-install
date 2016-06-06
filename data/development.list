@@ -6,9 +6,11 @@ gnome-builder
 gtk-3-examples
 gtk-doc-tools
 icontool
+icnsutils
 libgtk-3-dev
 nodejs
 npm
+optipng
 php-cli
 valac
 x11-apps
