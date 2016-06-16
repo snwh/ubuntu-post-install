@@ -27,10 +27,10 @@ if [ $exitstatus = 0 ]; then
                 PACKAGE=google-chrome-stable
                 NAME="Google Chrome"
                 # Check if already installed
-                show_info 'Checking if already installed...'
+                echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info $NAME 'is not installed. Proceeding'
+                    echo $NAME 'is not installed. Proceeding'
                     show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
@@ -68,10 +68,10 @@ if [ $exitstatus = 0 ]; then
                 PACKAGE=google-chrome-beta
                 NAME="Google Chrome Beta"
                 # Check if already installed
-                show_info 'Checking if already installed...'
+                echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info $NAME 'is not installed. Proceeding'
+                    echo $NAME 'is not installed. Proceeding'
                     show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
@@ -109,10 +109,10 @@ if [ $exitstatus = 0 ]; then
                 PACKAGE=google-chrome-unstable
                 NAME="Google Chrome unstable build"
                 # Check if already installed
-                show_info 'Checking if already installed...'
+                echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info $NAME 'is not installed. Proceeding'
+                    echo $NAME 'is not installed. Proceeding'
                     show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in

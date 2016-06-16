@@ -32,7 +32,7 @@ function check_dependencies {
             sudo apt-get --force-yes -y install $package
             # Failure check
             check_fail
-            show_info "Package '$package' installed. Proceeding."
+            show_success "Package '$package' installed. Proceeding."
             ;;
         # Negative action
         [Nn]* )
@@ -45,7 +45,7 @@ function check_dependencies {
             ;;
         esac
     else
-        show_info "Dependency '$package' is installed."
+        show_success "Dependency '$package' is installed."
     fi
     done
     show_info "Proceeding."

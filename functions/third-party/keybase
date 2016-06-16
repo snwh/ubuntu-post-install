@@ -6,12 +6,12 @@ function keybase {
 	PACKAGE=keybase
 	NAME="Keybase command line client"
     # Install
-    show_info 'Begin '$NAME' installation'
+    show_header 'Begin '$NAME' installation'
 	# Check if already installed
-	show_info 'Checking if already installed...'
+	echo 'Checking if '$NAME' is already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info $NAME 'is not installed. Proceeding'
+        echo $NAME 'is not installed. Proceeding'
 		show_info 'Downloading Keybase...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
