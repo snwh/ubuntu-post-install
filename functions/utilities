@@ -15,6 +15,8 @@ function utilities {
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
         sudo apt-get install -y --no-install-recommends $(cat $UTILS)
+        # Failure check
+        check_fail
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Installation complete." 8 78

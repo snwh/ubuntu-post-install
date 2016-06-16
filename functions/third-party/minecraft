@@ -13,6 +13,8 @@ function minecraft {
 	# Install
 	show_info 'Installing Minecraft Installer...'
 	sudo apt-get install -y minecraft-installer
+    # Failure check
+    check_fail
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

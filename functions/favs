@@ -14,6 +14,7 @@ function favs {
         show_info 'Installing...'
         show_warning 'Requires root privileges'
         sudo apt-get install -y --no-install-recommends $(cat $FAVS)
+        check_fail
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Installation complete." 8 78

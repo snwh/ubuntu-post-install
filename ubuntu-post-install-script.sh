@@ -92,6 +92,7 @@ function main {
 # Quit
 function quit {
     if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
+        show_info 'Thanks for using!'
         exit 99
     else
         main
@@ -99,7 +100,7 @@ function quit {
 }
 
 #RUN
-check
+check_dependencies
 while :
 do
   main

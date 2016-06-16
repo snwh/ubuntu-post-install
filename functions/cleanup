@@ -14,6 +14,8 @@ function unused {
         show_info 'Removing unused pre-installed applications...'
         show_warning 'Requires root privileges'
         sudo apt-get remove -y $(cat $PURGED)
+        # Failure check
+        check_fail
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Removal complete." 8 78
@@ -42,6 +44,8 @@ function orphaned {
     show_info 'Removing orphaned packages...'
     show_warning 'Requires root privileges'
     sudo apt-get autoremove -y
+    # Failure check
+    check_fail
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
     cleanup
@@ -62,6 +66,8 @@ function clean-cache {
     show_info 'Cleaning package cache...'
     show_warning 'Requires root privileges'
     sudo apt-get clean
+    # Failure check
+    check_fail
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
     cleanup

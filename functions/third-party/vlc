@@ -13,6 +13,8 @@ function vlc {
 	# Install
 	show_info 'Installing VLC...'
 	sudo apt-get install -y vlc
+    # Failure check
+    check_fail
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

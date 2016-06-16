@@ -13,6 +13,8 @@ function fontforge {
     # Install
     show_info 'Installing fontforge Stable...'
     sudo apt-get install --only-upgrade -y fontforge
+    # Failure check
+    check_fail
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

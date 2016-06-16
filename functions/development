@@ -14,6 +14,8 @@ function development {
         show_info 'Installing...'
         show_warning 'Requires root privileges'
         sudo apt-get install -y $(cat $DEVTOOLS)
+        # Failure check
+        check_fail
         # Done
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Installation complete." 8 78

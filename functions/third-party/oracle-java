@@ -12,8 +12,11 @@ function oracle-java {
     show_success 'Done.'
 	# Install
 	show_info 'Installing Oracle Java...'
+	# sudo apt-get install -y oracle-java7-installer # Java 7
 	sudo apt-get install -y oracle-java8-installer # Java 8
 	# sudo apt-get install -y oracle-java9-installer # Java 9
+    # Failure check
+    check_fail
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78

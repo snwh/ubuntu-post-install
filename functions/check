@@ -4,8 +4,18 @@ dir="$(dirname "$0")"
 
 DEPS="$dir/data/dependencies.list"
 
+
+# Check if command failed, if true abort
+function check_fail {
+    EXITSTATUS=$1
+    if [[ $EXITSTATUS != 0 ]]; then
+        show_error "Something went wrong, the last command failed. Aborting."
+        sleep 3s && exit 99
+    fi
+}
+
 # Check for and install required packages for this script set.
-function check {
+function check_dependencies {
     show_info "Checking dependencies..."
     for package in $(cat $DEPS)
     do 
@@ -19,6 +29,8 @@ function check {
         [Yy]* ) 
             show_warning 'Requires root privileges'
             sudo apt-get --force-yes -y install $package
+            # Failure check
+            check_fail
             show_success "Package '$package' installed. Proceeding."
             ;;
         # Negative action
