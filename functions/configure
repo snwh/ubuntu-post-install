@@ -55,8 +55,8 @@ function configure {
      
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        clear && $CONF
+        $CONF
     else
-        clear && main
+        main
     fi
 }

@@ -19,7 +19,7 @@ function unused {
         whiptail --title "Finished" --msgbox "Removal complete." 8 78
         cleanup
     else
-        clear && cleanup
+        cleanup
     fi
 }
 
@@ -33,7 +33,7 @@ function kernels {
         whiptail --title "Finished" --msgbox "Outdated kernels have been successfully removed." 8 78
         cleanup
     else
-        clear && cleanup
+        cleanup
     fi
 }
 
@@ -85,8 +85,8 @@ function cleanup {
      
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        clear && $CLEANUP
+        $CLEANUP
     else
-        clear && main
+        main
     fi
 }

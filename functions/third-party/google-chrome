@@ -110,6 +110,6 @@ if [ $exitstatus = 0 ]; then
         exitstatus1=$status1
     done
 else
-    clear && thirdparty
+    thirdparty
 fi
 }

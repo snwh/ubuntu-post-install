@@ -16,6 +16,6 @@ if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60
     whiptail --title "Finished" --msgbox "System update complete." 8 78
     main
 else
-    clear && main
+    main
 fi
 }

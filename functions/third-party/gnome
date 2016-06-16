@@ -20,9 +20,9 @@ function gnome {
      
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        clear && $GNOME
+        $GNOME
     else
-        clear && main
+        main
     fi
 }
 
@@ -70,6 +70,6 @@ function gnome-apps {
         whiptail --title "Finished" --msgbox "Installation complete." 8 78
         gnome
     else
-        clear && gnome
+        gnome
     fi
 }

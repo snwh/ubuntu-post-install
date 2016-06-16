@@ -83,9 +83,9 @@ function main {
      
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        clear && $MAIN
+        $MAIN
     else
-        clear && quit
+        quit
     fi
 }
 
@@ -94,12 +94,12 @@ function quit {
     if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
         exit 99
     else
-        clear && main
+        main
     fi
 }
 
 #RUN
-clear && check
+check
 while :
 do
   main

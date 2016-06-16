@@ -24,11 +24,11 @@ function check {
         # Negative action
         [Nn]* )
             show_info "Exiting.."
-            clear && exit 99
+            exit 99
             ;;
         # Error
         * )
-            clear && show_error '\aSorry, try again.' && check
+            show_error '\aSorry, try again.' && check
             ;;
         esac
     else

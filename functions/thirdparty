@@ -49,9 +49,9 @@ function thirdparty {
      
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        clear && $THIRDPARTY
+        $THIRDPARTY
     else
-        clear && main
+        main
     fi
 }
 
