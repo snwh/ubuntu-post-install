@@ -2,13 +2,13 @@
 
 dir="$(dirname "$0")"
 
-FAVS="$dir/data/favourites.list"
+FAVS="$dir/data/favs.list"
 
-# Install favourite applications using the list of packages 'data/favourites.list'
-function favourites {
+# Install preferred applications using the list of packages 'data/favs.list'
+function favs {
     if (eval `resize` && whiptail \
-        --title "Favourite Applications" \
-        --yesno "Current list of favourite applications to install: \n\n$(cat $FAVS) \n\nProceed with installation?" \
+        --title "Preferred Applications" \
+        --yesno "Current list of preferred applications to install: \n\n$(cat $FAVS) \n\nProceed with installation?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then
         show_info 'Installing...'

@@ -4,11 +4,11 @@ dir="$(dirname "$0")"
 
 DEVTOOLS="$dir/data/development.list"
 
-# Install favourite development applications using the list of packages 'data/development.list'
+# Install preferred development applications using the list of packages 'data/development.list'
 function development {
     if (eval `resize` && whiptail \
-        --title "Favourite Development Applications" \
-        --yesno "Current list of favourite development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" \
+        --title "Preferred Development Applications" \
+        --yesno "Current list of preferred development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext) then
         show_info 'Installing...'

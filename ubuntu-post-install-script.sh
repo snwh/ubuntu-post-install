@@ -2,7 +2,7 @@
 # -*- Mode: sh; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Authors:
-#   Sam Hewitt <hewittsamuel@gmail.com>
+#   Sam Hewitt <sam@snwh.org>
 #
 # Description:
 #   A post-installation bash script for Ubuntu
@@ -34,7 +34,7 @@ dir="$(dirname "$0")"
 . $dir/functions/codecs
 . $dir/functions/configure
 . $dir/functions/development
-. $dir/functions/favourites
+. $dir/functions/favs
 . $dir/functions/thirdparty
 . $dir/functions/update
 . $dir/functions/utilities
@@ -72,9 +72,9 @@ function main {
         --cancel-button "Quit" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         update      'Perform system update' \
-        favourites  'Install favourite applications' \
-        utilities   'Install favourite system utilities' \
-        development 'Install favourite development tools' \
+        favs        'Install preferred applications' \
+        utilities   'Install preferred system utilities' \
+        development 'Install preferred development tools' \
         codecs      'Install Ubuntu Restricted Extras' \
         thirdparty  'Install third-party applications' \
         configure   'Configure system' \
@@ -99,6 +99,10 @@ function quit {
 }
 
 #RUN
-check && main
+clear && check
+while :
+do
+  main
+done
 
 #END OF SCRIPT
