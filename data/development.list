@@ -2,6 +2,7 @@ autotools-dev
 bzr
 cmake
 git
+git-core
 gnome-builder
 gtk-3-examples
 gtk-doc-tools

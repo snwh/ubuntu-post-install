@@ -2,7 +2,6 @@
 
 dir="$(dirname "$0")"
 
-source $dir/functions/third-party/birdie
 source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/fontforge
 source $dir/functions/third-party/gnome
@@ -29,7 +28,6 @@ function thirdparty {
         --ok-button "Install" \
         --cancel-button "Go Back" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
-        'birdie'            'Birdie Twitter client' \
         'dropbox'           'Dropbox' \
         'fontforge'         'FontForge' \
         'gnome'             'GNOME desktop' \

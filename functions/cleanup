@@ -30,7 +30,7 @@ function kernels {
     if (whiptail --title "Remove Outdated Kernels" --yesno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
         show_info 'Removing outdated kernel(s)...'
         show_warning 'Requires root privileges'
-        sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y purge
+        sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt-get -y --no-install-recommends purge
         show_success 'Done.'
         whiptail --title "Finished" --msgbox "Outdated kernels have been successfully removed." 8 78
         cleanup
