@@ -1,16 +1,26 @@
 Ubuntu Post Install Scripts
 ===========================
 
-This project my personal set of post-installation and maintenance scripts for Ubuntu (and Ubuntu-based distributions). It will install favourite applications, set your preferred settings, etc.
+Original Author: [Sam Hewitt](https://github.com/snwh)
 
-Feel free to fork and modify to suit your preferences, and distribute.
+> This project is my set of post-installation and maintenance scripts for Ubuntu, to run on a fresh install. It's designed to install your favourite applications, set your preferred settings, etc. mostly automatically. 
 
-##Usage:
+Feel free to fork this project, modify to suit your preference, and distribute.
 
-Run from main source folder:
+##Structure
+
+This project is coded and organized in a modular fashion so you can easily delete or exclude parts that you don't want to use.
+
+ * [`data`](/data): this folder contains files which are lists of packages read by various functions. It's recommended to update these to suit your preferences.
+ * [`functions`](/functions): this folder contains bash files which are the main functions of this scriptset. They should require little modification.
+ * [`third-party`](/functions/third-party): this sub-directory contains further bash files that are functions for the installation of third-party applications &ndash;i.e. those that aren't necessarily in the main repositories.
+
+##Usage
+
+Simple, you just run the main script from the root of the source folder:
 
     ./ubuntu-post-install-script.sh
 
-Or if you like, you can do as I do and add the scripts' location to your custom shell paths to run on-demand.
+Or you can store this scriptset in some directory, and add that location to your custom shell paths to run on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
 
-	export PATH=${PATH}:$HOME/some/directory/ubuntu-post-install/
+    export PATH=${PATH}:$HOME/scripts/ubuntu-post-install/
