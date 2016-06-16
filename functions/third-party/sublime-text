@@ -1,35 +1,38 @@
 #!/bin/bash
 
-# keybase
-function keybase {
+# Sublime Text 3
+function sublime-text {
 	# Variables
-	PACKAGE=keybase
+	PACKAGE=sublime-text
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-		show_info 'Downloading Keybase...'
+		show_info 'Downloading Sublime Text 3 (build 3114)...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 		    i386|i486|i586|i686)
-		        curl -O https://dist.keybase.io/linux/deb/keybase-latest-i386.deb
+		        curl -O https://download.sublimetext.com/sublime-text_build-3114_i386.deb
 		        ;;
 		    x86_64)
-		        curl -O https://dist.keybase.io/linux/deb/keybase-latest-amd64.deb
+		        curl -O https://download.sublimetext.com/sublime-text_build-3114_amd64.deb
 		        ;;
 		    *)
 		        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
 		        ;;
 		esac
 		# Install package(s)
-		show_info 'Installing Keybase...'
+		show_info 'Installing Sublime Text 3 (build 3114)...'
 		show_warning 'Requires root privileges'
-		sudo dpkg -i keybase-latest*.deb
+		sudo dpkg -i sublime-text_build-3114*.deb
 		sudo apt-get install -fy
+		# Create symbolic link
+		show_info 'Creating symbolic link...'
+		show_warning 'Requires root privileges'
+		sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
 		# Cleanup and finish
-		rm keybase-latest*.deb
-	    # Done
-	    show_success 'Done.'
+		rm sublime-text_build-3114*.deb
+		show_success 'Done.'
 	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
 		thirdparty
     else

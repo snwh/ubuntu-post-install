@@ -23,85 +23,112 @@ if [ $exitstatus = 0 ]; then
         # Change to lower case and remove spaces.
         case "${VERSION}" in
             stable) 
-                show_info 'Downloading Google Chrome...'
-                # Download Debian file that matches system architecture
-                case `uname -i` in
-                    i386|i486|i586|i686)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
-                        ;;
-                    x86_64)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                        ;;
-                    *)
-                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-                        ;;
-                esac
-                # Install package(s)
-                echo 'Installing Google Chrome...'
-                show_warning 'Requires root privileges'
-                sudo dpkg -i google-chrome*.deb
-                sudo apt-get install -fy
-                # Cleanup and finish
-                rm google-chrome*.deb
-                # Done
-                show_success 'Done.'
-                whiptail --title "Finished" --msgbox "Installation complete." 8 78
-                status=1
-                thirdparty
+                # Check if already installed
+                PACKAGE=google-chrome-stable
+                show_info 'Checking if already installed...'
+                PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+                if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Downloading Google Chrome...'
+                    # Download Debian file that matches system architecture
+                    case `uname -i` in
+                        i386|i486|i586|i686)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+                            ;;
+                        x86_64)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                            ;;
+                        *)
+                            whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+                            ;;
+                    esac
+                    # Install package(s)
+                    echo 'Installing Google Chrome...'
+                    show_warning 'Requires root privileges'
+                    sudo dpkg -i google-chrome*.deb
+                    sudo apt-get install -fy
+                    # Cleanup and finish
+                    rm google-chrome*.deb
+                    # Done
+                    show_success 'Done.'
+                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    status=1
+                    thirdparty
+                else
+                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    thirdparty
+                fi
             ;;
-            beta) 
-                show_info 'Downloading Google Chrome (beta)...'
-                # Download Debian file that matches system architecture
-                case `uname -i` in
-                    i386|i486|i586|i686)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb
-                        ;;
-                    x86_64)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
-                        ;;
-                    *)
-                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-                        ;;
-                esac
-                # Install package(s)
-                echo 'Installing Google Chrome...'
-                show_warning 'Requires root privileges'
-                sudo dpkg -i google-chrome*.deb
-                sudo apt-get install -fy
-                # Cleanup and finish
-                rm google-chrome*.deb
-                # Done
-                show_success 'Done.'
-                whiptail --title "Finished" --msgbox "Installation complete." 8 78
-                status=1
-                thirdparty
+            beta)
+                # Check if already installed
+                show_info 'Checking if already installed...'
+                PACKAGE=google-chrome-stable
+                PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+                if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Downloading Google Chrome (beta)...'
+                    # Download Debian file that matches system architecture
+                    case `uname -i` in
+                        i386|i486|i586|i686)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_i386.deb
+                            ;;
+                        x86_64)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+                            ;;
+                        *)
+                            whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+                            ;;
+                    esac
+                    # Install package(s)
+                    echo 'Installing Google Chrome...'
+                    show_warning 'Requires root privileges'
+                    sudo dpkg -i google-chrome*.deb
+                    sudo apt-get install -fy
+                    # Cleanup and finish
+                    rm google-chrome*.deb
+                    # Done
+                    show_success 'Done.'
+                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    status=1
+                    thirdparty
+                else
+                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    thirdparty
+                fi
             ;;
             unstable) 
-                show_info 'Downloading Google Chrome (unstable)...'
-                # Download Debian file that matches system architecture
-                case `uname -i` in
-                    i386|i486|i586|i686)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb
-                        ;;
-                    x86_64)
-                        curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
-                        ;;
-                    *)
-                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-                        ;;
-                esac
-                # Install package(s)
-                echo 'Installing Google Chrome...'
-                show_warning 'Requires root privileges'
-                sudo dpkg -i google-chrome*.deb
-                sudo apt-get install -fy
-                # Cleanup and finish
-                rm google-chrome*.deb
-                # Done
-                show_success 'Done.'
-                whiptail --title "Finished" --msgbox "Installation complete." 8 78
-                status=1
-                thirdparty
+                # Check if already installed
+                show_info 'Checking if already installed...'
+                PACKAGE=google-chrome-unstable
+                PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+                if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Downloading Google Chrome (unstable)...'
+                    # Download Debian file that matches system architecture
+                    case `uname -i` in
+                        i386|i486|i586|i686)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_i386.deb
+                            ;;
+                        x86_64)
+                            curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+                            ;;
+                        *)
+                            whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+                            ;;
+                    esac
+                    # Install package(s)
+                    echo 'Installing Google Chrome...'
+                    show_warning 'Requires root privileges'
+                    sudo dpkg -i google-chrome*.deb
+                    sudo apt-get install -fy
+                    # Cleanup and finish
+                    rm google-chrome*.deb
+                    # Done
+                    show_success 'Done.'
+                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    status=1
+                    thirdparty
+                else
+                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    thirdparty
+                fi
             ;;
             *) status=1 
                 thirdparty

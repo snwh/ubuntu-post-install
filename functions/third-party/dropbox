@@ -1,31 +1,42 @@
 #!/bin/bash
 
+
 # Dropbox
 function dropbox {
-	show_info 'Downloading Dropbox (2015.10.28)...'
-	# Download Debian file that matches system architecture
-	case `uname -i` in
-	    i386|i486|i586|i686)
-	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_i386.deb
-	        ;;
-	    x86_64)
-	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
-	        ;;
-	    *)
-	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-	        ;;
-	esac
-	# Install package(s)
-	show_info 'Installing Dropbox...'
-	show_warning 'Requires root privileges'
-	sudo dpkg -i dropbox*.deb
-	sudo apt-get install -fy
-    # Failure check
-    check_fail
-	# Cleanup and finish
-	rm dropbox*.deb
-    # Done
-    show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
-	thirdparty
+	# Variables
+	PACKAGE=dropbox
+	# Check if already installed
+	show_info 'Checking if already installed...'
+    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+    if [ "" == "$PKGCHECK" ]; then
+		show_info 'Downloading Dropbox (2015.10.28)...'
+		# Download Debian file that matches system architecture
+		case `uname -i` in
+		    i386|i486|i586|i686)
+		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_i386.deb
+		        ;;
+		    x86_64)
+		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+		        ;;
+		    *)
+		        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+		        ;;
+		esac
+		# Install package(s)
+		show_info 'Installing Dropbox...'
+		show_warning 'Requires root privileges'
+		sudo dpkg -i dropbox*.deb
+		sudo apt-get install -fy
+	    # Failure check
+	    check_fail
+		# Cleanup and finish
+		rm dropbox*.deb
+	    # Done
+	    show_success 'Done.'
+	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+		thirdparty
+    else
+	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+	    thirdparty
+    fi
 }

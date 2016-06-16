@@ -2,21 +2,30 @@
 
 # Minecraft
 function minecraft {
-	# Add repository
-	show_info 'Adding Minecraft Installer PPA to software sources...'
-	show_warning 'Requires root privileges'
-	sudo add-apt-repository -y ppa:minecraft-installer-peeps/minecraft-installer
-	# Update repository information
-	show_info 'Updating repository information...'
-	sudo apt-get update -y
-    show_success 'Done.'
-	# Install
-	show_info 'Installing Minecraft Installer...'
-	sudo apt-get install -y minecraft-installer
-    # Failure check
-    check_fail
-    # Done
-    show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
-	thirdparty
+	# Variables
+	PACKAGE=minecraft-installer
+	PPANAME=ppa:minecraft-installer-peeps/minecraft-installer
+	# Check if already installed
+	show_info 'Checking if already installed...'
+    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+    if [ "" == "$PKGCHECK" ]; then
+		# Add repository
+		show_info 'Adding repository to software sources...'
+		show_warning 'Requires root privileges'
+		sudo add-apt-repository -y $PPANAME
+		# Update repository information
+		show_info 'Updating repository information...'
+		sudo apt-get update -y
+	    show_success 'Done.'
+		# Install
+		show_info 'Installing...'
+		sudo apt-get install -y $PACKAGE
+	    # Done
+	    show_success 'Done.'
+	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+		thirdparty
+    else
+	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+	    thirdparty
+    fi
 }

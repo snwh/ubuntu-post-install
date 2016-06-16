@@ -11,12 +11,17 @@ if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60
     # Dist-Upgrade
     show_info 'Performing system update...'
     sudo apt-get dist-upgrade -y
-    # Failure check
-    check_fail
     # Done
     show_success 'Done.'
-    whiptail --title "Finished" --msgbox "System update complete." 8 78
-    main
+    # Check
+    EXITSTATUS=$1
+    if [[ $EXITSTATUS != 0 ]]; then
+        whiptail --title "Finished" --msgbox "System is to up-tp-date." 8 78
+        main
+    else
+        whiptail --title "Finished" --msgbox "System update complete" 8 78
+        main
+    fi
 else
     main
 fi

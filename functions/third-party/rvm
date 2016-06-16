@@ -11,6 +11,6 @@ function rvm {
     # \curl -sSL https://get.rvm.io | bash # Uncomment for development version
     # Done
     show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
+    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
 	thirdparty
 }

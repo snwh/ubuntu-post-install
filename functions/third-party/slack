@@ -2,28 +2,38 @@
 
 # Slack
 function slack {
-	show_info 'Downloading Slack (v2.0.0)...'
-	# Download Debian file that matches system architecture
-	case `uname -i` in
-	    i386|i486|i586|i686)
-	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-i386.deb
-	        ;;
-	    x86_64)
-	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-amd64.deb
-	        ;;
-	    *)
-	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-	        ;;
-	esac
-	# Install package(s)
-	show_info 'Installing Slack...'
-	show_warning 'Requires root privileges'
-	sudo dpkg -i slack-desktop-*.deb
-	sudo apt-get install -fy
-	# Cleanup and finish
-	rm slack-desktop-*.deb
-    # Done
-    show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
-	thirdparty
+	# Variables
+	PACKAGE=slack-desktop
+	# Check if already installed
+	show_info 'Checking if already installed...'
+    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+    if [ "" == "$PKGCHECK" ]; then
+		show_info 'Downloading Slack (v2.0.0)...'
+		# Download Debian file that matches system architecture
+		case `uname -i` in
+		    i386|i486|i586|i686)
+		        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-i386.deb
+		        ;;
+		    x86_64)
+		        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-amd64.deb
+		        ;;
+		    *)
+		        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+		        ;;
+		esac
+		# Install package(s)
+		show_info 'Installing Slack...'
+		show_warning 'Requires root privileges'
+		sudo dpkg -i slack-desktop-*.deb
+		sudo apt-get install -fy
+		# Cleanup and finish
+		rm slack-desktop-*.deb
+	    # Done
+	    show_success 'Done.'
+	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+		thirdparty
+    else
+	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+	    thirdparty
+    fi
 }

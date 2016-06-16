@@ -2,23 +2,33 @@
 
 # Spotify
 function spotify {
-	# Add the Spotify repository signing key to be able to verify downloaded packages
-	show_info 'Adding Spotify signing key to keyring...'
-	show_warning 'Requires root privileges'
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
-	show_success 'Done.'
-	# Add the Spotify repository
-	show_info 'Adding Spotify repository to software sources...'
-	show_warning 'Requires root privileges'
-	echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
-	# Update repository information
-	show_info 'Updating repository information...'
-	sudo apt-get update -y
-    show_success 'Done.'
-	# Install
-	show_info 'Installing Spotify Client...'
-	sudo apt-get install -y spotify-client
-	show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Installation complete." 8 78
-	thirdparty
+	# Variables
+	PACKAGE=spotify-client
+	# Check if already installed
+	show_info 'Checking if already installed...'
+    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+    if [ "" == "$PKGCHECK" ]; then
+		# Add the Spotify repository signing key to be able to verify downloaded packages
+		show_info 'Adding Spotify signing key to keyring...'
+		show_warning 'Requires root privileges'
+		sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+		show_success 'Done.'
+		# Add the Spotify repository
+		show_info 'Adding Spotify repository to software sources...'
+		show_warning 'Requires root privileges'
+		echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
+		# Update repository information
+		show_info 'Updating repository information...'
+		sudo apt-get update -y
+	    show_success 'Done.'
+		# Install
+		show_info 'Installing Spotify Client...'
+		sudo apt-get install -y $PACKAGE
+		show_success 'Done.'
+	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+		thirdparty
+    else
+	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+	    thirdparty
+    fi
 }

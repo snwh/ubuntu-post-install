@@ -14,12 +14,17 @@ function development {
         show_info 'Installing...'
         show_warning 'Requires root privileges'
         sudo apt-get install -y $(cat $DEVTOOLS)
-        # Failure check
-        check_fail
         # Done
         show_success 'Done.'
-        whiptail --title "Finished" --msgbox "Installation complete." 8 78
-        main
+        # Check
+        EXITSTATUS=$1
+        if [[ $EXITSTATUS != 0 ]]; then
+            whiptail --title "Finished" --msgbox "You've already installed these packages." 8 78
+            main
+        else
+            whiptail --title "Finished" --msgbox "Installation complete." 8 78
+            main
+        fi
     else
         main
     fi

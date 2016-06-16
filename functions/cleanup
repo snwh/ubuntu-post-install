@@ -14,12 +14,17 @@ function unused {
         show_info 'Removing unused pre-installed applications...'
         show_warning 'Requires root privileges'
         sudo apt-get remove -y $(cat $PURGED)
-        # Failure check
-        check_fail
         # Done
         show_success 'Done.'
-        whiptail --title "Finished" --msgbox "Removal complete." 8 78
-        cleanup
+        # Check
+        EXITSTATUS=$1
+        if [[ $EXITSTATUS != 0 ]]; then
+            whiptail --title "Finished" --msgbox "Nothing to remove." 8 78
+            cleanup
+        else
+            whiptail --title "Finished" --msgbox "Removal complete." 8 78
+            cleanup
+        fi
     else
         cleanup
     fi
@@ -44,11 +49,16 @@ function orphaned {
     show_info 'Removing orphaned packages...'
     show_warning 'Requires root privileges'
     sudo apt-get autoremove -y
-    # Failure check
-    check_fail
     show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
-    cleanup
+    # Check
+    EXITSTATUS=$1
+    if [[ $EXITSTATUS != 0 ]]; then
+        whiptail --title "Finished" --msgbox "No orphaned packages to remove." 8 78
+        cleanup
+    else
+        whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
+        cleanup
+    fi
 }
 
 # Remove Leftover Config files
@@ -57,8 +67,15 @@ function leftovers {
     show_warning 'Requires root privileges'
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     show_success 'Done.'
-    whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
-    cleanup
+    # Check
+    EXITSTATUS=$1
+    if [[ $EXITSTATUS != 0 ]]; then
+        whiptail --title "Finished" --msgbox "No Leftover configuration files to remove." 8 78
+        cleanup
+    else
+        whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
+        cleanup
+    fi
 }
 
 # Clean apt cache
@@ -66,8 +83,6 @@ function clean-cache {
     show_info 'Cleaning package cache...'
     show_warning 'Requires root privileges'
     sudo apt-get clean
-    # Failure check
-    check_fail
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
     cleanup
