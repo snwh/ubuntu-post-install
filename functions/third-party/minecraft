@@ -5,10 +5,12 @@ function minecraft {
 	# Variables
 	PACKAGE=minecraft-installer
 	PPANAME=ppa:minecraft-installer-peeps/minecraft-installer
+	NAME="Minecraft Launcher"
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
+        show_info 'Not installed. Proceeding'
 		# Add repository
 		show_info 'Adding repository to software sources...'
 		show_warning 'Requires root privileges'
@@ -22,10 +24,12 @@ function minecraft {
 		sudo apt-get install -y $PACKAGE
 	    # Done
 	    show_success 'Done.'
-	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+	    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty
     else
-	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+        # Already installed
+        show_success 'Already installed.'
+	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi
 }

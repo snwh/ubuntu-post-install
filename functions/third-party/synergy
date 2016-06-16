@@ -4,10 +4,12 @@
 function synergy {
 	# Variables
 	PACKAGE=synergy
+	NAME="Synergy"
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
+        show_info 'Not installed. Proceeding'
 		show_info 'Downloading Synergy (1.7.6)...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
@@ -30,10 +32,12 @@ function synergy {
 		rm synergy*.deb
 	    # Done
 	    show_success 'Done.'
-	    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+	    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty
     else
-	    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+        # Already installed
+        show_success 'Already installed.'
+	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi
 }

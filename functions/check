@@ -21,6 +21,7 @@ function check_dependencies {
     do 
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
+        show_info 'Not installed. Proceeding'
         show_info "This script requires '$package' and it is not present on your system."
         show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
         echo ''

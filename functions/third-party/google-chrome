@@ -15,9 +15,9 @@ if [ $exitstatus = 0 ]; then
         --ok-button "Install" \
         --cancel-button "Go Back" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
-        "stable"    "Stable builds" ON \
-        "beta"      "Beta builds" OFF \
-        "unstable"  "Unstable builds" OFF \
+        "stable"    "Stable build" ON \
+        "beta"      "Beta build" OFF \
+        "unstable"  "Unstable build" OFF \
         3>&1 1>&2 2>&3) 
          
         # Change to lower case and remove spaces.
@@ -25,9 +25,11 @@ if [ $exitstatus = 0 ]; then
             stable) 
                 # Check if already installed
                 PACKAGE=google-chrome-stable
+                NAME="Google Chrome"
                 show_info 'Checking if already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Not installed. Proceeding'
                     show_info 'Downloading Google Chrome...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
@@ -42,7 +44,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    echo 'Installing Google Chrome...'
+                    show_info 'Installing Google Chrome...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -50,20 +52,24 @@ if [ $exitstatus = 0 ]; then
                     rm google-chrome*.deb
                     # Done
                     show_success 'Done.'
-                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    whiptail --title "Finished" --msgbox "Installation of  $NAME complete." 8 78
                     status=1
                     thirdparty
                 else
-                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    # Already installed
+                    show_success 'Already installed.'
+                    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi
             ;;
             beta)
                 # Check if already installed
                 show_info 'Checking if already installed...'
-                PACKAGE=google-chrome-stable
+                PACKAGE=google-chrome-beta
+                NAME="Google Chrome Beta"
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Not installed. Proceeding'
                     show_info 'Downloading Google Chrome (beta)...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
@@ -78,7 +84,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    echo 'Installing Google Chrome...'
+                    show_info 'Installing Google Chrome...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -86,11 +92,13 @@ if [ $exitstatus = 0 ]; then
                     rm google-chrome*.deb
                     # Done
                     show_success 'Done.'
-                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
                     status=1
                     thirdparty
                 else
-                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    # Already installed
+                    show_success 'Already installed.'
+                    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi
             ;;
@@ -98,8 +106,10 @@ if [ $exitstatus = 0 ]; then
                 # Check if already installed
                 show_info 'Checking if already installed...'
                 PACKAGE=google-chrome-unstable
+                NAME="Google Chrome unstable build"
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
+                    show_info 'Not installed. Proceeding'
                     show_info 'Downloading Google Chrome (unstable)...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
@@ -114,7 +124,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    echo 'Installing Google Chrome...'
+                    show_info 'Installing Google Chrome...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -122,11 +132,13 @@ if [ $exitstatus = 0 ]; then
                     rm google-chrome*.deb
                     # Done
                     show_success 'Done.'
-                    whiptail --title "Finished" --msgbox "Installation of '$PACKAGE' complete." 8 78
+                    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
                     status=1
                     thirdparty
                 else
-                    whiptail --title "Finished" --msgbox "Package '$PACKAGE' is already installed." 8 78
+                    # Already installed
+                    show_success 'Already installed.'
+                    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi
             ;;
