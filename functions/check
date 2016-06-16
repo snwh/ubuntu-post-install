@@ -21,7 +21,7 @@ function check_dependencies {
     do 
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info "This script makes use of '$package' and it is not present on your system."
+        show_info "This script requires '$package' and it is not present on your system."
         show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
         echo ''
         case $REPLY in
@@ -31,11 +31,11 @@ function check_dependencies {
             sudo apt-get --force-yes -y install $package
             # Failure check
             check_fail
-            show_success "Package '$package' installed. Proceeding."
+            show_info "Package '$package' installed. Proceeding."
             ;;
         # Negative action
         [Nn]* )
-            show_info "Exiting.."
+            show_info "Exiting..."
             exit 99
             ;;
         # Error
@@ -44,7 +44,8 @@ function check_dependencies {
             ;;
         esac
     else
-        show_info "'$package' is installed. Proceeding"
+        show_info "Dependency '$package' is installed."
     fi
     done
+    show_info "Proceeding."
 }

@@ -92,6 +92,7 @@ function main {
 # Quit
 function quit {
     if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
+        echo "Exiting..."
         show_info 'Thanks for using!'
         exit 99
     else

@@ -9,7 +9,7 @@ function preferences {
     show_info 'Setting preferred application-specific & desktop settings...'
     while IFS= read line
     do
-        $line
+        gsettings set $line
     done < "$GSETTINGS"
     # Done
     show_success 'Done.'

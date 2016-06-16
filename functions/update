@@ -7,8 +7,6 @@ if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60
     show_info 'Updating repository information...'
     show_warning 'Requires root privileges'
     sudo apt-get update
-    # Failure check
-    check_fail
     show_success 'Done.'
     # Dist-Upgrade
     show_info 'Performing system update...'
