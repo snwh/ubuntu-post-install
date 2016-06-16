@@ -4,7 +4,7 @@ dir="$(dirname "$0")"
 
 DEVTOOLS="$dir/data/development.list"
 
-# Install Development Applications
+# Install favourite development applications using the list of packages 'data/development.list'
 function development {
     if (eval `resize` && whiptail \
         --title "Favourite Development Applications" \
@@ -13,7 +13,6 @@ function development {
         --scrolltext) then
         show_info 'Installing...'
         show_warning 'Requires root privileges'
-        # Feel free to change the contents of 'development.list' in the data folder to whatever suits your preference.
         sudo apt-get install -y $(cat $DEVTOOLS)
         # Done
         show_success 'Done.'

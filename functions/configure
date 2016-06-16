@@ -1,24 +1,23 @@
 #!/bin/bash
 
-# Preferred settings
+dir="$(dirname "$0")"
+
+GSETTINGS="$dir/data/gsettings.list"
+
+# Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
 function preferences {
-    # Pantheon Settings
-    show_info 'Setting Pantheon app preferences...'
-    gsettings set org.pantheon.noise.settings update-folder-heirarchy false
-    gsettings set org.pantheon.terminal.settings natural-copy-paste false
-    # GNOME Preferences
-    show_info 'Setting GNOME app preferences...'
-    gsettings set org.gnome.desktop.interface clock-format 12h
-    gsettings set org.gnome.desktop.interface clock-show-date true
-    gsettings set org.gnome.nautilus.preferences sort-directories-first true
-    gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
+    show_info 'Setting preferred application-specific & desktop settings...'
+    while IFS= read line
+    do
+        $line
+    done < "$GSETTINGS"
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
     configure
 }
 
-# Show start-up applications
+# Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
 function startup {
     show_info 'Changing display of startup applications...'
     show_warning 'Requires root privileges'
@@ -49,7 +48,7 @@ function configure {
         --menu "\nWhat would you like to do?" \
         --cancel-button "Go Back" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
-        preferences 'Set preferred application-specific settings' \
+        preferences 'Set preferred application-specific & desktop settings' \
         startup     'Show all startup applications' \
         apport      'Disable system crash dialogs' \
         3>&1 1>&2 2>&3)

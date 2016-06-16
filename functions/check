@@ -4,7 +4,7 @@ dir="$(dirname "$0")"
 
 DEPS="$dir/data/dependencies.list"
 
-# Dependency Check
+# Check for and install required packages for this script set.
 function check {
     show_info "Checking dependencies..."
     for package in $(cat $DEPS)

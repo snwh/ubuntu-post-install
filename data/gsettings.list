@@ -1,0 +1,5 @@
+gsettings set org.pantheon.terminal.settings natural-copy-paste false
+gsettings set org.gnome.desktop.interface clock-format 12h
+gsettings set org.gnome.desktop.interface clock-show-date true
+gsettings set org.gnome.nautilus.preferences sort-directories-first true
+gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
