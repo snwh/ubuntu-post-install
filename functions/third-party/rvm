@@ -6,7 +6,7 @@ function rvm {
     NAME="Ruby Version Manager"
     # Check if already installed
     show_info 'Checking if already installed...'
-    if [ ! -f $HOME/.rvm/installed.at ];
+    if [ ! -f $HOME/.rvm/installed.at ]; then
         show_info 'Not installed. Proceeding'
     	# Add key(s)
     	show_info 'Adding key to keyring...'
