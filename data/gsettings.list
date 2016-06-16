@@ -1,5 +1,8 @@
-gsettings set org.pantheon.terminal.settings natural-copy-paste false
+com.canonical.indicator.keyboard visible false
+gsettings set com.canonical.Unity.ApplicationsLens display-available-apps false
+gsettings set com.canonical.Unity.Lenses remote-content-search 'none'
 gsettings set org.gnome.desktop.interface clock-format 12h
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.nautilus.preferences sort-directories-first true
 gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
+gsettings set org.pantheon.terminal.settings natural-copy-paste false

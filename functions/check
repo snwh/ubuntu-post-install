@@ -9,8 +9,8 @@ DEPS="$dir/data/dependencies.list"
 function check_fail {
     EXITSTATUS=$1
     if [[ $EXITSTATUS != 0 ]]; then
-        show_error "Something went wrong, the last command failed. Aborting."
-        sleep 3s && exit 99
+        show_error "Something went wrong during the last command. Returning."
+        sleep 3s && main
     fi
 }
 
