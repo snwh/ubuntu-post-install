@@ -42,7 +42,7 @@ function thirdparty {
         'slack'             'Slack' \
         'spotify'           'Spotify' \
         'steam'             'Steam' \
-        'synergy'           'Synergy' \h
+        'synergy'           'Synergy' \
         'sublime-text3'     'Sublime Text 3' \
         'vlc'               'VLC' \
         3>&1 1>&2 2>&3)
