@@ -23,14 +23,15 @@ if [ $exitstatus = 0 ]; then
         # Change to lower case and remove spaces.
         case "${VERSION}" in
             stable) 
-                # Check if already installed
+                # Variables
                 PACKAGE=google-chrome-stable
                 NAME="Google Chrome"
+                # Check if already installed
                 show_info 'Checking if already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info 'Not installed. Proceeding'
-                    show_info 'Downloading Google Chrome...'
+                    show_info $NAME 'is not installed. Proceeding'
+                    show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
                         i386|i486|i586|i686)
@@ -44,7 +45,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    show_info 'Installing Google Chrome...'
+                    show_info 'Installing '$NAME'...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -57,20 +58,21 @@ if [ $exitstatus = 0 ]; then
                     thirdparty
                 else
                     # Already installed
-                    show_success 'Already installed.'
+                    show_success $NAME 'already installed.'
                     whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi
             ;;
             beta)
-                # Check if already installed
-                show_info 'Checking if already installed...'
+                # Variables
                 PACKAGE=google-chrome-beta
                 NAME="Google Chrome Beta"
+                # Check if already installed
+                show_info 'Checking if already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info 'Not installed. Proceeding'
-                    show_info 'Downloading Google Chrome (beta)...'
+                    show_info $NAME 'is not installed. Proceeding'
+                    show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
                         i386|i486|i586|i686)
@@ -84,7 +86,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    show_info 'Installing Google Chrome...'
+                    show_info 'Installing '$NAME'...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -97,20 +99,21 @@ if [ $exitstatus = 0 ]; then
                     thirdparty
                 else
                     # Already installed
-                    show_success 'Already installed.'
+                    show_success $NAME 'already installed.'
                     whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi
             ;;
             unstable) 
-                # Check if already installed
-                show_info 'Checking if already installed...'
+                # Variables
                 PACKAGE=google-chrome-unstable
                 NAME="Google Chrome unstable build"
+                # Check if already installed
+                show_info 'Checking if already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
                 if [ "" == "$PKGCHECK" ]; then
-                    show_info 'Not installed. Proceeding'
-                    show_info 'Downloading Google Chrome (unstable)...'
+                    show_info $NAME 'is not installed. Proceeding'
+                    show_info 'Downloading '$NAME'...'
                     # Download Debian file that matches system architecture
                     case `uname -i` in
                         i386|i486|i586|i686)
@@ -124,7 +127,7 @@ if [ $exitstatus = 0 ]; then
                             ;;
                     esac
                     # Install package(s)
-                    show_info 'Installing Google Chrome...'
+                    show_info 'Installing '$NAME'...'
                     show_warning 'Requires root privileges'
                     sudo dpkg -i google-chrome*.deb
                     sudo apt-get install -fy
@@ -137,7 +140,7 @@ if [ $exitstatus = 0 ]; then
                     thirdparty
                 else
                     # Already installed
-                    show_success 'Already installed.'
+                    show_success $NAME 'already installed.'
                     whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
                     thirdparty
                 fi

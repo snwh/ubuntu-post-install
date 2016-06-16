@@ -4,13 +4,14 @@
 function sublime-text {
 	# Variables
 	PACKAGE=sublime-text
-	NAME="Sublime Text 3"
+	NAME="Sublime Text 3"	
+	show_info 'Begin '$NAME' installation'
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info 'Not installed. Proceeding'
-		show_info 'Downloading Sublime Text 3 (build 3114)...'
+        show_info $NAME 'is not installed. Proceeding'
+		show_info 'Downloading '$NAME'...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 		    i386|i486|i586|i686)
@@ -24,7 +25,7 @@ function sublime-text {
 		        ;;
 		esac
 		# Install package(s)
-		show_info 'Installing Sublime Text 3 (build 3114)...'
+		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i sublime-text_build-3114*.deb
 		sudo apt-get install -fy
@@ -39,7 +40,7 @@ function sublime-text {
 		thirdparty
     else
         # Already installed
-        show_success 'Already installed.'
+        show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi

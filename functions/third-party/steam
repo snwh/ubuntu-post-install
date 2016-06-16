@@ -4,13 +4,14 @@
 function steam {
 	# Variables
 	PACKAGE=steam-launcher
-	NAME="Steam"
+	NAME="Steam"	
+	show_info 'Begin '$NAME' installation'
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info 'Not installed. Proceeding'
-		show_info 'Downloading Steam...'
+        show_info $NAME 'is not installed. Proceeding'
+		show_info 'Downloading '$NAME'...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 		    i386|i486|i586|i686)
@@ -24,12 +25,12 @@ function steam {
 		        ;; 
 		esac
 		# Install package(s)
-		show_info 'Installing Steam...'
+		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i steam*.deb
 		sudo apt-get install -fy
 		# Install dependencies
-		show_info 'Installing Steam dependencies...'
+		show_info 'Installing '$NAME' dependencies...'
 		show_warning 'Requires root privileges'
 		sudo apt-get install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
 		# Cleanup and finish
@@ -40,7 +41,7 @@ function steam {
 		thirdparty
     else
         # Already installed
-        show_success 'Already installed.'
+        show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi

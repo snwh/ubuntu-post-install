@@ -70,7 +70,7 @@ function gnome-apps {
         "Current list of GNOME apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install the GNOME app suite?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then
-        show_info 'Installing...'
+        show_info 'Installing '$NAME'...'
         show_warning 'Requires root privileges'
         # Feel free to change the contents of 'gnome-apps.list' in the data folder to whatever suits your preference.
         sudo apt-get install -y --no-install-recommends $(cat $GNOMEAPPS)

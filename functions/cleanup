@@ -19,7 +19,7 @@ function unused {
         # Check
         EXITSTATUS=$1
         if [[ $EXITSTATUS != 0 ]]; then
-            whiptail --title "Finished" --msgbox "Nothing to remove." 8 78
+            whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have already been removed." 8 78
             cleanup
         else
             whiptail --title "Finished" --msgbox "Removal complete." 8 78
@@ -70,7 +70,7 @@ function leftovers {
     # Check
     EXITSTATUS=$1
     if [[ $EXITSTATUS != 0 ]]; then
-        whiptail --title "Finished" --msgbox "No Leftover configuration files to remove." 8 78
+        whiptail --title "Finished" --msgbox "No leftover configuration files to remove." 8 78
         cleanup
     else
         whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78

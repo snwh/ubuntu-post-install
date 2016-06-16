@@ -7,13 +7,14 @@ function inkscape {
 	PACKAGE=inkscape
 	PPANAME=ppa:inkscape.dev/stable
 	NAME="Inkscape"
+	show_info $NAME 'Installation'	
 	# Check if already installed
 	show_info 'Checking if already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info 'Not installed. Proceeding'
+        show_info $NAME 'is not installed. Proceeding'
 		# Add repository
-		show_info 'Adding repository to software sources...'
+		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'
 		sudo add-apt-repository -y $PPANAME
 		# Update repository information
@@ -21,7 +22,7 @@ function inkscape {
 		sudo apt-get update -y
 	    show_success 'Done.'
 		# Install
-		show_info 'Installing...'
+		show_info 'Installing '$NAME'...'
 		sudo apt-get install -y $PACKAGE
 	    # Done
 	    show_success 'Done.'
@@ -29,7 +30,7 @@ function inkscape {
 		thirdparty
     else
         # Already installed
-        show_success 'Already installed.'
+        show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi

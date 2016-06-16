@@ -1,18 +1,18 @@
 #!/bin/bash
 
-
 # Dropbox
 function dropbox {
 	# Variables
 	PACKAGE=dropbox
 	NAME="Dropbox"
+	# Install
+	show_info 'Begin '$NAME' installation'
 	# Check if already installed
-	show_info 'Checking if already installed...'
+	show_info 'Checking if '$NAME' already installed...'
     PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
     if [ "" == "$PKGCHECK" ]; then
-        show_info 'Not installed. Proceeding'
-        show_info 'Not installed. Proceeding'
-		show_info 'Downloading Dropbox (2015.10.28)...'
+        show_info $NAME 'is not installed. Proceeding'
+		show_info 'Downloading '$NAME'...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 		    i386|i486|i586|i686)
@@ -26,7 +26,7 @@ function dropbox {
 		        ;;
 		esac
 		# Install package(s)
-		show_info 'Installing Dropbox...'
+		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i dropbox*.deb
 		sudo apt-get install -fy
@@ -40,7 +40,7 @@ function dropbox {
 		thirdparty
     else
         # Already installed
-        show_success 'Already installed.'
+        show_success $NAME 'already installed.'
 	    whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 	    thirdparty
     fi
