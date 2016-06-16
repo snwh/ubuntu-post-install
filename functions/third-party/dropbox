@@ -12,7 +12,7 @@ function dropbox {
 	        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
 	        ;;
 	    *)
-	        show_error "No packages available to download that matches your system." && thirdparty
+	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
 	        ;;
 	esac
 	# Install package(s)

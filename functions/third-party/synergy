@@ -1,29 +1,30 @@
 #!/bin/bash
 
-# keybase
-function keybase {
-	show_info 'Downloading Keybase...'
+# Synergy (1.7.6)
+function synergy {
+	show_info 'Downloading Synergy (1.7.6)...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 	    i386|i486|i586|i686)
-	        curl -O https://dist.keybase.io/linux/deb/keybase-latest-i386.deb
+	        curl -O http://symless.com/files/packages/synergy-v1.7.6-stable-bcb9da8-Linux-i686.deb
 	        ;;
 	    x86_64)
-	        curl -O https://dist.keybase.io/linux/deb/keybase-latest-amd64.deb
+	        curl -O http://symless.com/files/packages/synergy-v1.7.6-stable-bcb9da8-Linux-x86_64.deb
 	        ;;
 	    *)
 	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
 	        ;;
 	esac
 	# Install package(s)
-	show_info 'Installing Keybase...'
+	show_info 'Installing Synergy...'
 	show_warning 'Requires root privileges'
-	sudo dpkg -i keybase-latest*.deb
+	sudo dpkg -i synergy*.deb
 	sudo apt-get install -fy
 	# Cleanup and finish
-	rm keybase-latest*.deb
+	rm synergy*.deb
     # Done
     show_success 'Done.'
     whiptail --title "Finished" --msgbox "Installation complete." 8 78
 	thirdparty
 }
+

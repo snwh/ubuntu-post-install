@@ -12,7 +12,7 @@ function steam {
 	        curl -O http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
 	        ;;
 	    *)
-	        show_error "No packages available to download that matches your system." && thirdparty
+	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
 	        ;; 
 	esac
 	# Install package(s)

@@ -13,9 +13,11 @@ source $dir/functions/third-party/minecraft
 source $dir/functions/third-party/oracle-java
 source $dir/functions/third-party/rvm
 source $dir/functions/third-party/slack
+source $dir/functions/third-party/synergy
 source $dir/functions/third-party/spotify
 source $dir/functions/third-party/steam
 source $dir/functions/third-party/sublime-text3
+source $dir/functions/third-party/vlc
 
 # Install Third-Party Applications
 function thirdparty {
@@ -40,7 +42,9 @@ function thirdparty {
         'slack'             'Slack' \
         'spotify'           'Spotify' \
         'steam'             'Steam' \
+        'synergy'           'Synergy' \h
         'sublime-text3'     'Sublime Text 3' \
+        'vlc'               'VLC' \
         3>&1 1>&2 2>&3)
      
     exitstatus=$?

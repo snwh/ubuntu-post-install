@@ -33,7 +33,7 @@ if [ $exitstatus = 0 ]; then
                         curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                         ;;
                     *)
-                        show_error "No packages available to download that matches your system." && thirdparty
+                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
                         ;;
                 esac
                 # Install package(s)
@@ -60,7 +60,7 @@ if [ $exitstatus = 0 ]; then
                         curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
                         ;;
                     *)
-                        show_error "No packages available to download that matches your system." && thirdparty
+                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
                         ;;
                 esac
                 # Install package(s)
@@ -87,7 +87,7 @@ if [ $exitstatus = 0 ]; then
                         curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
                         ;;
                     *)
-                        show_error "No packages available to download that matches your system." && thirdparty
+                        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
                         ;;
                 esac
                 # Install package(s)

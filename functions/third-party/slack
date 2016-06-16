@@ -12,7 +12,7 @@ function slack {
 	        curl -O https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-2.0.0-amd64.deb
 	        ;;
 	    *)
-	        show_error "No packages available to download that matches your system." && thirdparty
+	        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
 	        ;;
 	esac
 	# Install package(s)
