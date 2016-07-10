@@ -30,8 +30,6 @@ function dropbox {
 		show_warning 'Requires root privileges'
 		sudo dpkg -i dropbox*.deb
 		sudo apt-get install -fy
-	    # Failure check
-	    check_fail
 		# Cleanup and finish
 		rm dropbox*.deb
 	    # Done
