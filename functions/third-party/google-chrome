@@ -25,7 +25,7 @@ if [ $exitstatus = 0 ]; then
             stable) 
                 # Variables
                 PACKAGE=google-chrome-stable
-                NAME="Google Chrome"
+                NAME="Google Chrome (Stable)"
                 # Check if already installed
                 echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
@@ -53,7 +53,7 @@ if [ $exitstatus = 0 ]; then
                     rm google-chrome*.deb
                     # Done
                     show_success 'Done.'
-                    whiptail --title "Finished" --msgbox "Installation of  $NAME complete." 8 78
+                    whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
                     status=1
                     thirdparty
                 else
@@ -66,7 +66,7 @@ if [ $exitstatus = 0 ]; then
             beta)
                 # Variables
                 PACKAGE=google-chrome-beta
-                NAME="Google Chrome Beta"
+                NAME="Google Chrome (Beta)"
                 # Check if already installed
                 echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
@@ -107,7 +107,7 @@ if [ $exitstatus = 0 ]; then
             unstable) 
                 # Variables
                 PACKAGE=google-chrome-unstable
-                NAME="Google Chrome unstable build"
+                NAME="Google Chrome (Unstable)"
                 # Check if already installed
                 echo 'Checking if '$NAME' is already installed...'
                 PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")

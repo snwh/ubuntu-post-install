@@ -23,7 +23,7 @@ function codecs {
     else
         # Already installed
         show_success 'Already installed.'
-        whiptail --title "Finished" --msgbox "$NAME are already installed." 8 78
+        whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
         main
     fi
 }

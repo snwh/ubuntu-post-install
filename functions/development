@@ -21,7 +21,7 @@ function development {
         if [[ $EXITSTATUS != 0 ]]; then
             # Already installed
             show_success 'Already installed.'
-            whiptail --title "Finished" --msgbox "Your preferred development tools are already installed." 8 78
+            whiptail --title "Finished" --msgbox "Your preferred development tools are installed." 8 78
             main
         else
             whiptail --title "Finished" --msgbox "Installation complete." 8 78

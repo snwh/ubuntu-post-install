@@ -13,9 +13,9 @@ function gnome {
         --menu "\nWhat would you like to do?" \
         --cancel-button "Go Back" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
-        gnome-desktop   'Install GNOME Desktop' \
-        gnome-apps      'Install GNOME Apps' \
-        gnome-upgrade   'Update GNOME' \
+        gnome-upgrade   'Update to latest GNOME' \
+        gnome-desktop   'Install basic GNOME desktop' \
+        gnome-apps      'Install GNOME core applications' \
         3>&1 1>&2 2>&3)
      
     exitstatus=$?
@@ -54,7 +54,7 @@ function gnome-desktop {
     # Check
     EXITSTATUS=$1
     if [[ $EXITSTATUS != 0 ]]; then
-        whiptail --title "Finished" --msgbox "GNOME desktop already installed." 8 78
+        whiptail --title "Finished" --msgbox "GNOME desktop is installed." 8 78
         gnome
     else
         whiptail --title "Finished" --msgbox "GNOME desktop installation complete." 8 78
@@ -67,7 +67,7 @@ function gnome-desktop {
 function gnome-apps {
     if (eval `resize` && whiptail --title \
         "GNOME Apps"  --yesno \
-        "Current list of GNOME apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install the GNOME app suite?" \
+        "Current list of GNOME apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install the GNOME core app suite?" \
         $LINES $COLUMNS $(( $LINES - 12 )) \
         --scrolltext ) then
         show_info 'Installing '$NAME'...'
@@ -79,10 +79,10 @@ function gnome-apps {
         # Check
         EXITSTATUS=$1
         if [[ $EXITSTATUS != 0 ]]; then
-            whiptail --title "Finished" --msgbox "GNOME apps already installed." 8 78
+            whiptail --title "Finished" --msgbox "GNOME apps are installed." 8 78
             gnome
         else
-            whiptail --title "Finished" --msgbox "Extra GNOME apps installation complete." 8 78
+            whiptail --title "Finished" --msgbox "GNOME apps installation complete." 8 78
             gnome
         fi
     else

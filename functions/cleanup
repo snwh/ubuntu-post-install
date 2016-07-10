@@ -16,15 +16,8 @@ function unused {
         sudo apt-get remove -y $(cat $PURGED)
         # Done
         show_success 'Done.'
-        # Check
-        EXITSTATUS=$1
-        if [[ $EXITSTATUS != 0 ]]; then
-            whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have already been removed." 8 78
-            cleanup
-        else
-            whiptail --title "Finished" --msgbox "Removal complete." 8 78
-            cleanup
-        fi
+        whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
+        cleanup
     else
         cleanup
     fi
@@ -50,15 +43,8 @@ function orphaned {
     show_warning 'Requires root privileges'
     sudo apt-get autoremove -y
     show_success 'Done.'
-    # Check
-    EXITSTATUS=$1
-    if [[ $EXITSTATUS != 0 ]]; then
-        whiptail --title "Finished" --msgbox "No orphaned packages to remove." 8 78
-        cleanup
-    else
-        whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
-        cleanup
-    fi
+    whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
+    cleanup
 }
 
 # Remove Leftover Config files
@@ -68,14 +54,8 @@ function leftovers {
     sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
     show_success 'Done.'
     # Check
-    EXITSTATUS=$1
-    if [[ $EXITSTATUS != 0 ]]; then
-        whiptail --title "Finished" --msgbox "No leftover configuration files to remove." 8 78
-        cleanup
-    else
-        whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
-        cleanup
-    fi
+    whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
+    cleanup
 }
 
 # Clean apt cache

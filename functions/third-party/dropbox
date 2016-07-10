@@ -16,10 +16,10 @@ function dropbox {
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 		    i386|i486|i586|i686)
-		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_i386.deb
+		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2.10.0_i386.deb
 		        ;;
 		    x86_64)
-		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+		        curl -O https://linux.dropbox.com/packages/ubuntu/dropbox_2.10.0_amd64.deb
 		        ;;
 		    *)
 		        whiptail --title "No remote packages available to download." --msgbox "Error." 8 78

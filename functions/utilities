@@ -4,7 +4,7 @@ dir="$(dirname "$0")"
 
 UTILS="$dir/data/utilities.list"
 
-# Install Preferred System Utilities
+# Install preferred utilities using the list of packages 'data/utilities.list'
 function utilities {
     if (eval `resize` && whiptail --title \
         "Preferred System Utilities"  --yesno \
@@ -13,7 +13,6 @@ function utilities {
         --scrolltext ) then
         show_info 'Installing...'
         show_warning 'Requires root privileges'
-        # Feel free to change the contents of 'utilities.list' in the data folder to whatever suits your preference.
         sudo apt-get install -y --no-install-recommends $(cat $UTILS)
         # Done
         show_success 'Done.'
@@ -22,7 +21,7 @@ function utilities {
         if [[ $EXITSTATUS != 0 ]]; then
             # Already installed
             show_success 'Already installed.'
-            whiptail --title "Finished" --msgbox "Your preferred system utilities are already installed." 8 78
+            whiptail --title "Finished" --msgbox "Your preferred system utilities are installed." 8 78
             main
         else
             whiptail --title "Finished" --msgbox "Installation complete." 8 78

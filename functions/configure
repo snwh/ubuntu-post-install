@@ -28,6 +28,21 @@ function startup {
     configure
 }
 
+# Replaces main 'sources.list' with a leaned down version
+function sources {
+    show_info 'Changing system-wide sources.list...'
+    show_warning 'Requires root privileges'
+    sudo cp -r $dir/data/sources.list /etc/apt
+    # Update repository information
+    show_info 'Updating repository information...'
+    show_warning 'Requires root privileges'
+    sudo apt-get update
+    # Done
+    show_success 'Done.'
+    whiptail --title "Finished" --msgbox "Sources list changed successfully." 8 78
+    configure
+}
+
 # Disable Apport
 function apport {
     show_info 'Disabling apport crash dialogs...'
@@ -50,6 +65,7 @@ function configure {
         $LINES $COLUMNS $(( $LINES - 12 )) \
         preferences 'Set preferred application-specific & desktop settings' \
         startup     'Show all startup applications' \
+        sources     'Enable all software sources (replaces sources.list)' \
         apport      'Disable system crash dialogs' \
         3>&1 1>&2 2>&3)
      

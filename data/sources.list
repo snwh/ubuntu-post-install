@@ -1,0 +1,25 @@
+## Ubuntu Sources List
+
+## Main
+deb http://archive.ubuntu.com/ubuntu/ xenial main universe multiverse restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ xenial main universe multiverse restricted
+
+## Updates
+deb http://archive.ubuntu.com/ubuntu/ xenial-updates main universe multiverse restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ xenial-updates main universe multiverse restricted
+
+## Security
+deb http://security.ubuntu.com/ubuntu xenial-backports main universe multiverse restricted
+# deb-src http://security.ubuntu.com/ubuntu xenial-backports main universe multiverse restricted
+
+## Backports
+deb http://archive.ubuntu.com/ubuntu/ xenial-backports main universe multiverse restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ xenial-backports main universe multiverse restricted
+
+## Proposed
+deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main universe multiverse restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ xenial-proposed main universe multiverse restricted
+
+## Canonical Partners
+deb http://archive.canonical.com/ubuntu xenial partner
+# deb-src http://archive.canonical.com/ubuntu xenial partner

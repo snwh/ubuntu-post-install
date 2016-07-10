@@ -18,7 +18,7 @@ if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60
     if [[ $EXITSTATUS != 0 ]]; then
         # Already up-to-date
         show_success 'Already up-to-date.'
-        whiptail --title "Finished" --msgbox "System is already up-to-date." 8 78
+        whiptail --title "Finished" --msgbox "System is up-to-date." 8 78
         main
     else
         whiptail --title "Finished" --msgbox "System update complete" 8 78

@@ -8,5 +8,6 @@ org.gnome.gedit.preferences.editor create-backup-copy false
 org.gnome.gedit.preferences.editor display-line-numbers true
 org.gnome.gedit.preferences.editor tab-size 4
 org.gnome.nautilus.preferences sort-directories-first true
+org.gnome.Terminal.Legacy.Settings dark-theme true
 org.gtk.Settings.Debug enable-inspector-keybinding true
 org.pantheon.terminal.settings natural-copy-paste false

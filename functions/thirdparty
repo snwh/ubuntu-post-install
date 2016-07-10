@@ -4,7 +4,6 @@ dir="$(dirname "$0")"
 
 source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/fontforge
-source $dir/functions/third-party/gnome
 source $dir/functions/third-party/google-chrome
 source $dir/functions/third-party/inkscape
 source $dir/functions/third-party/keybase
@@ -30,7 +29,6 @@ function thirdparty {
         $LINES $COLUMNS $(( $LINES - 12 )) \
         'dropbox'           'Dropbox' \
         'fontforge'         'FontForge' \
-        'gnome'             'GNOME desktop' \
         'google-chrome'     'Google Chrome' \
         'inkscape'          'Inkscape' \
         'keybase'           'Keybase' \
