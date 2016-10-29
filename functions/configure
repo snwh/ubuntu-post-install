@@ -5,11 +5,12 @@ dir="$(dirname "$0")"
 GSETTINGS="$dir/data/gsettings.list"
 
 # Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
+# 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
 function preferences {
     show_info 'Setting preferred application-specific & desktop settings...'
     while IFS= read line
     do
-        gsettings set $line
+        eval gsettings set $line
     done < "$GSETTINGS"
     # Done
     show_success 'Done.'
