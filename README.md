@@ -17,10 +17,17 @@ This project is coded and organized in a modular fashion so you can easily delet
 
 ##Usage
 
-Simple, you just run the main script from the root of the source folder:
+To recreate my installation, just run the main script from the root of the source folder:
 
     ./ubuntu-post-install-script.sh
 
 Or you can store this scriptset in some directory, and add that location to your custom shell paths to run on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
 
     export PATH=${PATH}:$HOME/scripts/ubuntu-post-install/
+
+If you have created your own git repo through adapting my scripts, please let me
+know and I'll add a link to the following:
+
+##Other Post Install Scripts
+
+[ubuntu-setup](https://github.com/mpadge/ubuntu-setup)
