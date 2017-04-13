@@ -2,28 +2,28 @@
 
 # Install Ubuntu Restricted Extras 
 function codecs {
-    # Variables
-    PACKAGE=ubuntu-restricted-extras
-    NAME="Multimedia Codecs"
-    # Check if already installed
-    show_info 'Checking if already installed...'
-    PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-    if [ "" == "$PKGCHECK" ]; then
-        show_info $NAME 'is not installed. Proceeding'
-        if (whiptail --title "Multimedia Codecs" --yesno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
-            # Install
-            show_info 'Installing...'
-            show_warning 'Requires root privileges'
-            sudo apt-get install -y ubuntu-restricted-extras
-            # Done
-            show_success 'Done.'
-        else
-            main
-        fi
-    else
-        # Already installed
-        show_success 'Already installed.'
-        whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
-        main
-    fi
+	# Variables
+	PACKAGE=ubuntu-restricted-extras
+	NAME="Multimedia Codecs"
+	# Check if already installed
+	show_info 'Checking if already installed...'
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	if [ "" == "$PKGCHECK" ]; then
+		show_info $NAME 'is not installed. Proceeding'
+		if (whiptail --title "Multimedia Codecs" --yesno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
+			# Install
+			show_info 'Installing...'
+			show_warning 'Requires root privileges'
+			sudo apt-get install -y ubuntu-restricted-extras
+			# Done
+			show_success 'Done.'
+		else
+			main
+		fi
+	else
+		# Already installed
+		show_success 'Already installed.'
+		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
+		main
+	fi
 }

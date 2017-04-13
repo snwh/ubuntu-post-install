@@ -65,41 +65,41 @@ echo -e "\033[0;37m$@\033[0m"
 
 # Main
 function main {
-    eval `resize`
-    MAIN=$(whiptail \
-        --notags \
-        --title "Ubuntu Post-Install Script" \
-        --menu "\nWhat would you like to do?" \
-        --cancel-button "Quit" \
-        $LINES $COLUMNS $(( $LINES - 12 )) \
-        update      'Perform system update' \
-        favs        'Install preferred applications' \
-        utilities   'Install preferred system utilities' \
-        development 'Install preferred development tools' \
-        codecs      'Install Ubuntu Restricted Extras' \
-        thirdparty  'Install third-party applications' \
-        gnome       'Install latest GNOME software' \
-        configure   'Configure system' \
-        cleanup     'Cleanup the system' \
-        3>&1 1>&2 2>&3)
-     
-    exitstatus=$?
-    if [ $exitstatus = 0 ]; then
-        $MAIN
-    else
-        quit
-    fi
+	eval `resize`
+	MAIN=$(whiptail \
+		--notags \
+		--title "Ubuntu Post-Install Script" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Quit" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		update	  'Perform system update' \
+		favs		'Install preferred applications' \
+		utilities   'Install preferred system utilities' \
+		development 'Install preferred development tools' \
+		codecs	  'Install Ubuntu Restricted Extras' \
+		thirdparty  'Install third-party applications' \
+		gnome	   'Install latest GNOME software' \
+		configure   'Configure system' \
+		cleanup	 'Cleanup the system' \
+		3>&1 1>&2 2>&3)
+	 
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$MAIN
+	else
+		quit
+	fi
 }
 
 # Quit
 function quit {
-    if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
-        echo "Exiting..."
-        show_info 'Thanks for using!'
-        exit 99
-    else
-        main
-    fi
+	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
+		echo "Exiting..."
+		show_info 'Thanks for using!'
+		exit 99
+	else
+		main
+	fi
 }
 
 #RUN

@@ -1,6 +1,5 @@
 dconf-tools
 gnome-disk-utility
-gnome-tweak-tool
 inxi
 openssh-server
 p7zip-full
@@ -10,5 +9,4 @@ rsync
 samba
 ssh
 symlinks
-synaptic
 tlp
