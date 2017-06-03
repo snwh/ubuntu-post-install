@@ -24,7 +24,7 @@ function install_sublime {
 	show_info 'Installing '$NAME'...'
 	show_warning 'Requires root privileges'
 	sudo dpkg -i sublime-text_build-${BUILD}*.deb
-	sudo apt-get install -fy
+	sudo apt install -fy
 	# Create symbolic link
 	show_info 'Creating symbolic link...'
 	show_warning 'Requires root privileges'

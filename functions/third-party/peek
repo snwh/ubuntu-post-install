@@ -18,11 +18,11 @@ function peek {
 		sudo add-apt-repository -y $PPANAME
 		# Update repository information
 		show_info 'Updating repository information...'
-		sudo apt-get update -y
+		sudo apt update -y
 		show_success 'Done.'
 		# Install
 		show_info 'Installing '$NAME'...'
-		sudo apt-get install -y $PACKAGE
+		sudo apt install -y $PACKAGE
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78

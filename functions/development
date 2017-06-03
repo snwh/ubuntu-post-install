@@ -13,7 +13,7 @@ function development {
 		--scrolltext) then
 		show_info 'Installing...'
 		show_warning 'Requires root privileges'
-		sudo apt-get install -y $(cat $DEVTOOLS)
+		sudo apt install -y $(cat $DEVTOOLS)
 		# Done
 		show_success 'Done.'
 		# Check

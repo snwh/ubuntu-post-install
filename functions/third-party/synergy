@@ -28,7 +28,7 @@ function synergy {
 		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i synergy*.deb
-		sudo apt-get install -fy
+		sudo apt install -fy
 		# Cleanup and finish
 		rm synergy*.deb
 		# Done

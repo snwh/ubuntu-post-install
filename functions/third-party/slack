@@ -28,7 +28,7 @@ function slack {
 		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i slack-desktop-*.deb
-		sudo apt-get install -fy
+		sudo apt install -fy
 		# Cleanup and finish
 		rm slack-desktop-*.deb
 		# Done

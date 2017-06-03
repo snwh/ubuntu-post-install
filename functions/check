@@ -29,7 +29,7 @@ function check_dependencies {
 		# Positive action
 		[Yy]* ) 
 			show_warning 'Requires root privileges'
-			sudo apt-get -y install $package
+			sudo apt -y install $package
 			# Failure check
 			check_fail
 			show_success "Package '$package' installed. Proceeding."

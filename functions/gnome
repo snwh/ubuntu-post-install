@@ -34,11 +34,11 @@ function gnome-upgrade {
 	sudo add-apt-repository -y ppa:gnome3-team/gnome3
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt-get update -y
+	sudo apt update -y
 	show_success 'Done.'
 	# Upgrade GNOME
 	show_info 'Updating repository information...'
-	sudo apt-get dist-upgrade -y
+	sudo apt dist-upgrade -y
 	show_success 'Done.'
 	gnome
 }
@@ -48,7 +48,7 @@ function gnome-desktop {
 	# Install
 	echo 'Installing GNOME Desktop...'
 	show_warning 'Requires root privileges'
-	sudo apt-get install -y fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
+	sudo apt install -y fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
 	# Done
 	show_success 'Done.'
 	# Check
@@ -73,7 +73,7 @@ function gnome-apps {
 		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		# Feel free to change the contents of 'gnome-apps.list' in the data folder to whatever suits your preference.
-		sudo apt-get install -y --no-install-recommends $(cat $GNOMEAPPS)
+		sudo apt install -y --no-install-recommends $(cat $GNOMEAPPS)
 		# Done
 		show_success 'Done.'
 		# Check

@@ -13,7 +13,7 @@ function utilities {
 		--scrolltext ) then
 		show_info 'Installing...'
 		show_warning 'Requires root privileges'
-		sudo apt-get install -y --no-install-recommends $(cat $UTILS)
+		sudo apt install -y --no-install-recommends $(cat $UTILS)
 		# Done
 		show_success 'Done.'
 		# Check

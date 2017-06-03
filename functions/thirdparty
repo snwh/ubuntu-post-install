@@ -4,10 +4,10 @@ dir="$(dirname "$0")"
 
 source $dir/functions/third-party/dropbox
 source $dir/functions/third-party/google-chrome
-source $dir/functions/third-party/inkscape
 source $dir/functions/third-party/minecraft
 source $dir/functions/third-party/oracle-java
 source $dir/functions/third-party/peek
+source $dir/functions/third-party/riot
 source $dir/functions/third-party/rvm
 source $dir/functions/third-party/slack
 source $dir/functions/third-party/spotify
@@ -24,18 +24,18 @@ function thirdparty {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'dropbox'		   'Dropbox' \
-		'fontforge'		 'FontForge' \
-		'google-chrome'	 'Google Chrome' \
-		'inkscape'		  'Inkscape' \
-		'minecraft'		 'Minecraft' \
-		'oracle-java'	   'Oracle Java' \
-		'peek'			  'Peek' \
-		'rvm'			   'Ruby Version Manager (RVM)' \
-		'slack'			 'Slack' \
-		'spotify'		   'Spotify' \
-		'steam'			 'Steam' \
-		'sublime-text'	  'Sublime Text 3' \
+		'dropbox'			'Dropbox' \
+		'fontforge'			'FontForge' \
+		'google-chrome'		'Google Chrome' \
+		'minecraft'			'Minecraft' \
+		'oracle-java'		'Oracle Java' \
+		'peek'				'Peek' \
+		'riot'				'Riot Chat' \
+		'rvm'				'Ruby Version Manager (RVM)' \
+		'slack'				'Slack' \
+		'spotify'			'Spotify' \
+		'steam'				'Steam' \
+		'sublime-text'		'Sublime Text 3' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?

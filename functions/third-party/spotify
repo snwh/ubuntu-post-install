@@ -22,11 +22,11 @@ function spotify {
 		echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
 		# Update repository information
 		show_info 'Updating repository information...'
-		sudo apt-get update -y
+		sudo apt update -y
 		show_success 'Done.'
 		# Install
 		show_info 'Installing '$NAME'...'
-		sudo apt-get install -y $PACKAGE
+		sudo apt install -y $PACKAGE
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty

@@ -48,7 +48,7 @@ if [ $exitstatus = 0 ]; then
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
 					sudo dpkg -i google-chrome*.deb
-					sudo apt-get install -fy
+					sudo apt install -fy
 					# Cleanup and finish
 					rm google-chrome*.deb
 					# Done
@@ -89,7 +89,7 @@ if [ $exitstatus = 0 ]; then
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
 					sudo dpkg -i google-chrome*.deb
-					sudo apt-get install -fy
+					sudo apt install -fy
 					# Cleanup and finish
 					rm google-chrome*.deb
 					# Done
@@ -130,7 +130,7 @@ if [ $exitstatus = 0 ]; then
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
 					sudo dpkg -i google-chrome*.deb
-					sudo apt-get install -fy
+					sudo apt install -fy
 					# Cleanup and finish
 					rm google-chrome*.deb
 					# Done

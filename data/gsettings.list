@@ -13,3 +13,4 @@ org.gnome.Terminal.Legacy.Settings dark-theme true
 org.gtk.Settings.Debug enable-inspector-keybinding true
 org.pantheon.desktop.gala.appearance button-layout ':close'
 org.pantheon.terminal.settings natural-copy-paste false
+org.gnome.Terminal.Legacy.Settings theme-variant 'dark'

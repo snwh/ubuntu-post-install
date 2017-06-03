@@ -14,7 +14,7 @@ function codecs {
 			# Install
 			show_info 'Installing...'
 			show_warning 'Requires root privileges'
-			sudo apt-get install -y ubuntu-restricted-extras
+			sudo apt install -y ubuntu-restricted-extras
 			# Done
 			show_success 'Done.'
 		else

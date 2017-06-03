@@ -1,28 +1,32 @@
 #!/bin/bash
 
-# Inkscape
-function inkscape {
+# Riot
+function riot {
 	# Variables
-	PACKAGE=inkscape
-	PPANAME=ppa:inkscape.dev/stable
-	NAME="Inkscape"
-	show_header 'Begin '$NAME' installation'	
+	PACKAGE=riot-web
+	NAME="Riot"
+	# Install
+	show_header 'Begin '$NAME' installation'
 	# Check if already installed
-	echo 'Checking if '$NAME' is already installed...'
+	show_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'
+		show_info 'Adding '$NAME' repository...'
 		# Add repository
 		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'
-		sudo add-apt-repository -y $PPANAME
+		sudo echo "deb https://riot.im/packages/debian/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/matrix-riot-im.list
+		# Add repository key
+		show_info 'Adding '$NAME' key to keyring...'
+		curl -L https://riot.im/packages/debian/repo-key.asc | sudo apt-key add -
 		# Update repository information
 		show_info 'Updating repository information...'
-		sudo apt-get update -y
+		sudo apt update -y
 		show_success 'Done.'
 		# Install
 		show_info 'Installing '$NAME'...'
-		sudo apt-get install -y $PACKAGE
+		sudo apt install -y $PACKAGE
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78

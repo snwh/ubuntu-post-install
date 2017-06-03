@@ -29,7 +29,7 @@ function dropbox {
 		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
 		sudo dpkg -i dropbox*.deb
-		sudo apt-get install -fy
+		sudo apt install -fy
 		# Cleanup and finish
 		rm dropbox*.deb
 		# Done
