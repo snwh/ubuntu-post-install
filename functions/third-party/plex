@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Plex
+function plex {
+	# Variables
+	PACKAGE=plexmediaserver
+	NAME="Plex"
+	show_header 'Begin '$NAME' installation'
+	# Check if already installed
+	echo 'Checking if '$NAME' is already installed...'
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	if [ "" == "$PKGCHECK" ]; then
+		echo $NAME 'is not installed. Proceeding'
+		# Add the repository signing key to be able to verify downloaded packages
+		show_info 'Adding '$NAME' signing key to keyring...'
+		show_warning 'Requires root privileges'
+		curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add -
+		show_success 'Done.'
+		# Add the repository
+		show_info 'Adding '$NAME' repository to software sources...'
+		show_warning 'Requires root privileges'
+		echo deb https://downloads.plex.tv/repo/deb ./public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
+		# Update repository information
+		show_info 'Updating repository information...'
+		sudo apt update -y
+		show_success 'Done.'
+		# Install
+		show_info 'Installing '$NAME'...'
+		sudo apt install -y $PACKAGE
+		show_success 'Done.'
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		thirdparty
+	else
+		# Already installed
+		show_success $NAME 'already installed.'
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		thirdparty
+	fi
+}

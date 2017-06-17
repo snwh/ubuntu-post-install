@@ -7,6 +7,7 @@ source $dir/functions/third-party/google-chrome
 source $dir/functions/third-party/minecraft
 source $dir/functions/third-party/oracle-java
 source $dir/functions/third-party/peek
+source $dir/functions/third-party/plex
 source $dir/functions/third-party/riot
 source $dir/functions/third-party/rvm
 source $dir/functions/third-party/slack
@@ -30,6 +31,7 @@ function thirdparty {
 		'minecraft'			'Minecraft' \
 		'oracle-java'		'Oracle Java' \
 		'peek'				'Peek' \
+		'peek'				'Plex Media Server' \
 		'riot'				'Riot Chat' \
 		'rvm'				'Ruby Version Manager (RVM)' \
 		'slack'				'Slack' \
