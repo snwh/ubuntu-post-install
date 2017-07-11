@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Variables
+PACKAGE=fish
+BUILD=2.6.0-1
+DISTRO=$(lsb_release -cs)
+NAME="Fish Shell"
+
+# Download function for ease of reuse
+function install_fish {
+	show_info 'Downloading '$NAME'...'
+    # curl -O https://launchpad.net/~fish-shell/+archive/ubuntu/release-2/+files/fish-common_${BUILD}~${DISTRO}_all.deb
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+		i386|i486|i586|i686)
+            # curl -O https://launchpad.net/~fish-shell/+archive/ubuntu/release-2/+files/fish-dbg_${BUILD}~${DISTRO}_i386.deb
+            curl -O https://launchpad.net/~fish-shell/+archive/ubuntu/release-2/+files/fish_${BUILD}~${DISTRO}_i386.deb
+			;;
+		x86_64)
+            # curl -O https://launchpad.net/~fish-shell/+archive/ubuntu/release-2/+files/fish-dbg_${BUILD}~${DISTRO}_amd64.deb
+            curl -O https://launchpad.net/~fish-shell/+archive/ubuntu/release-2/+files/fish_${BUILD}~zesty_amd64.deb
+			;;
+		*)
+			whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+			;;
+	esac
+	# Install package(s)
+	show_info 'Installing '$NAME'...'
+	show_warning 'Requires root privileges'
+	sudo dpkg -i fish*${BUILD}*.deb
+	sudo apt install -fy
+	# Cleanup and finish
+	# rm sublime-text_build-${BUILD}*.deb
+	show_success 'Done.'
+}
+
+
+# Fish Shell
+function fish {
+	show_header 'Begin '$NAME' installation'
+	# Check if already installed
+	echo 'Checking if '$NAME' is already installed...'
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE|grep "install ok installed")
+	if [ "" == "$PKGCHECK" ]; then
+		echo $NAME 'is not installed. Proceeding'
+		install_fish
+		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
+		thirdparty
+	else
+		if [ "$BUILD" == "$VERSCHECK" ]; then
+			# Already installed
+			show_success $NAME 'already installed.'
+			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+			thirdparty
+		else
+			# Update
+			show_info $NAME '$NAME is already installed, but out-of-date.'
+			show_info 'Updating '$NAME'...'
+			# Install
+			install_fish
+			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 78
+			thirdparty
+		fi
+	fi
+}
