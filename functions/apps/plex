@@ -3,8 +3,11 @@
 # Plex
 function plex {
 	# Variables
-	PACKAGE=plexmediaserver
 	NAME="Plex"
+	PACKAGE=plexmediaserver
+	LIST=plexmediaserver.list
+	KEY='https://downloads.plex.tv/plex-keys/PlexSign.key'
+	REPO='deb https://downloads.plex.tv/repo/deb ./public main'
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
@@ -12,22 +15,32 @@ function plex {
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'
-		# Add the repository signing key to be able to verify downloaded packages
-		show_info 'Adding '$NAME' signing key to keyring...'
-		show_warning 'Requires root privileges'
-		curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add -
-		show_success 'Done.'
-		# Add the repository
-		show_info 'Adding '$NAME' repository to software sources...'
-		show_warning 'Requires root privileges'
-		echo deb https://downloads.plex.tv/repo/deb ./public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
-		# Update repository information
-		show_info 'Updating repository information...'
-		sudo apt update -y
-		show_success 'Done.'
+		# Check if repository already exists
+		echo 'Checking if '$NAME' repository already existed...'
+		if [ ! -f /etc/apt/sources.list.d/${LIST} ]; then
+			# Add the repository signing key to be able to verify downloaded packages
+			show_info 'Adding '$NAME' signing key to keyring...'
+			show_warning 'Requires root privileges'
+			# Download Key
+			sudo curl -L $KEY | sudo apt-key add -
+			# Done
+			show_success 'Done.'
+			# Add the repository
+			show_info 'Adding '$NAME' repository to software sources...'
+			show_warning 'Requires root privileges'
+			# Write repository to apt sources list file
+			echo $REPO | sudo tee /etc/apt/sources.list.d/${LIST}
+			# Update repository information
+			show_info 'Updating repository information...'
+			sudo apt update -y
+			show_success 'Done.'
+		else
+			echo ''$NAME' repository already in software sources.'
+		fi
 		# Install
 		show_info 'Installing '$NAME'...'
 		sudo apt install -y $PACKAGE
+		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty

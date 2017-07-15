@@ -3,9 +3,9 @@
 # Slack
 function slack {
 	# Variables
+	NAME="Slack"
 	PACKAGE=slack-desktop
 	VERSION=2.6.3
-	NAME="Slack"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

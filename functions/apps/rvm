@@ -4,13 +4,24 @@
 function rvm {
 	# Variables
 	NAME="Ruby Version Manager"
+	KEYID='409B6B1796C275462A1703113804BB82D39DC0E3'
+	KEYSERVER='hkp://keys.gnupg.net'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'
 	if [ ! -f $HOME/.rvm/installed.at ]; then
 		echo $NAME 'is not installed. Proceeding'
-		# Add key(s)
-		show_info 'Adding '$NAME' key to keyring...'
-		gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+		# Check if key already exists in keyring
+		KEYCHECK=$(gpg --list-keys | grep -w ${KEYID})
+		if [ "" == "$KEYCHECK" ]; then
+			# Add the repository signing key to be able to verify downloaded packages
+			show_info 'Adding '$NAME' signing key to keyring...'
+			# Import Key
+			gpg --keyserver $KEYSERVER --recv-keys $KEYID
+			# Done
+			show_success 'Done.'
+		else
+			echo ''$NAME' signing key already in keyring.'
+		fi
 		# Install
 		show_info 'Installing '$NAME'...'
 		\curl -sSL https://get.rvm.io | bash -s stable --ruby
@@ -19,7 +30,7 @@ function rvm {
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty
-	else	
+	else
 		# Already installed
 		show_success $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78

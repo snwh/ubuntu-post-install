@@ -1,11 +1,9 @@
 Ubuntu Post Install Scripts
 ===========================
 
-Original Author: [Sam Hewitt](https://github.com/snwh)
+An interactive set of post-installation and maintenance scripts for Ubuntu. They're designed to install your favourite applications, set your preferred settings, etc. mostly automatically.
 
-> This project is my set of post-installation and maintenance scripts for Ubuntu, to run on a fresh install. It's designed to install your favourite applications, set your preferred settings, etc. mostly automatically. 
-
-Feel free to fork this project, modify to suit your preference, and distribute.
+Feel free to fork this project, modify to suit your preference, and distribute. Original Author: [Sam Hewitt](https://github.com/snwh)
 
 ## Structure
 

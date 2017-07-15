@@ -3,9 +3,9 @@
 # Peek
 function peek {
 	# Variables
+	NAME="Peek"
 	PACKAGE=peek
 	PPANAME=ppa:peek-developers/daily
-	NAME="Peek"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

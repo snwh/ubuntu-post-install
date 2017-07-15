@@ -3,9 +3,9 @@
 # FontForge
 function fontforge {
 	# Variables
+	NAME="FontForge"
 	PACKAGE=fontforge
 	PPANAME=ppa:fontforge/fontforge
-	NAME="FontForge"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

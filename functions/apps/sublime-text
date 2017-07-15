@@ -33,9 +33,9 @@ function install_sublime {
 # Sublime Text 3
 function sublime-text {
 	# Variables
+	NAME="Sublime Text 3"
 	PACKAGE=sublime-text
 	BUILD=3126
-	NAME="Sublime Text 3"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

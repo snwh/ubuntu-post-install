@@ -3,9 +3,9 @@
 # Minecraft
 function minecraft {
 	# Variables
+	NAME="Minecraft Launcher"
 	PACKAGE=minecraft-installer
 	PPANAME=ppa:minecraft-installer-peeps/minecraft-installer
-	NAME="Minecraft Launcher"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

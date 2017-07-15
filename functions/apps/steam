@@ -3,7 +3,6 @@
 # Steam
 function steam {
 	# Variables
-	PACKAGE=steam-launcher
 	NAME="Steam"
 	# Install
 	show_header 'Begin '$NAME' installation'

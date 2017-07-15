@@ -3,9 +3,9 @@
 # Flatpak
 function flatpak {
 	# Variables
+	NAME="Flatpak"
 	PACKAGE=flatpak
 	PPANAME=ppa:alexlarsson/flatpak
-	NAME="Flatpak"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
