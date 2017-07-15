@@ -5,6 +5,7 @@ dir="$(dirname "$0")"
 PURGED="$dir/data/purge.list"
 
 # Remove unused/unwanted packages that are listed in 'data/purge.list'
+# This doesn't remove any system-crucial software, mostly unwanted apps.
 function unused {
 	if (eval `resize` && whiptail \
 		--title "Remove Un-used Pre-installed Applications" \
