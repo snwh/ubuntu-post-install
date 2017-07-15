@@ -4,7 +4,8 @@
 # Listed packages that are are not any system-crucial software to avoid breakage
 
 # Remove unused preinstalled apps
-function unused {
+function purge_unused {
+	show_header "Starting 'purge_unused' function..."
 	# Check list
 	PURGED="$(dirname "$0")/data/purge.list"
 	# Draw window
@@ -26,7 +27,7 @@ function unused {
 }
 
 # Remove Orphaned Packages
-function orphaned {
+function remove_orphans {
 	show_info 'Removing orphaned packages...'
 	show_warning 'Requires root privileges'
 	$SUDOCMD apt autoremove -y
@@ -36,7 +37,7 @@ function orphaned {
 }
 
 # Remove Leftover Config files
-function leftovers {
+function remove_leftover_config {
 	show_info 'Removing leftover configuration files...'
 	show_warning 'Requires root privileges'
 	$SUDOCMD dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
@@ -47,7 +48,7 @@ function leftovers {
 }
 
 # Clean apt cache
-function clean-cache {
+function clean_apt_cache {
 	show_info 'Cleaning package cache...'
 	show_warning 'Requires root privileges'
 	$SUDOCMD apt clean
@@ -58,17 +59,18 @@ function clean-cache {
 
 # Cleanup System
 function cleanup {
-	eval `resize` 
-	CLEANUP=$(whiptail \
+	show_header "Starting 'cleanup' function..."
+	# Draw window
+	CLEANUP=$(eval `resize`&& whiptail \
 		--notags \
 		--title "System Cleanup" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		clean-cache	'Clean package cache' \
-		leftovers	'Remove leftover configuration files' \
-		orphaned	'Remove orphaned packages' \
-		unused		'Remove unused pre-installed packages' \
+		clean_apt_cache			'Clean package cache' \
+		remove_config_leftovers	'Remove leftover configuration files' \
+		remove_orphans			'Remove orphaned packages' \
+		purge_unused			'Remove unused pre-installed packages' \
 		3>&1 1>&2 2>&3)
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then

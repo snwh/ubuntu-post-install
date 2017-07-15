@@ -3,7 +3,8 @@
 # Update the list of packages in 'data/fonts.list' to suit your preferences
 
 # Install preferred fonts
-function fav-fonts {
+function install_fonts {
+	show_header "Starting 'install_fonts' function..."
 	# Check list
 	FONTLIST="$(dirname "$0")/data/fonts.list"
 	# Draw window
@@ -40,6 +41,7 @@ function fav-fonts {
 
 # Install Microsoft Core Fonts
 function msttcorefonts {
+	show_header "Starting 'msttcorefonts' function..."
 	# Variables
 	PACKAGE=ttf-mscorefonts-installer
 	NAME="Microsoft Core Fonts"
@@ -72,14 +74,13 @@ function msttcorefonts {
 
 # Install Fonts
 function fonts {
-	eval `resize` 
-	FONTS=$(whiptail \
+	FONTS=$(eval `resize` && whiptail \
 		--notags \
 		--title "Install Fonts" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		fav-fonts		'Install favourite fonts' \
+		install_fonts	'Install favourite fonts' \
 		msttcorefonts	'Install Microsoft core fonts' \
 		3>&1 1>&2 2>&3)
 	exitstatus=$?

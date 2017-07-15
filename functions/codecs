@@ -2,6 +2,7 @@
 
 # Install non-free multimedia codecs using the list 'data/codec.list'
 function codecs {
+	show_header "Starting 'codecs' function..."
 	# Check list
 	CODECS="$(dirname "$0")/data/codecs.list"
 	# Draw window

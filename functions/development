@@ -5,6 +5,7 @@
 
 # Install preferred development apps
 function development {
+	show_header "Starting 'development' function..."
 	# Check list
 	DEVTOOLS="$(dirname "$0")/data/development.list"
 	# Draw window

@@ -23,8 +23,9 @@ source $dir/functions/apps/synergy
 
 # Install Third-Party Applications
 function thirdparty {
-	eval `resize`
-	THIRDPARTY=$(whiptail \
+	show_header "Starting 'thirdparty' function..."
+	# Draw window
+	THIRDPARTY=$(eval `resize` && whiptail \
 		--notags \
 		--title "Third-Party Applications" \
 		--menu "\nWhat third-party apps would you like to install?" \

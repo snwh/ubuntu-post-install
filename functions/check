@@ -41,7 +41,7 @@ function check_dependencies {
 		show_success "Dependency '$package' is installed."
 	fi
 	done
-	show_info "Proceeding."
+	echo "Proceeding."
 }
 
 # Check which distribution the user is running
@@ -54,11 +54,11 @@ function check_distribution {
 		if lsb_release -ds | grep -qE '(Ubuntu|Mint|elementary)'; then
 			echo 'Your distribution is: '$(lsb_release -ds)
 			show_info "You appear to be using Ubuntu or an Ubuntu-based distro."
-			show_info "Proceeding."
+			echo "Proceeding."
 		elif lsb_release -ds | grep -q 'Debian'; then
 			echo 'Your distribution is: '$(lsb_release -ds)
 			show_warning "You appear to be using Debian; some functions may require tweaking."
-			show_success "Proceeding nonetheless."
+			echo "Proceeding nonetheless."
 		else
 			show_error "\aYou appear to be using a distribution which is not compatible with this script! Proceeding might break the system."
 			show_error " Aborting..." && sleep 3 && exit 99
@@ -69,7 +69,6 @@ function check_distribution {
 # Check if current user is in the sudo group
 function check_sudo {
 	if [[ $EUID != 0 ]]; then
-		show_warning "Checking if current user can use 'sudo'..."
 		EXITSTATUS=$(groups $USER | grep -q 'sudo'; echo $?)
 		if [[ $EXITSTATUS != 0 ]]; then
 			show_error "Your user account doesn't have authorization to use these scripts with this computer. Log in as root or as a user with admin privileges."
@@ -78,11 +77,11 @@ function check_sudo {
 		fi
 		# Current user can use 'sudo'
 		show_info "Current user has sudo privileges"
-		show_info "Proceeding."
+		echo "Proceeding."
 		SUDOCMD="sudo"
 	else
 		show_info "You are logged in as the root user"
-		show_info "Proceeding."
+		echo "Proceeding."
 		SUDOCMD=
 		sleep 2
 	fi
@@ -90,12 +89,12 @@ function check_sudo {
 
 function check {
 	# Check sudo
-	echo "Checking user privileges..."
+	show_warning "Checking user privileges..."
 	check_sudo
-	# Check dependencies
-	echo "Checking dependencies..."
-	check_dependencies
 	# Check distro
-	echo "Checking which distribution is running..."
+	show_warning "Checking distribution..."
 	check_distribution
+	# Check dependencies
+	show_warning "Checking dependencies..."
+	check_dependencies
 }

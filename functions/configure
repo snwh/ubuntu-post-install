@@ -41,8 +41,9 @@ function disable_apport {
 
 # Configure System
 function configure {
-	eval `resize`
-	CONF=$(whiptail \
+	show_header "Starting 'configure' function..."
+	# Draw window
+	CONF=$(eval `resize` && whiptail \
 		--notags \
 		--title "Configure System" \
 		--menu "\nWhat would you like to do?" \

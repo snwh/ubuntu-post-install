@@ -66,8 +66,7 @@ echo -e "\033[0;37m$@\033[0m"
 
 # Main
 function main {
-	eval `resize`
-	MAIN=$(whiptail \
+	MAIN=$(eval `resize` && whiptail \
 		--notags \
 		--title "Ubuntu Post-Install Script" \
 		--menu "\nWhat would you like to do?" \
@@ -95,6 +94,7 @@ function main {
 
 # Quit
 function quit {
+	show_header "Are you sure you want quit?"
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
 		echo "Exiting..."
 		show_info 'Thanks for using!'
@@ -105,10 +105,13 @@ function quit {
 }
 
 # Check
+show_header "Starting 'check' function..."
 check
+
+# Main
 while :
 do
-  main
+	main
 done
 
 #END OF SCRIPT
