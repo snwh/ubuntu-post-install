@@ -3,9 +3,9 @@
 # Java
 function oracle-java {
 	# Variables
-	PACKAGE=oracle-java8-installer
+	PACKAGE=oracle-java9-installer
 	PPANAME=ppa:webupd8team/java
-	NAME="Oracle Java 8"
+	NAME="Oracle Java 9"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
