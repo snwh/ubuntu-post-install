@@ -6,7 +6,7 @@ function oracle-java {
 	PACKAGE=oracle-java8-installer
 	PPANAME=ppa:webupd8team/java
 	NAME="Oracle Java 8"
-	# Start
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'

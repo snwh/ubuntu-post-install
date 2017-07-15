@@ -1,6 +1,8 @@
 dconf-tools
 gnome-disk-utility
 inxi
+libav-tools
+mediainfo
 openssh-server
 p7zip-full
 powertop
@@ -10,3 +12,4 @@ samba
 ssh
 symlinks
 tlp
+youtube-dl

@@ -17,21 +17,18 @@ function check_fail {
 # Check for and install required packages for this script set.
 function check_dependencies {
 	show_info "Checking dependencies..."
-	for package in $(cat $DEPS)
-	do 
+	for package in $(cat $DEPS); do 
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		show_info $NAME 'is not installed. Proceeding'
 		show_info "This script requires '$package' and it is not present on your system."
 		show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
-		echo ''
+		echo
 		case $REPLY in
 		# Positive action
 		[Yy]* ) 
 			show_warning 'Requires root privileges'
 			sudo apt -y install $package
-			# Failure check
-			check_fail
 			show_success "Package '$package' installed. Proceeding."
 			;;
 		# Negative action

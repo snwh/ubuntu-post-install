@@ -6,7 +6,8 @@ function peek {
 	PACKAGE=peek
 	PPANAME=ppa:peek-developers/daily
 	NAME="Peek"
-	show_header 'Begin '$NAME' installation'	
+	# Install
+	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")

@@ -6,9 +6,7 @@ eval `resize`
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
 	status="0"
-	while [ "$status" -eq 0 ]  
-	do
-	   
+	while [ "$status" -eq 0 ]; do
 		VERSION=$(whiptail \
 		--title "Google Chrome" --radiolist \
 		"Which version of Chrome would you like to install?" \
@@ -19,7 +17,6 @@ if [ $exitstatus = 0 ]; then
 		"beta"	  "Beta build" OFF \
 		"unstable"  "Unstable build" OFF \
 		3>&1 1>&2 2>&3) 
-		 
 		# Change to lower case and remove spaces.
 		case "${VERSION}" in
 			stable) 
@@ -149,7 +146,7 @@ if [ $exitstatus = 0 ]; then
 				thirdparty
 			;;
 		esac
-		exitstatus1=$status1
+	done
 	done
 else
 	thirdparty

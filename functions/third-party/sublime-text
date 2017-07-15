@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Variables
-PACKAGE=sublime-text
-BUILD=3126
-NAME="Sublime Text 3"
-
 # Download function for ease of reuse
 function install_sublime {
 	show_info 'Downloading '$NAME'...'
@@ -23,25 +18,30 @@ function install_sublime {
 	# Install package(s)
 	show_info 'Installing '$NAME'...'
 	show_warning 'Requires root privileges'
-	sudo dpkg -i sublime-text_build-${BUILD}*.deb
+	sudo dpkg -i ${PACKAGE}*.deb
 	sudo apt install -fy
 	# Create symbolic link
 	show_info 'Creating symbolic link...'
 	show_warning 'Requires root privileges'
 	sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
 	# Cleanup and finish
-	rm sublime-text_build-${BUILD}*.deb
+	rm ${PACKAGE}*.deb
 	show_success 'Done.'
 }
 
 
 # Sublime Text 3
 function sublime-text {
+	# Variables
+	PACKAGE=sublime-text
+	BUILD=3126
+	NAME="Sublime Text 3"
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE|grep "install ok installed")
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'
 		install_sublime

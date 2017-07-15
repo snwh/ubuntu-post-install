@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Spotify
-function spotify {
+# Flatpak
+function flatpak {
 	# Variables
-	PACKAGE=spotify-client
-	NAME="Spotify"
+	PACKAGE=flatpak
+	PPANAME=ppa:alexlarsson/flatpak
+	NAME="Flatpak"
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
@@ -12,15 +13,10 @@ function spotify {
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'
-		# Add the repository signing key to be able to verify downloaded packages
-		show_info 'Adding '$NAME' signing key to keyring...'
-		show_warning 'Requires root privileges'
-		sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
-		show_success 'Done.'
-		# Add the repository
+		# Add repository
 		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'
-		echo 'deb http://repository.spotify.com stable non-free' | sudo tee /etc/apt/sources.list.d/spotify.list
+		sudo add-apt-repository -y $PPANAME
 		# Update repository information
 		show_info 'Updating repository information...'
 		sudo apt update -y
@@ -28,6 +24,7 @@ function spotify {
 		# Install
 		show_info 'Installing '$NAME'...'
 		sudo apt install -y $PACKAGE
+		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty

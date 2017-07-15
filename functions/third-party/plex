@@ -5,6 +5,7 @@ function plex {
 	# Variables
 	PACKAGE=plexmediaserver
 	NAME="Plex"
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'

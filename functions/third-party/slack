@@ -4,7 +4,9 @@
 function slack {
 	# Variables
 	PACKAGE=slack-desktop
-	NAME="Slack Desktop"	
+	VERSION=2.6.3
+	NAME="Slack"
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'
@@ -15,10 +17,10 @@ function slack {
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 			i386|i486|i586|i686)
-				curl -O https://downloads.slack-edge.com/linux_releases/slack-desktop-2.5.2-i386.deb
+				curl -O https://downloads.slack-edge.com/linux_releases/slack-desktop-${VERSION}-i386.deb
 				;;
 			x86_64)
-				curl -O https://downloads.slack-edge.com/linux_releases/slack-desktop-2.5.2-amd64.deb
+				curl -O https://downloads.slack-edge.com/linux_releases/slack-desktop-${VERSION}-amd64.deb
 				;;
 			*)
 				whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
@@ -27,10 +29,10 @@ function slack {
 		# Install package(s)
 		show_info 'Installing '$NAME'...'
 		show_warning 'Requires root privileges'
-		sudo dpkg -i slack-desktop-*.deb
+		sudo dpkg -i ${PACKAGE}-*.deb
 		sudo apt install -fy
 		# Cleanup and finish
-		rm slack-desktop-*.deb
+		rm ${PACKAGE}-*.deb
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78

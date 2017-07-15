@@ -1,45 +1,65 @@
 #!/bin/bash
 
-# Synergy (1.7.6)
+# Download function for ease of reuse
+function install_synergy {
+	# Install
+	show_info 'Downloading '$NAME' version '$VERSION'...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+		i386|i486|i586|i686)
+			curl -O https://binaries.symless.com/v${VERSION}/synergy-v${VERSION}-stable-${BUILD}-Linux-i686.deb
+
+			;;
+		x86_64)
+			curl -O https://binaries.symless.com/v${VERSION}/synergy-v${VERSION}-stable-${BUILD}-Linux-x86_64.deb
+			;;
+		*)
+			whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+			;;
+	esac
+	# Install package(s)
+	show_info 'Installing '$NAME'...'
+	show_warning 'Requires root privileges'
+	sudo dpkg -i ${PACKAGE}*.deb
+	sudo apt install -fy
+	# Cleanup and finishh
+	rm ${PACKAGE}*.deb
+	show_success 'Done.'
+}
+
+
+# Synergy
 function synergy {
 	# Variables
 	PACKAGE=synergy
-	NAME="Synergy"	
+	VERSION=1.8.8
+	BUILD=25a8cb2
+	NAME="Synergy"
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'
-		show_info 'Downloading '$NAME'...'
-		# Download Debian file that matches system architecture
-		case `uname -i` in
-			i386|i486|i586|i686)
-				curl -O http://symless.com/files/packages/synergy-v1.7.6-stable-bcb9da8-Linux-i686.deb
-				;;
-			x86_64)
-				curl -O http://symless.com/files/packages/synergy-v1.7.6-stable-bcb9da8-Linux-x86_64.deb
-				;;
-			*)
-				whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
-				;;
-		esac
-		# Install package(s)
-		show_info 'Installing '$NAME'...'
-		show_warning 'Requires root privileges'
-		sudo dpkg -i synergy*.deb
-		sudo apt install -fy
-		# Cleanup and finish
-		rm synergy*.deb
-		# Done
-		show_success 'Done.'
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		install_synergy
+		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
 		thirdparty
 	else
-		# Already installed
-		show_success $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
-		thirdparty
+		if [ "$BUILD" == "$VERSCHECK" ]; then
+			# Already installed
+			show_success $NAME 'already installed.'
+			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+			thirdparty
+		else
+			# Update
+			show_info $NAME '$NAME is already installed, but out-of-date.'
+			show_info 'Updating '$NAME'...'
+			# Install
+			install_synergy
+			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 78
+			thirdparty
+		fi
 	fi
 }
-

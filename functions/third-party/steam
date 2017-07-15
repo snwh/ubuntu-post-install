@@ -4,7 +4,8 @@
 function steam {
 	# Variables
 	PACKAGE=steam-launcher
-	NAME="Steam"	
+	NAME="Steam"
+	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
 	echo 'Checking if '$NAME' is already installed...'

@@ -2,6 +2,7 @@
 
 dir="$(dirname "$0")"
 
+GNOMEDESKTOP="$dir/data/gnome-desktop.list"
 GNOMEAPPS="$dir/data/gnome-apps.list"
 
 # Cleanup System
@@ -45,46 +46,63 @@ function gnome-upgrade {
 
 # Install GNOME Desktop
 function gnome-desktop {
-	# Install
-	echo 'Installing GNOME Desktop...'
-	show_warning 'Requires root privileges'
-	sudo apt install -y fonts-cantarell gnome-shell gnome-shell-extensions gnome-session gnome-terminal nautilus
-	# Done
-	show_success 'Done.'
-	# Check
-	EXITSTATUS=$1
-	if [[ $EXITSTATUS != 0 ]]; then
-		whiptail --title "Finished" --msgbox "GNOME desktop is installed." 8 78
-		gnome
+	if (eval `resize` && whiptail \
+		--title "GNOME Desktop" \
+		--yesno "Packages to install for a basic GNOME desktop: \n\n$(cat $GNOMEDESKTOP) \n\nProceed with installation?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		# Install loop
+		for PACKAGE in $(cat $GNOMEDESKTOP); do
+			# Check if package is installed
+			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				show_info "'$PACKAGE' is not installed. Installing..."
+				show_warning 'Requires root privileges'
+				sudo apt install -y --no-install-recommends $PACKAGE
+				# Done
+				show_success 'Done.'
+			else
+				# Show already installed message
+				show_success "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		main
 	else
-		whiptail --title "Finished" --msgbox "GNOME desktop installation complete." 8 78
-		gnome
+		main
 	fi
-	gnome
 }
 
-# Install GNOME Apps
+# Install GNOME Core Apps
 function gnome-apps {
-	if (eval `resize` && whiptail --title \
-		"GNOME Apps"  --yesno \
-		"Current list of GNOME apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install the GNOME core app suite?" \
+	if (eval `resize` && whiptail \
+		--title "GNOME Core Apps"
+		--yesno "Current list of GNOME core apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install these apps?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
-		show_info 'Installing '$NAME'...'
-		show_warning 'Requires root privileges'
-		# Feel free to change the contents of 'gnome-apps.list' in the data folder to whatever suits your preference.
-		sudo apt install -y --no-install-recommends $(cat $GNOMEAPPS)
-		# Done
-		show_success 'Done.'
-		# Check
-		EXITSTATUS=$1
-		if [[ $EXITSTATUS != 0 ]]; then
-			whiptail --title "Finished" --msgbox "GNOME apps are installed." 8 78
-			gnome
-		else
-			whiptail --title "Finished" --msgbox "GNOME apps installation complete." 8 78
-			gnome
-		fi
+		# Install loop
+		for PACKAGE in $(cat $GNOMEDESKTOP); do
+			# Check if package is installed
+			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				show_info "'$PACKAGE' is not installed. Installing..."
+				show_warning 'Requires root privileges'
+				sudo apt install -y --no-install-recommends $PACKAGE
+				# Done
+				show_success 'Done.'
+			else
+				# Show already installed message
+				show_success "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		whiptail --title "Finished" --msgbox "GNOME Apps are installed complete." 8 78
+		main
 	else
 		gnome
 	fi
