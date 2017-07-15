@@ -14,7 +14,7 @@ function unused {
 		--scrolltext ) then
 		show_info 'Removing unused pre-installed applications...'
 		show_warning 'Requires root privileges'
-		sudo apt remove -y $(cat $PURGED)
+		$SUDOCMD apt remove -y $(cat $PURGED)
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
@@ -28,7 +28,7 @@ function unused {
 function orphaned {
 	show_info 'Removing orphaned packages...'
 	show_warning 'Requires root privileges'
-	sudo apt autoremove -y
+	$SUDOCMD apt autoremove -y
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
 	cleanup
@@ -38,7 +38,7 @@ function orphaned {
 function leftovers {
 	show_info 'Removing leftover configuration files...'
 	show_warning 'Requires root privileges'
-	sudo dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
+	$SUDOCMD dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
 	show_success 'Done.'
 	# Check
 	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
@@ -49,7 +49,7 @@ function leftovers {
 function clean-cache {
 	show_info 'Cleaning package cache...'
 	show_warning 'Requires root privileges'
-	sudo apt clean
+	$SUDOCMD apt clean
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
 	cleanup

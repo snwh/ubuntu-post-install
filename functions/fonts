@@ -20,7 +20,7 @@ function fav-fonts {
 				# Install package
 				show_info "'$PACKAGE' is not installed. Installing..."
 				show_warning 'Requires root privileges'
-				sudo apt install -y --no-install-recommends $PACKAGE
+				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
 				show_success 'Done.'
 			else
@@ -50,7 +50,7 @@ function msttcorefonts {
 			# Install
 			show_info 'Installing...'
 			show_warning 'Requires root privileges'
-			sudo apt install -y $PACKAGE
+			$SUDOCMD apt install -y $PACKAGE
 			# Done
 			show_success 'Done.'
 		else

@@ -18,12 +18,12 @@ function install_sublime {
 	# Install package(s)
 	show_info 'Installing '$NAME'...'
 	show_warning 'Requires root privileges'
-	sudo dpkg -i ${PACKAGE}*.deb
-	sudo apt install -fy
+	$SUDOCMD dpkg -i ${PACKAGE}*.deb
+	$SUDOCMD apt install -fy
 	# Create symbolic link
 	show_info 'Creating symbolic link...'
 	show_warning 'Requires root privileges'
-	sudo ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
+	$SUDOCMD ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
 	# Cleanup and finish
 	rm ${PACKAGE}*.deb
 	show_success 'Done.'

@@ -44,8 +44,8 @@ if [ $exitstatus = 0 ]; then
 					# Install package(s)
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
-					sudo dpkg -i $PACKAGE*.deb
-					sudo apt install -fy
+					$SUDOCMD dpkg -i $PACKAGE*.deb
+					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
@@ -85,8 +85,8 @@ if [ $exitstatus = 0 ]; then
 					# Install package(s)
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
-					sudo dpkg -i $PACKAGE*.deb
-					sudo apt install -fy
+					$SUDOCMD dpkg -i $PACKAGE*.deb
+					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
@@ -126,8 +126,8 @@ if [ $exitstatus = 0 ]; then
 					# Install package(s)
 					show_info 'Installing '$NAME'...'
 					show_warning 'Requires root privileges'
-					sudo dpkg -i $PACKAGE*.deb
-					sudo apt install -fy
+					$SUDOCMD dpkg -i $PACKAGE*.deb
+					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done

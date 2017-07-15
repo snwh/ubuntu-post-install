@@ -22,24 +22,24 @@ function plex {
 			show_info 'Adding '$NAME' signing key to keyring...'
 			show_warning 'Requires root privileges'
 			# Download Key
-			sudo curl -L $KEY | sudo apt-key add -
+			$SUDOCMD curl -L $KEY | $SUDOCMD apt-key add -
 			# Done
 			show_success 'Done.'
 			# Add the repository
 			show_info 'Adding '$NAME' repository to software sources...'
 			show_warning 'Requires root privileges'
 			# Write repository to apt sources list file
-			echo $REPO | sudo tee /etc/apt/sources.list.d/${LIST}
+			echo $REPO | $SUDOCMD tee /etc/apt/sources.list.d/${LIST}
 			# Update repository information
 			show_info 'Updating repository information...'
-			sudo apt update -y
+			$SUDOCMD apt update -y
 			show_success 'Done.'
 		else
 			echo ''$NAME' repository already in software sources.'
 		fi
 		# Install
 		show_info 'Installing '$NAME'...'
-		sudo apt install -y $PACKAGE
+		$SUDOCMD apt install -y $PACKAGE
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78

@@ -32,14 +32,14 @@ function gnome-upgrade {
 	# Add repository
 	show_info 'Adding GNOME3 PPA to software sources...'
 	show_warning 'Requires root privileges'
-	sudo add-apt-repository -y ppa:gnome3-team/gnome3
+	$SUDOCMD add-apt-repository -y ppa:gnome3-team/gnome3
 	# Update repository information
 	show_info 'Updating repository information...'
-	sudo apt update -y
+	$SUDOCMD apt update -y
 	show_success 'Done.'
 	# Upgrade GNOME
 	show_info 'Updating repository information...'
-	sudo apt dist-upgrade -y
+	$SUDOCMD apt dist-upgrade -y
 	show_success 'Done.'
 	gnome
 }
@@ -60,7 +60,7 @@ function gnome-desktop {
 				# Install package
 				show_info "'$PACKAGE' is not installed. Installing..."
 				show_warning 'Requires root privileges'
-				sudo apt install -y --no-install-recommends $PACKAGE
+				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
 				show_success 'Done.'
 			else
@@ -92,7 +92,7 @@ function gnome-apps {
 				# Install package
 				show_info "'$PACKAGE' is not installed. Installing..."
 				show_warning 'Requires root privileges'
-				sudo apt install -y --no-install-recommends $PACKAGE
+				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
 				show_success 'Done.'
 			else

@@ -22,7 +22,7 @@ function preferences {
 function startup {
 	show_info 'Changing display of startup applications...'
 	show_warning 'Requires root privileges'
-	sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
+	$SUDOCMD sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
 	# Done
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
@@ -33,7 +33,7 @@ function startup {
 function apport {
 	show_info 'Disabling apport crash dialogs...'
 	show_warning 'Requires root privileges'
-	sudo sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
+	$SUDOCMD sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
 	# Done
 	show_success 'Done.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78

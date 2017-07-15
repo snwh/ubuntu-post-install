@@ -16,14 +16,14 @@ function flatpak {
 		# Add repository
 		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'
-		sudo add-apt-repository -y $PPANAME
+		$SUDOCMD add-apt-repository -y $PPANAME
 		# Update repository information
 		show_info 'Updating repository information...'
-		sudo apt update -y
+		$SUDOCMD apt update -y
 		show_success 'Done.'
 		# Install
 		show_info 'Installing '$NAME'...'
-		sudo apt install -y $PACKAGE
+		$SUDOCMD apt install -y $PACKAGE
 		# Done
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78

@@ -104,8 +104,8 @@ function quit {
 	fi
 }
 
-#RUN
-check_dependencies
+# Check
+check
 while :
 do
   main

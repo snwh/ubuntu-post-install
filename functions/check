@@ -9,14 +9,13 @@ DEPS="$dir/data/dependencies.list"
 function check_fail {
 	EXITSTATUS=$1
 	if [[ $EXITSTATUS != 0 ]]; then
-		show_error "Something may have went wrong during the last command. Returning."
-		sleep 3s && main
+		show_error "Last command returned an error; something may have went wrong."
+		show_error "Aborting..." && sleep 3 && exit 99
 	fi
 }
 
 # Check for and install required packages for this script set.
 function check_dependencies {
-	show_info "Checking dependencies..."
 	for package in $(cat $DEPS); do 
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
@@ -28,13 +27,13 @@ function check_dependencies {
 		# Positive action
 		[Yy]* ) 
 			show_warning 'Requires root privileges'
-			sudo apt -y install $package
+			$SUDOCMD apt -y install $package
 			show_success "Package '$package' installed. Proceeding."
 			;;
 		# Negative action
 		[Nn]* )
 			show_info "Exiting..."
-			exit 99
+			sleep 2 && exit 99
 			;;
 		# Error
 		* )
@@ -46,4 +45,60 @@ function check_dependencies {
 	fi
 	done
 	show_info "Proceeding."
+}
+
+# Check which distribution the user is running
+function check_distribution {
+	EXITSTATUS=$(which lsb_release &>/dev/null; echo $?)
+	if [[ $EXITSTATUS != 0 ]]; then
+		show_error "\aCan't check which distribution you are using! Aborting."
+		show_error " Aborting..." && sleep 3 && exit 99
+	else
+		if lsb_release -ds | grep -qE '(Ubuntu|Mint|elementary)'; then
+			echo 'Your distribution is: '$(lsb_release -ds)
+			show_info "You appear to be using Ubuntu or an Ubuntu-based distro."
+			show_info "Proceeding."
+		elif lsb_release -ds | grep -q 'Debian'; then
+			echo 'Your distribution is: '$(lsb_release -ds)
+			show_warning "You appear to be using Debian; some functions may require tweaking."
+			show_success "Proceeding nonetheless."
+		else
+			show_error "\aYou appear to be using a distribution which is not compatible with this script! Proceeding might break the system."
+			show_error " Aborting..." && sleep 3 && exit 99
+		fi
+	fi
+}
+
+# Check if current user is in the sudo group
+function check_sudo {
+	if [[ $EUID != 0 ]]; then
+		show_warning "Checking if current user can use 'sudo'..."
+		EXITSTATUS=$(groups $USER | grep -q 'sudo'; echo $?)
+		if [[ $EXITSTATUS != 0 ]]; then
+			show_error "Your user account doesn't have authorization to use these scripts with this computer. Log in as root or as a user with admin privileges."
+			show_info "Exiting..."
+			sleep 5 && exit 99
+		fi
+		# Current user can use 'sudo'
+		show_info "Current user has sudo privileges"
+		show_info "Proceeding."
+		SUDOCMD="sudo"
+	else
+		show_info "You are logged in as the root user"
+		show_info "Proceeding."
+		SUDOCMD=
+		sleep 2
+	fi
+}
+
+function check {
+	# Check sudo
+	echo "Checking user privileges..."
+	check_sudo
+	# Check dependencies
+	echo "Checking dependencies..."
+	check_dependencies
+	# Check distro
+	echo "Checking which distribution is running..."
+	check_distribution
 }
