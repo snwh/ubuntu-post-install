@@ -84,7 +84,7 @@ function main {
 		configure	'Configure system' \
 		cleanup		'Cleanup the system' \
 		3>&1 1>&2 2>&3)
-	 
+
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
 		$MAIN

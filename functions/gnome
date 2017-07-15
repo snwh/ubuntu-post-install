@@ -5,30 +5,8 @@ dir="$(dirname "$0")"
 GNOMEDESKTOP="$dir/data/gnome-desktop.list"
 GNOMEAPPS="$dir/data/gnome-apps.list"
 
-# Cleanup System
-function gnome {
-	eval `resize` 
-	GNOME=$(whiptail \
-		--notags \
-		--title "Install Latest GNOME" \
-		--menu "\nWhat would you like to do?" \
-		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		gnome-upgrade   'Update to latest GNOME' \
-		gnome-desktop   'Install basic GNOME desktop' \
-		gnome-apps	  'Install GNOME core applications' \
-		3>&1 1>&2 2>&3)
-	 
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
-		$GNOME
-	else
-		main
-	fi
-}
-
 # Add GNOME PPA
-function gnome-upgrade {
+function upgrade_gnome {
 	# Add repository
 	show_info 'Adding GNOME3 PPA to software sources...'
 	show_warning 'Requires root privileges'
@@ -45,7 +23,7 @@ function gnome-upgrade {
 }
 
 # Install GNOME Desktop
-function gnome-desktop {
+function install_gnome_desktop {
 	if (eval `resize` && whiptail \
 		--title "GNOME Desktop" \
 		--yesno "Packages to install for a basic GNOME desktop: \n\n$(cat $GNOMEDESKTOP) \n\nProceed with installation?" \
@@ -74,17 +52,16 @@ function gnome-desktop {
 	else
 		main
 	fi
-}
 
 # Install GNOME Core Apps
-function gnome-apps {
+function install_gnome_apps {
 	if (eval `resize` && whiptail \
-		--title "GNOME Core Apps"
+		--title "GNOME Core Apps" \
 		--yesno "Current list of GNOME core apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install these apps?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
-		for PACKAGE in $(cat $GNOMEDESKTOP); do
+		for PACKAGE in $(cat $GNOMEAPPS); do
 			# Check if package is installed
 			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 			# If app package is not installed
@@ -105,5 +82,27 @@ function gnome-apps {
 		main
 	else
 		gnome
+	fi
+}
+
+# GNOME
+function gnome {
+	eval `resize` 
+	GNOME=$(whiptail \
+		--notags \
+		--title "Install Latest GNOME" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		upgrade_gnome			'Update to latest GNOME' \
+		install_gnome_desktop	'Install basic GNOME desktop' \
+		install_gnome_apps		'Install GNOME core applications' \
+		3>&1 1>&2 2>&3)
+
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$GNOME
+	else
+		main
 	fi
 }

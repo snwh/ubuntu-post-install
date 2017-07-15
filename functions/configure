@@ -6,7 +6,7 @@ GSETTINGS="$dir/data/gsettings.list"
 
 # Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
 # 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
-function preferences {
+function set_preferences {
 	show_info 'Setting preferred application-specific & desktop settings...'
 	while IFS= read line
 	do
@@ -19,7 +19,7 @@ function preferences {
 }
 
 # Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
-function startup {
+function show_startup_apps {
 	show_info 'Changing display of startup applications...'
 	show_warning 'Requires root privileges'
 	$SUDOCMD sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
@@ -30,7 +30,7 @@ function startup {
 }
 
 # Disable Apport
-function apport {
+function disable_apport {
 	show_info 'Disabling apport crash dialogs...'
 	show_warning 'Requires root privileges'
 	$SUDOCMD sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
@@ -49,11 +49,11 @@ function configure {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		preferences 'Set preferred application-specific & desktop settings' \
-		startup	 'Show all startup applications' \
-		apport	  'Disable system crash dialogs' \
+		set_preferences		'Set preferred application-specific & desktop settings' \
+		show_startup_apps	'Show all startup applications' \
+		disable_apport		'Disable system crash dialogs' \
 		3>&1 1>&2 2>&3)
-	 
+
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
 		$CONF
