@@ -3,28 +3,28 @@
 dir="$(dirname "$0")"
 
 # Import functions
-source $dir/functions/third-party/dropbox
-source $dir/functions/third-party/flatpak
-source $dir/functions/third-party/google-chrome
-source $dir/functions/third-party/minecraft
-source $dir/functions/third-party/oracle-java
-source $dir/functions/third-party/peek
-source $dir/functions/third-party/plex
-source $dir/functions/third-party/riot
-source $dir/functions/third-party/rvm
-source $dir/functions/third-party/slack
-source $dir/functions/third-party/spotify
-source $dir/functions/third-party/steam
-source $dir/functions/third-party/sublime-text
-source $dir/functions/third-party/synergy
+source $dir/functions/apps/dropbox
+source $dir/functions/apps/flatpak
+source $dir/functions/apps/google-chrome
+source $dir/functions/apps/minecraft
+source $dir/functions/apps/oracle-java
+source $dir/functions/apps/peek
+source $dir/functions/apps/plex
+source $dir/functions/apps/riot
+source $dir/functions/apps/rvm
+source $dir/functions/apps/slack
+source $dir/functions/apps/spotify
+source $dir/functions/apps/steam
+source $dir/functions/apps/sublime-text
+source $dir/functions/apps/synergy
 
 # Install Third-Party Applications
 function thirdparty {
 	eval `resize`
 	THIRDPARTY=$(whiptail \
 		--notags \
-		--title "Third-Party Installation" \
-		--menu "\nWhat third-party software would you like to install?" \
+		--title "Third-Party Applications" \
+		--menu "\nWhat third-party apps would you like to install?" \
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
