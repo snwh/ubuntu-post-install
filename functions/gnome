@@ -53,6 +53,7 @@ function install_gnome_desktop {
 	else
 		gnome
 	fi
+}
 
 # Install GNOME Core Apps
 function install_gnome_apps {

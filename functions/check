@@ -53,15 +53,15 @@ function check_distribution {
 	else
 		if lsb_release -ds | grep -qE '(Ubuntu|Mint|elementary)'; then
 			echo 'Your distribution is: '$(lsb_release -ds)
-			show_info "You appear to be using Ubuntu or an Ubuntu-based distro."
+			show_info "Using Ubuntu or an Ubuntu-based distribution. :)"
 			echo "Proceeding."
 		elif lsb_release -ds | grep -q 'Debian'; then
 			echo 'Your distribution is: '$(lsb_release -ds)
-			show_warning "You appear to be using Debian; some functions may require tweaking."
+			show_warning "Using Debian; some functions may require tweaking. :/"
 			echo "Proceeding nonetheless."
 		else
-			show_error "\aYou appear to be using a distribution which is not compatible with this script! Proceeding might break the system."
-			show_error " Aborting..." && sleep 3 && exit 99
+			show_error "\aYou appear to be using a distribution which is not compatible with this script! :("
+			show_error "Proceeding might break the system. Aborting..." && sleep 3 && exit 99
 		fi
 	fi
 }
