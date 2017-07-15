@@ -6,42 +6,42 @@
 function set_preferences {
 	# Check list
 	GSETTINGS=$(dirname "$0")'/data/gsettings.list'
-	show_info 'Setting preferred application-specific & desktop settings...'
+	display_info 'Setting preferred application-specific & desktop settings...'
 	while IFS= read line
 	do
 		eval 'gsettings set' $line
 	done < "$GSETTINGS"
 	# Done
-	show_success 'Done.'
+	display_success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
 	configure
 }
 
 # Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
-function show_startup_apps {
-	show_info 'Changing display of startup applications...'
-	show_warning 'Requires root privileges'
+function display_startup_apps {
+	display_info 'Changing display of startup applications...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
 	# Done
-	show_success 'Done.'
+	display_success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
 	configure
 }
 
 # Disable Apport
 function disable_apport {
-	show_info 'Disabling apport crash dialogs...'
-	show_warning 'Requires root privileges'
+	display_info 'Disabling apport crash dialogs...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
 	# Done
-	show_success 'Done.'
+	display_success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
 	configure
 }
 
 # Configure System
 function configure {
-	show_header "Starting 'configure' function..."
+	display_title "Starting 'configure' function..."
 	# Draw window
 	CONF=$(eval `resize` && whiptail \
 		--notags \
@@ -50,7 +50,7 @@ function configure {
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		set_preferences		'Set preferred application-specific & desktop settings' \
-		show_startup_apps	'Show all startup applications' \
+		display_startup_apps	'Show all startup applications' \
 		disable_apport		'Disable system crash dialogs' \
 		3>&1 1>&2 2>&3)
 

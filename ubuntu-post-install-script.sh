@@ -25,7 +25,7 @@
 tabs 4
 clear
 
-#----- Import Functions -----#
+# Import functions
 
 dir=$(dirname "$0")
 
@@ -41,31 +41,41 @@ dir=$(dirname "$0")
 . $dir/functions/update
 . $dir/functions/utilities
 
-#----- Fancy Messages -----#
-show_error(){
-echo -e "\033[1;31m$@\033[m" 1>&2
+
+# Fancy colorful messages
+
+# grey titles
+display_title(){
+echo -e "\033[1;30m$@\033[0m"
 }
-show_info(){
+# red error messages
+display_error(){
+echo -e "\033[1;31m$@\033[0m" 1>&2
+}
+# green info messages
+display_info(){
 echo -e "\033[1;32m$@\033[0m"
 }
-show_warning(){
+# yellow warning messages
+display_warning(){
 echo -e "\033[1;33m$@\033[0m"
 }
-show_question(){
+# blue questions
+display_question(){
 echo -e "\033[1;34m$@\033[0m"
 }
-show_success(){
+# pink success messages
+display_success(){
 echo -e "\033[1;35m$@\033[0m"
 }
-show_header(){
+# cyan header messages
+display_header(){
 echo -e "\033[1;36m$@\033[0m"
-}
-show_listitem(){
-echo -e "\033[0;37m$@\033[0m"
 }
 
 # Main
 function main {
+	# Draw window
 	MAIN=$(eval `resize` && whiptail \
 		--notags \
 		--title "Ubuntu Post-Install Script" \
@@ -94,18 +104,20 @@ function main {
 
 # Quit
 function quit {
-	show_header "Starting 'quit' function..."
+	display_title "Starting 'quit' function..."
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
 		echo "Exiting..."
-		show_info 'Thanks for using!'
+		display_success 'Thanks for using!'
 		exit 99
 	else
 		main
 	fi
 }
 
+# Welcome message
+display_header "Ubuntu Post-Install Script"
 # Check
-show_header "Starting 'check' function..."
+display_title "Starting 'check' function..."
 check
 
 # Main

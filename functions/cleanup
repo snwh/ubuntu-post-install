@@ -5,7 +5,7 @@
 
 # Remove unused preinstalled apps
 function purge_unused {
-	show_header "Starting 'purge_unused' function..."
+	display_title "Starting 'purge_unused' function..."
 	# Check list
 	PURGED=$(dirname "$0")'/data/purge.list'
 	# Draw window
@@ -14,11 +14,11 @@ function purge_unused {
 		--yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
-		show_info 'Removing unused pre-installed applications...'
-		show_warning 'Requires root privileges'
+		display_info 'Removing unused pre-installed applications...'
+		display_warning 'Requires admin privileges'
 		$SUDOCMD apt remove -y $(cat $PURGED)
 		# Done
-		show_success 'Done.'
+		display_success 'Removal of unused packages complete.'
 		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
 		cleanup
 	else
@@ -28,38 +28,41 @@ function purge_unused {
 
 # Remove Orphaned Packages
 function remove_orphans {
-	show_info 'Removing orphaned packages...'
-	show_warning 'Requires root privileges'
+	display_info 'Removing orphaned packages...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD apt autoremove -y
-	show_success 'Done.'
+	# Done
+	display_success 'Removal of orphaned packages complete.'
 	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
 	cleanup
 }
 
 # Remove Leftover Config files
 function remove_leftover_config {
-	show_info 'Removing leftover configuration files...'
-	show_warning 'Requires root privileges'
+	display_info 'Removing leftover configuration files...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
-	show_success 'Done.'
-	# Check
+	display_success 'Done.'
+	# Done
+	display_success 'Removal of leftover configuration files complete.'
 	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
 	cleanup
 }
 
 # Clean apt cache
 function clean_apt_cache {
-	show_info 'Cleaning package cache...'
-	show_warning 'Requires root privileges'
+	display_info 'Cleaning package cache...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD apt clean
-	show_success 'Done.'
+	# Done
+	display_success 'Package cache cleaned.'
 	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
 	cleanup
 }
 
 # Cleanup System
 function cleanup {
-	show_header "Starting 'cleanup' function..."
+	display_title "Starting 'cleanup' function..."
 	# Draw window
 	CLEANUP=$(eval `resize`&& whiptail \
 		--notags \
@@ -68,7 +71,7 @@ function cleanup {
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		clean_apt_cache			'Clean package cache' \
-		remove_config_leftovers	'Remove leftover configuration files' \
+		remove_leftover_config	'Remove leftover configuration files' \
 		remove_orphans			'Remove orphaned packages' \
 		purge_unused			'Remove unused pre-installed packages' \
 		3>&1 1>&2 2>&3)

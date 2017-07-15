@@ -24,12 +24,12 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-stable
 				NAME="Google Chrome (Stable)"
 				# Check if already installed
-				show_info 'Checking if '$NAME' already installed...'
+				display_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
-					show_info $NAME 'is not installed.'
+					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
-					show_info 'Downloading '$NAME'...'
+					display_info 'Downloading '$NAME'...'
 					# Download Debian file that matches system architecture
 					case `uname -i` in
 						i386|i486|i586|i686)
@@ -43,20 +43,20 @@ if [ $exitstatus = 0 ]; then
 							;;
 					esac
 					# Install package(s)
-					show_info 'Installing '$NAME'...'
-					show_warning 'Requires root privileges'
+					display_info 'Installing '$NAME'...'
+					display_warning 'Requires admin privileges'
 					$SUDOCMD dpkg -i $PACKAGE*.deb
 					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
-					show_success 'Done.'
+					display_success 'Done.'
 					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 					status=1
 					thirdparty
 				else
 					# Already installed
-					show_success $NAME 'already installed.'
+					display_success $NAME 'already installed.'
 					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 					thirdparty
 				fi
@@ -66,12 +66,12 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-beta
 				NAME="Google Chrome (Beta)"
 				# Check if already installed
-				show_info 'Checking if '$NAME' already installed...'
+				display_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
-					show_info $NAME 'is not installed.'
+					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
-					show_info 'Downloading '$NAME'...'
+					display_info 'Downloading '$NAME'...'
 					# Download Debian file that matches system architecture
 					case `uname -i` in
 						i386|i486|i586|i686)
@@ -85,20 +85,20 @@ if [ $exitstatus = 0 ]; then
 							;;
 					esac
 					# Install package(s)
-					show_info 'Installing '$NAME'...'
-					show_warning 'Requires root privileges'
+					display_info 'Installing '$NAME'...'
+					display_warning 'Requires admin privileges'
 					$SUDOCMD dpkg -i $PACKAGE*.deb
 					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
-					show_success 'Done.'
+					display_success 'Done.'
 					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 					status=1
 					thirdparty
 				else
 					# Already installed
-					show_success $NAME 'already installed.'
+					display_success $NAME 'already installed.'
 					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 					thirdparty
 				fi
@@ -108,12 +108,12 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-unstable
 				NAME="Google Chrome (Unstable)"
 				# Check if already installed
-				show_info 'Checking if '$NAME' already installed...'
+				display_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
-					show_info $NAME 'is not installed.'
+					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
-					show_info 'Downloading '$NAME'...'
+					display_info 'Downloading '$NAME'...'
 					# Download Debian file that matches system architecture
 					case `uname -i` in
 						i386|i486|i586|i686)
@@ -127,20 +127,20 @@ if [ $exitstatus = 0 ]; then
 							;;
 					esac
 					# Install package(s)
-					show_info 'Installing '$NAME'...'
-					show_warning 'Requires root privileges'
+					display_info 'Installing '$NAME'...'
+					display_warning 'Requires admin privileges'
 					$SUDOCMD dpkg -i $PACKAGE*.deb
 					$SUDOCMD apt install -fy
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
-					show_success 'Done.'
+					display_success 'Done.'
 					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 					status=1
 					thirdparty
 				else
 					# Already installed
-					show_success $NAME 'already installed.'
+					display_success $NAME 'already installed.'
 					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 					thirdparty
 				fi

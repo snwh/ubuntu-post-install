@@ -2,7 +2,7 @@
 
 # Install non-free multimedia codecs using the list 'data/codec.list'
 function codecs {
-	show_header "Starting 'codecs' function..."
+	display_title "Starting 'codecs' function..."
 	# Check list
 	CODECS=$(dirname "$0")'/data/codecs.list'
 	# Draw window
@@ -12,25 +12,25 @@ function codecs {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
-		echo 'Installing non-free codecs...'
+		display_info 'Installing non-free codecs...'
 		for PACKAGE in $(cat $CODECS); do
 			# Check if package is installed
 			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 			# If app package is not installed
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
-				show_info "'$PACKAGE' is not installed. Installing..."
-				show_warning 'Requires root privileges'
+				display_info "'$PACKAGE' is not installed. Installing..."
+				display_warning 'Requires admin privileges'
 				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
-				show_success 'Done.'
+				display_success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
-				show_success "Package '$PACKAGE' is installed."
+				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		echo "Installation complete"
+		display_success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
 		main
 	else

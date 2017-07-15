@@ -24,7 +24,7 @@ source $dir/functions/apps/synergy
 
 # Install Third-Party Applications
 function thirdparty {
-	show_header "Starting 'thirdparty' function..."
+	display_title "Starting 'thirdparty' function..."
 	# Draw window
 	THIRDPARTY=$(eval `resize` && whiptail \
 		--notags \

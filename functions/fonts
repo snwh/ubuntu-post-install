@@ -4,7 +4,7 @@
 
 # Install preferred fonts
 function install_fonts {
-	show_header "Starting 'install_fonts' function..."
+	display_title "Starting 'install_fonts' function..."
 	# Check list
 	FONTLIST=$(dirname "$0")'/data/fonts.list'
 	# Draw window
@@ -14,24 +14,25 @@ function install_fonts {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
+		display_info 'Installing preferred fonts...'
 		for PACKAGE in $(cat $FONTLIST); do
 			# Check if package is installed
 			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 			# If app package is not installed
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
-				show_info "'$PACKAGE' is not installed. Installing..."
-				show_warning 'Requires root privileges'
+				display_info "'$PACKAGE' is not installed. Installing..."
+				display_warning 'Requires admin privileges'
 				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
-				show_success 'Done.'
+				display_success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
-				show_success "Package '$PACKAGE' is installed."
+				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		echo "Installation complete"
+		display_success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
 		fonts
 	else
@@ -41,24 +42,24 @@ function install_fonts {
 
 # Install Microsoft Core Fonts
 function msttcorefonts {
-	show_header "Starting 'msttcorefonts' function..."
+	display_title "Starting 'msttcorefonts' function..."
 	# Variables
 	PACKAGE=ttf-mscorefonts-installer
 	NAME="Microsoft Core Fonts"
 	# Check if already installed
-	show_info 'Checking if already installed...'
+	display_info 'Checking if already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
-		show_info $NAME 'is not installed. Proceeding'
+		display_info $NAME 'is not installed. Installing...'
 		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 10 60) then
 			# Install
-			show_info 'Installing...'
-			show_warning 'Requires root privileges'
+			display_info 'Installing...'
+			display_warning 'Requires admin privileges'
 			$SUDOCMD apt install -y $PACKAGE
 			# Done
-			show_success 'Done.'
+			display_success 'Done.'
 			# Finished
-			echo "Installation complete"
+			display_success "'$NAME' is installation complete."
 			whiptail --title "Finished" --msgbox "Installation complete." 8 78
 			fonts
 		else
@@ -66,7 +67,7 @@ function msttcorefonts {
 		fi
 	else
 		# Already installed
-		show_success 'Already installed.'
+		echo $NAME 'installed.'
 		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
 		fonts
 	fi
@@ -74,6 +75,8 @@ function msttcorefonts {
 
 # Install Fonts
 function fonts {
+	display_title "Starting 'fonts' function..."
+	# Draw window
 	FONTS=$(eval `resize` && whiptail \
 		--notags \
 		--title "Install Fonts" \

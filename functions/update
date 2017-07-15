@@ -2,30 +2,22 @@
 
 # Perform system upgrade via apt
 function update {
-	show_header "Starting 'update' function..."
+	display_title "Starting 'update' function..."
 	# Draw window
 	if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60) then
 		# Update repository information
-		show_info 'Updating repository information...'
-		show_warning 'Requires root privileges'
+		display_info 'Updating repository information...'
+		display_warning 'Requires admin privileges'
 		$SUDOCMD apt update
-		show_success 'Done.'
+		display_success 'Repository information updated.'
 		# Dist-Upgrade
-		show_info 'Performing system update...'
+		display_info 'Performing system update...'
 		$SUDOCMD apt dist-upgrade -y
-		# Done
-		show_success 'Done.'
 		# Check
-		EXITSTATUS=$1
-		if [[ $EXITSTATUS != 0 ]]; then
-			# Already up-to-date
-			show_success 'Already up-to-date.'
-			whiptail --title "Finished" --msgbox "System is up-to-date." 8 78
-			main
-		else
-			whiptail --title "Finished" --msgbox "System update complete" 8 78
-			main
-		fi
+		check_fail
+		# Done
+		display_success 'System update complete.'
+		whiptail --title "Finished" --msgbox "System update complete." 8 78
 	else
 		main
 	fi

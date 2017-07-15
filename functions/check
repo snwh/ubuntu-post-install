@@ -2,10 +2,8 @@
 
 # Check if command failed, if true abort
 function check_fail {
-	EXITSTATUS=$1
 	if [[ $EXITSTATUS != 0 ]]; then
-		show_error "Last command returned an error; something may have went wrong."
-		show_error "Aborting..." && sleep 3 && exit 99
+		display_error "Last command returned an error; something may have went wrong. Aborting..." && sleep 2 && exit 99
 	fi
 }
 
@@ -13,34 +11,35 @@ function check_fail {
 function check_dependencies {
 	# Check list
 	DEPS=$(dirname "$0")'/data/dependencies.list'
-	for package in $(cat $DEPS); do 
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
+	for PACKAGE in $(cat $DEPS); do 
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
-		show_info $NAME 'is not installed. Proceeding'
-		show_info "This script requires '$package' and it is not present on your system."
-		show_question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
-		echo
+		display_warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
+		display_question 'Would you like to install it now? (Y)es, (N)o :' && read REPLY
 		case $REPLY in
 		# Positive action
 		[Yy]* ) 
-			show_warning 'Requires root privileges'
-			$SUDOCMD apt -y install $package
-			show_success "Package '$package' installed. Proceeding."
+			display_info "Intalling '$PACKAGE' installed. Proceeding."
+			display_warning 'Requires admin privileges'
+			$SUDOCMD apt -y install $PACKAGE
+			display_success "Package '$PACKAGE' installed. Proceeding."
 			;;
 		# Negative action
 		[Nn]* )
-			show_info "Exiting..."
-			sleep 2 && exit 99
+			display_warning "Required dependencies are not present. :/"
+			echo "Exiting..."
+			exit 99
 			;;
 		# Error
 		* )
-			show_error '\aSorry, try again.' && check
+			display_error '\aInvalid response, please try again.' && check_dependencies
 			;;
 		esac
 	else
-		show_success "Dependency '$package' is installed."
+		echo "Dependency '$PACKAGE' is installed."
 	fi
 	done
+	display_success "Dependencies are installed. :)"
 	echo "Proceeding."
 }
 
@@ -48,53 +47,61 @@ function check_dependencies {
 function check_distribution {
 	EXITSTATUS=$(which lsb_release &>/dev/null; echo $?)
 	if [[ $EXITSTATUS != 0 ]]; then
-		show_error "\aCan't check which distribution you are using! Aborting."
-		show_error " Aborting..." && sleep 3 && exit 99
+		display_error "\aCan't check which distribution you are using! Aborting."
+		display_error " Aborting..." && sleep 3 && exit 99
 	else
 		if lsb_release -ds | grep -qE '(Ubuntu|Mint|elementary)'; then
-			echo 'Your distribution is: '$(lsb_release -ds)
-			show_info "Using Ubuntu or an Ubuntu-based distribution. :)"
+			echo 'Current distribution is: '$(lsb_release -ds)
+			display_success "Using Ubuntu or an Ubuntu-based distribution. :)"
 			echo "Proceeding."
 		elif lsb_release -ds | grep -q 'Debian'; then
-			echo 'Your distribution is: '$(lsb_release -ds)
-			show_warning "Using Debian; some functions may require tweaking. :/"
+			echo 'Current distribution is: '$(lsb_release -ds)
+			display_warning "Using Debian; some functions may require tweaking. :/"
 			echo "Proceeding nonetheless."
 		else
-			show_error "\aYou appear to be using a distribution which is not compatible with this script! :("
-			show_error "Proceeding might break the system. Aborting..." && sleep 3 && exit 99
+			display_error "\aYou appear to be using a distribution which is not compatible with this script! :("
+			display_error "Proceeding might break the system. Aborting..." && sleep 3 && exit 99
 		fi
 	fi
 }
 
 # Check if current user is in the sudo group
-function check_sudo {
+function check_privileges {
+	# Check if user is root
 	if [[ $EUID != 0 ]]; then
 		EXITSTATUS=$(groups $USER | grep -q 'sudo'; echo $?)
 		if [[ $EXITSTATUS != 0 ]]; then
-			show_error "Your user account doesn't have authorization to use these scripts with this computer. Log in as root or as a user with admin privileges."
-			show_info "Exiting..."
+			display_error "Your user account doesn't have authorization to use these scripts with this computer. Log in as root or as a user with admin privileges."
+			display_info "Exiting..."
 			sleep 5 && exit 99
 		fi
 		# Current user can use 'sudo'
-		show_info "Current user has sudo privileges"
+		display_success "Current user has sudo privileges. :)"
 		echo "Proceeding."
 		SUDOCMD="sudo"
 	else
-		show_info "You are logged in as the root user"
-		echo "Proceeding."
-		SUDOCMD=
-		sleep 2
+		# Display warning about being root user
+		display_warning "You are logged in as the root user. This is not recommended. :/"
+		if (whiptail --title "Root User" --yesno "You are logged in as the root user. This is mostly fine, but not recommended.\n\nAre you sure you want to proceed?" 10 60) then
+			echo "Proceeding."
+			SUDOCMD=
+		else
+			echo "Exiting..."
+			exit 99
+		fi
 	fi
 }
 
 function check {
 	# Check sudo
-	show_warning "Checking user privileges..."
-	check_sudo
+	display_info "Checking administrative privileges of current user..."
+	check_privileges
 	# Check distro
-	show_warning "Checking distribution..."
+	display_info "Checking distribution information..."
 	check_distribution
 	# Check dependencies
-	show_warning "Checking dependencies..."
+	display_info "Checking if dependencies are installed..."
 	check_dependencies
+	# Done
+	display_success "Check complete."
 }

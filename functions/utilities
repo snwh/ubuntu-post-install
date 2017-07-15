@@ -4,7 +4,7 @@
 
 # Install preferred utilities
 function utilities {
-	show_header "Starting 'utilities' function..."
+	display_title "Starting 'utilities' function..."
 	# Check list
 	UTILS=$(dirname "$0")'/data/utilities.list'
 	# Draw window
@@ -14,25 +14,25 @@ function utilities {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
-		echo 'Installing preferred utilities...'
+		display_info 'Installing preferred utilities...'
 		for PACKAGE in $(cat $UTILS); do
 			# Check if package is installed
 			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 			# If app package is not installed
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
-				show_info "'$PACKAGE' is not installed. Installing..."
-				show_warning 'Requires root privileges'
+				display_info "'$PACKAGE' is not installed. Installing..."
+				display_warning 'Requires admin privileges'
 				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
 				# Done
-				show_success 'Done.'
+				display_success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
-				show_success "Package '$PACKAGE' is installed."
+				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		echo "Installation complete"
+		display_success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
 		main
 	else

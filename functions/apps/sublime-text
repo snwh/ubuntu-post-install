@@ -2,7 +2,7 @@
 
 # Download function for ease of reuse
 function install_sublime {
-	show_info 'Downloading '$NAME'...'
+	display_info 'Downloading '$NAME'...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 		i386|i486|i586|i686)
@@ -16,17 +16,17 @@ function install_sublime {
 			;;
 	esac
 	# Install package(s)
-	show_info 'Installing '$NAME'...'
-	show_warning 'Requires root privileges'
+	display_info 'Installing '$NAME'...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD dpkg -i ${PACKAGE}*.deb
 	$SUDOCMD apt install -fy
 	# Create symbolic link
-	show_info 'Creating symbolic link...'
-	show_warning 'Requires root privileges'
+	display_info 'Creating symbolic link...'
+	display_warning 'Requires admin privileges'
 	$SUDOCMD ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
 	# Cleanup and finish
 	rm ${PACKAGE}*.deb
-	show_success 'Done.'
+	display_success 'Done.'
 }
 
 
@@ -37,13 +37,13 @@ function sublime-text {
 	PACKAGE=sublime-text
 	BUILD=3126
 	# Install
-	show_header 'Begin '$NAME' installation'
+	display_header 'Begin '$NAME' installation'
 	# Check if already installed
-	show_info 'Checking if '$NAME' already installed...'
+	display_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 	if [ "" == "$PKGCHECK" ]; then
-		show_info $NAME 'is not installed.'
+		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_sublime
 		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
@@ -51,13 +51,13 @@ function sublime-text {
 	else
 		if [ "$BUILD" == "$VERSCHECK" ]; then
 			# Already installed
-			show_success $NAME 'already installed.'
+			display_success $NAME 'already installed.'
 			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 			thirdparty
 		else
 			# Update
-			show_info $NAME '$NAME is already installed, but out-of-date.'
-			show_info 'Updating '$NAME'...'
+			display_info $NAME '$NAME is already installed, but out-of-date.'
+			display_info 'Updating '$NAME'...'
 			# Install
 			install_sublime
 			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 78

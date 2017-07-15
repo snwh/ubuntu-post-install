@@ -7,31 +7,31 @@ function minecraft {
 	PACKAGE=minecraft-installer
 	PPANAME=ppa:minecraft-installer-peeps/minecraft-installer
 	# Install
-	show_header 'Begin '$NAME' installation'
+	display_header 'Begin '$NAME' installation'
 	# Check if already installed
-	show_info 'Checking if '$NAME' already installed...'
+	display_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
-		show_info $NAME 'is not installed.'
+		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		# Add repository
-		show_info 'Adding '$NAME' repository to software sources...'
-		show_warning 'Requires root privileges'
+		display_info 'Adding '$NAME' repository to software sources...'
+		display_warning 'Requires admin privileges'
 		$SUDOCMD add-apt-repository -y $PPANAME
 		# Update repository information
-		show_info 'Updating repository information...'
+		display_info 'Updating repository information...'
 		$SUDOCMD apt update -y
-		show_success 'Done.'
+		display_success 'Done.'
 		# Install
-		show_info 'Installing '$NAME'...'
+		display_info 'Installing '$NAME'...'
 		$SUDOCMD apt install -y $PACKAGE
 		# Done
-		show_success 'Done.'
+		display_success 'Done.'
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
 		thirdparty
 	else
 		# Already installed
-		show_success $NAME 'already installed.'
+		display_success $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
 		thirdparty
 	fi
