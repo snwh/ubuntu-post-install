@@ -21,7 +21,7 @@ function rvm {
 			# Done
 			show_success 'Done.'
 		else
-			echo ''$NAME' signing key already in keyring.'
+			show_info $NAME 'signing key already in keyring.'
 		fi
 		# Install
 		show_info 'Installing '$NAME'...'

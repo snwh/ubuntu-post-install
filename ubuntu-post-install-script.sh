@@ -5,7 +5,7 @@
 #   Sam Hewitt <sam@snwh.org>
 #
 # Description:
-#   A post-installation bash script for Ubuntu
+#   A set of post-installation script for Ubuntu and Ubuntu-based distributions
 #
 # Legal Preamble:
 #

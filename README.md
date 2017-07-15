@@ -11,7 +11,7 @@ Do feel free to contribute back to this original, potential improvements are app
 
 This project is coded and organized in a modular fashion so you can easily delete or exclude parts that you don't want to use.
 
- * [`data`](/data): this folder contains files which are lists of packages read by various functions. It's recommended to update these to suit your preferences.
+ * [`data`](/data): this folder contains files which are lists of packages read by various functions. *You should to update these lists to suit your preferences*.
  * [`functions`](/functions): this folder contains the main functions of this scriptset. They should require little user-preference modification.
  * [`apps`](/functions/apps): this sub-directory contains all functions for the installation of third-party applications &ndash;those that aren't necessarily in the main repositories. You can add/remove these as you like.
 
