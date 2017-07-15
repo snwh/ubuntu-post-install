@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# NodeJS 8
+function nodejs-8 {
+	# Variables
+	PACKAGE=nodejs
+	DIST_REPO=https://deb.nodesource.com/setup_8.x
+	NAME="NodeJs 8"
+	# Install
+	show_header 'Begin '$NAME' installation'
+	# Check if already installed
+	echo 'Checking if '$NAME' is already installed...'
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	if [ "" == "$PKGCHECK" ]; then
+		echo $NAME 'is not installed. Proceeding'
+		# Add repository
+		show_info 'Adding '$NAME' repository to software sources...'
+		show_warning 'Requires root privileges'
+		curl -sL $DIST_REPO | sudo -E bash -
+		show_info 'Updating repository information...'
+		sudo apt update -y
+		show_success 'Done.'
+		# Install
+		show_info 'Installing '$NAME'...'
+		sudo apt install -y $PACKAGE
+		# Done
+		show_success 'Done.'
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		thirdparty
+	else
+		# Already installed
+		show_success $NAME 'already installed.'
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		thirdparty
+	fi
+}

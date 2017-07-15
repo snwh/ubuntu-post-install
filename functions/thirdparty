@@ -15,6 +15,7 @@ source $dir/functions/third-party/spotify
 source $dir/functions/third-party/steam
 source $dir/functions/third-party/sublime-text
 source $dir/functions/third-party/indicator-stickynotes
+source $dir/functions/third-party/nodejs-8
 
 # Install Third-Party Applications
 function thirdparty {
@@ -40,6 +41,7 @@ function thirdparty {
 		'steam'				'Steam' \
 		'sublime-text'		'Sublime Text 3' \
 		'indicator-stickynotes'		'Indicator Stickynotes' \
+		'nodejs-8'			'NodeJS 8' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?
