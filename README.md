@@ -11,7 +11,7 @@ This project is coded and organized in a modular fashion so you can easily delet
 
  * [`data`](/data): this folder contains files which are lists of packages read by various functions. It's recommended to update these to suit your preferences.
  * [`functions`](/functions): this folder contains bash files which are the main functions of this scriptset. They should require little modification.
- * [`third-party`](/functions/third-party): this sub-directory contains further bash files that are functions for the installation of third-party applications &ndash;i.e. those that aren't necessarily in the main repositories.
+ * [`apps`](/functions/apps): this sub-directory contains further bash files that are functions for the installation of third-party applications &ndash;i.e. those that aren't necessarily in the main repositories.
 
 ## Usage
 
