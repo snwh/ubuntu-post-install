@@ -35,6 +35,7 @@ dir="$(dirname "$0")"
 . $dir/functions/configure
 . $dir/functions/development
 . $dir/functions/favs
+. $dir/functions/fonts
 . $dir/functions/gnome
 . $dir/functions/thirdparty
 . $dir/functions/update
@@ -72,15 +73,16 @@ function main {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Quit" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		update	  'Perform system update' \
+		update		'Perform system update' \
 		favs		'Install preferred applications' \
-		utilities   'Install preferred system utilities' \
-		development 'Install preferred development tools' \
-		codecs	  'Install Ubuntu Restricted Extras' \
-		thirdparty  'Install third-party applications' \
-		gnome	   'Install latest GNOME software' \
-		configure   'Configure system' \
-		cleanup	 'Cleanup the system' \
+		utilities	'Install preferred system utilities' \
+		development	'Install preferred development tools' \
+		codecs		'Install non-free codecs' \
+		fonts		'Install additional fonts' \
+		thirdparty	'Install third-party applications' \
+		gnome		'Install latest GNOME software' \
+		configure	'Configure system' \
+		cleanup		'Cleanup the system' \
 		3>&1 1>&2 2>&3)
 	 
 	exitstatus=$?

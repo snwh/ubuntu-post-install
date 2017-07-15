@@ -28,7 +28,8 @@ function kernels {
 	if (whiptail --title "Remove Outdated Kernels" --yesno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
 		show_info 'Removing outdated kernel(s)...'
 		show_warning 'Requires root privileges'
-		sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt -y --no-install-recommends purge
+		# List all installed kernels | excluding libc stuff | purge the results
+		sudo dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt purge -y
 		show_success 'Done.'
 		whiptail --title "Finished" --msgbox "Outdated kernels have been successfully removed." 8 78
 		cleanup
@@ -77,13 +78,12 @@ function cleanup {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		clean-cache 'Clean package cache' \
-		leftovers   'Remove leftover configuration files' \
+		clean-cache	'Clean package cache' \
+		leftovers	'Remove leftover configuration files' \
 		orphaned	'Remove orphaned packages' \
-		unused	  'Remove unused pre-installed packages' \
-		kernels	 'Remove old kernel(s)' \
+		unused		'Remove unused pre-installed packages' \
+		kernels		'Remove old kernel(s)' \
 		3>&1 1>&2 2>&3)
-	 
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
 		$CLEANUP

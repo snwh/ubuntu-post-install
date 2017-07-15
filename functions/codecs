@@ -1,29 +1,37 @@
 #!/bin/bash
 
-# Install Ubuntu Restricted Extras 
+dir="$(dirname "$0")"
+
+CODECS="$dir/data/codecs.list"
+
+# Install non-free multimedia codecs using the list 'data/codec.list'
 function codecs {
-	# Variables
-	PACKAGE=ubuntu-restricted-extras
-	NAME="Multimedia Codecs"
-	# Check if already installed
-	show_info 'Checking if already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-	if [ "" == "$PKGCHECK" ]; then
-		show_info $NAME 'is not installed. Proceeding'
-		if (whiptail --title "Multimedia Codecs" --yesno "Install Ubuntu Restricted Extras for multimedia playback?" 10 60) then
-			# Install
-			show_info 'Installing...'
-			show_warning 'Requires root privileges'
-			sudo apt install -y ubuntu-restricted-extras
-			# Done
-			show_success 'Done.'
-		else
-			main
-		fi
+	if (eval `resize` && whiptail \
+		--title "Multimedia Codecs" \
+		--yesno "Current list of non-free codecs to install: \n\n$(cat $CODECS) \n\nProceed with installation?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		# Install loop
+		for PACKAGE in $(cat $CODECS); do
+			# Check if package is installed
+			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				show_info "'$PACKAGE' is not installed. Installing..."
+				show_warning 'Requires root privileges'
+				sudo apt install -y --no-install-recommends $PACKAGE
+				# Done
+				show_success 'Done.'
+			else
+				# Show already installed message
+				show_success "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		main
 	else
-		# Already installed
-		show_success 'Already installed.'
-		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
 		main
 	fi
 }

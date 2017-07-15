@@ -1,0 +1,87 @@
+#!/bin/bash
+
+dir="$(dirname "$0")"
+
+FONTLIST="$dir/data/fonts.list"
+
+# Install non-free multimedia codecs using the list 'data/codec.list'
+function fav-fonts {
+	if (eval `resize` && whiptail \
+		--title "Preferred Fonts" \
+		--yesno "Current list of preferred fonts to install: \n\n$(cat $FONTLIST) \n\nProceed with installation?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		# Install loop
+		for PACKAGE in $(cat $FONTLIST); do
+			# Check if package is installed
+			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				show_info "'$PACKAGE' is not installed. Installing..."
+				show_warning 'Requires root privileges'
+				sudo apt install -y --no-install-recommends $PACKAGE
+				# Done
+				show_success 'Done.'
+			else
+				# Show already installed message
+				show_success "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		fonts
+	else
+		fonts
+	fi
+}
+
+# Install Microsoft Core Fonts
+function msttcorefonts {
+	# Variables
+	PACKAGE=ttf-mscorefonts-installer
+	NAME="Microsoft Core Fonts"
+	# Check if already installed
+	show_info 'Checking if already installed...'
+	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+	if [ "" == "$PKGCHECK" ]; then
+		show_info $NAME 'is not installed. Proceeding'
+		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 10 60) then
+			# Install
+			show_info 'Installing...'
+			show_warning 'Requires root privileges'
+			sudo apt install -y $PACKAGE
+			# Done
+			show_success 'Done.'
+		else
+			main
+		fi
+	else
+		# Already installed
+		show_success 'Already installed.'
+		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
+		main
+	fi
+}
+
+
+
+# Cleanup System
+function fonts {
+	eval `resize` 
+	FONTS=$(whiptail \
+		--notags \
+		--title "Install Fonts" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		fav-fonts		'Install favourite fonts' \
+		msttcorefonts	'Install Microsoft core fonts' \
+		3>&1 1>&2 2>&3)
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$FONTS
+	else
+		main
+	fi
+}
