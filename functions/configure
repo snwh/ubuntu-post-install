@@ -1,12 +1,11 @@
 #!/bin/bash
 
-dir="$(dirname "$0")"
-
-GSETTINGS="$dir/data/gsettings.list"
 
 # Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
 # 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
 function set_preferences {
+	# Check list
+	GSETTINGS="$(dirname "$0")/data/gsettings.list"
 	show_info 'Setting preferred application-specific & desktop settings...'
 	while IFS= read line
 	do

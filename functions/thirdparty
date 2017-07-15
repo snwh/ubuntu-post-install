@@ -1,8 +1,11 @@
 #!/bin/bash
+#
+# When adding (or removing) any functions remember to update the
+# source list and function below to reflect any changes you make
 
 dir="$(dirname "$0")"
 
-# Import functions
+# Import apps functions
 source $dir/functions/apps/dropbox
 source $dir/functions/apps/flatpak
 source $dir/functions/apps/google-chrome

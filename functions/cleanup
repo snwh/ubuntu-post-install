@@ -1,12 +1,13 @@
 #!/bin/bash
+#
+# Update the list of packages in 'data/purge.list' to suit your preferences
+# Listed packages that are are not any system-crucial software to avoid breakage
 
-dir="$(dirname "$0")"
-
-PURGED="$dir/data/purge.list"
-
-# Remove unused/unwanted packages that are listed in 'data/purge.list'
-# This doesn't remove any system-crucial software, mostly unwanted apps.
+# Remove unused preinstalled apps
 function unused {
+	# Check list
+	PURGED="$(dirname "$0")/data/purge.list"
+	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Remove Un-used Pre-installed Applications" \
 		--yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \

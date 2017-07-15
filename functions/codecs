@@ -1,17 +1,17 @@
 #!/bin/bash
 
-dir="$(dirname "$0")"
-
-CODECS="$dir/data/codecs.list"
-
 # Install non-free multimedia codecs using the list 'data/codec.list'
 function codecs {
+	# Check list
+	CODECS="$(dirname "$0")/data/codecs.list"
+	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Multimedia Codecs" \
 		--yesno "Current list of non-free codecs to install: \n\n$(cat $CODECS) \n\nProceed with installation?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
+		echo 'Installing non-free codecs...'
 		for PACKAGE in $(cat $CODECS); do
 			# Check if package is installed
 			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
@@ -29,6 +29,7 @@ function codecs {
 			fi
 		done
 		# Finish
+		echo "Installation complete"
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
 		main
 	else

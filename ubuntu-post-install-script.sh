@@ -9,11 +9,11 @@
 #
 # Legal Preamble:
 #
-# This script is free software; you can redistribute it and/or modify it under
+# This project is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation; version 3.
 #
-# This script is distributed in the hope that it will be useful, but WITHOUT
+# This project is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.

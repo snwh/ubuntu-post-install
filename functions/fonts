@@ -1,11 +1,12 @@
 #!/bin/bash
+#
+# Update the list of packages in 'data/fonts.list' to suit your preferences
 
-dir="$(dirname "$0")"
-
-FONTLIST="$dir/data/fonts.list"
-
-# Install non-free multimedia codecs using the list 'data/codec.list'
+# Install preferred fonts
 function fav-fonts {
+	# Check list
+	FONTLIST="$(dirname "$0")/data/fonts.list"
+	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Preferred Fonts" \
 		--yesno "Current list of preferred fonts to install: \n\n$(cat $FONTLIST) \n\nProceed with installation?" \
@@ -29,6 +30,7 @@ function fav-fonts {
 			fi
 		done
 		# Finish
+		echo "Installation complete"
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
 		fonts
 	else
@@ -53,20 +55,22 @@ function msttcorefonts {
 			$SUDOCMD apt install -y $PACKAGE
 			# Done
 			show_success 'Done.'
+			# Finished
+			echo "Installation complete"
+			whiptail --title "Finished" --msgbox "Installation complete." 8 78
+			fonts
 		else
-			main
+			fonts
 		fi
 	else
 		# Already installed
 		show_success 'Already installed.'
 		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
-		main
+		fonts
 	fi
 }
 
-
-
-# Cleanup System
+# Install Fonts
 function fonts {
 	eval `resize` 
 	FONTS=$(whiptail \
