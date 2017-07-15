@@ -10,19 +10,21 @@ This project is free software; you can redistribute it and/or modify it under th
 This project is coded and organized in a modular fashion so you can easily delete or exclude parts that you don't want to use.
 
  * [`data`](/data): this folder contains files which are lists of packages read by various functions. It's recommended to update these to suit your preferences.
- * [`functions`](/functions): this folder contains bash files which are the main functions of this scriptset. They should require little modification.
- * [`apps`](/functions/apps): this sub-directory contains further bash files that are functions for the installation of third-party applications &ndash;i.e. those that aren't necessarily in the main repositories.
+ * [`functions`](/functions): this folder contains the main functions of this scriptset. They should require little user-preference modification.
+ * [`apps`](/functions/apps): this sub-directory contains all functions for the installation of third-party applications &ndash;those that aren't necessarily in the main repositories. You can add/remove these as you like.
 
 ## Adding Functions
 
-You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there is a [template](/functions/apps/function_template_ppa) readily available for adding PPA functions.
+You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there is a generic [template](/functions/apps/function_template_ppa) readily available for adding PPA functions.
+
+When you do add (or remove) functions be sure to update the main [`thirdparty`](/functions/thirdparty) function to reflect those changes, else the script will fail.
 
 ## Usage
 
-Simple, you just run the main script from the root of the source folder:
+You use these scripts, you can just run the main script from the root of the source folder:
 
     ./ubuntu-post-install-script.sh
 
-Or you can store this scriptset in some directory, and add that location to your custom shell paths to run on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
+Or you can add the location of this project to your custom shell paths to run it on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
 
-    export PATH=${PATH}:$HOME/scripts/ubuntu-post-install/
+    export PATH=${PATH}:$HOME/ubuntu-post-install/
