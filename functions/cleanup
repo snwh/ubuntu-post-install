@@ -24,21 +24,6 @@ function unused {
 	fi
 }
 
-# Remove old kernels
-function kernels {
-	if (whiptail --title "Remove Outdated Kernels" --yesno "If you're not currently using the newest kernel installed on your system, the following may break it. \n\nAre you sure you want proceed?" 10 60) then
-		show_info 'Removing outdated kernel(s)...'
-		show_warning 'Requires root privileges'
-		# List all installed kernels | excluding libc stuff | purge the results
-		sudo dpkg --list 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | grep -v linux-libc-dev | xargs sudo apt purge -y
-		show_success 'Done.'
-		whiptail --title "Finished" --msgbox "Outdated kernels have been successfully removed." 8 78
-		cleanup
-	else
-		cleanup
-	fi
-}
-
 # Remove Orphaned Packages
 function orphaned {
 	show_info 'Removing orphaned packages...'
@@ -83,7 +68,6 @@ function cleanup {
 		leftovers	'Remove leftover configuration files' \
 		orphaned	'Remove orphaned packages' \
 		unused		'Remove unused pre-installed packages' \
-		kernels		'Remove old kernel(s)' \
 		3>&1 1>&2 2>&3)
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
