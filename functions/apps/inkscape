@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# VLC
-function vlc {
+# Inkscape
+function inkscape {
 	# Variables
-	NAME="VLC Player"
-	PACKAGE=vlc
-	PPANAME=ppa:videolan/master-daily
+	NAME="Inkscape"
+	PACKAGE=inkscape
+	PPANAME=ppa:inkscape.dev/stable
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed

@@ -12,7 +12,8 @@ function flatpak {
 	show_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
-		echo $NAME 'is not installed. Proceeding'
+		show_info $NAME 'is not installed.'
+		echo 'Proceeding'
 		# Add repository
 		show_info 'Adding '$NAME' repository to software sources...'
 		show_warning 'Requires root privileges'

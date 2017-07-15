@@ -14,7 +14,8 @@ function plex {
 	show_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
-		echo $NAME 'is not installed. Proceeding'
+		show_info $NAME 'is not installed.'
+		echo 'Proceeding'
 		# Check if repository already exists
 		echo 'Checking if '$NAME' repository already existed...'
 		if [ ! -f /etc/apt/sources.list.d/${LIST} ]; then

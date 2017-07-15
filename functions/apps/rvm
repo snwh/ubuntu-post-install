@@ -9,7 +9,8 @@ function rvm {
 	# Check if already installed
 	show_info 'Checking if '$NAME' already installed...'
 	if [ ! -f $HOME/.rvm/installed.at ]; then
-		echo $NAME 'is not installed. Proceeding'
+		show_info $NAME 'is not installed.'
+		echo 'Proceeding'
 		# Check if key already exists in keyring
 		KEYCHECK=$(gpg --list-keys | grep -w ${KEYID})
 		if [ "" == "$KEYCHECK" ]; then

@@ -42,7 +42,8 @@ function synergy {
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
 	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 	if [ "" == "$PKGCHECK" ]; then
-		echo $NAME 'is not installed. Proceeding'
+		show_info $NAME 'is not installed.'
+		echo 'Proceeding'
 		install_synergy
 		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
 		thirdparty
