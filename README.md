@@ -3,7 +3,7 @@ Ubuntu Post Install Scripts
 
 An interactive set of post-installation and maintenance scripts for Ubuntu. They're designed to install your favourite applications, set your preferred settings, etc. mostly automatically.
 
-Feel free to fork this project, modify to suit your preference, and distribute. Original Author: [Sam Hewitt](https://github.com/snwh)
+This project is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](/LICENSE). Do feel free to contribute any improvements you may have back to this original
 
 ## Structure
 
@@ -12,6 +12,10 @@ This project is coded and organized in a modular fashion so you can easily delet
  * [`data`](/data): this folder contains files which are lists of packages read by various functions. It's recommended to update these to suit your preferences.
  * [`functions`](/functions): this folder contains bash files which are the main functions of this scriptset. They should require little modification.
  * [`apps`](/functions/apps): this sub-directory contains further bash files that are functions for the installation of third-party applications &ndash;i.e. those that aren't necessarily in the main repositories.
+
+## Adding Functions
+
+You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there is a [template](/functions/apps/function_template_ppa) readily available for adding PPA functions.
 
 ## Usage
 
