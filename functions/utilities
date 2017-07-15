@@ -6,7 +6,7 @@
 function utilities {
 	show_header "Starting 'utilities' function..."
 	# Check list
-	UTILS="$(dirname "$0")/data/utilities.list"
+	UTILS=$(dirname "$0")'/data/utilities.list'
 	# Draw window
 	if (eval `resize` && whiptail --title \
 		"Preferred System Utilities"  --yesno \

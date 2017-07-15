@@ -7,7 +7,7 @@ function rvm {
 	KEYID='409B6B1796C275462A1703113804BB82D39DC0E3'
 	KEYSERVER='hkp://keys.gnupg.net'
 	# Check if already installed
-	echo 'Checking if '$NAME' is already installed...'
+	show_info 'Checking if '$NAME' already installed...'
 	if [ ! -f $HOME/.rvm/installed.at ]; then
 		echo $NAME 'is not installed. Proceeding'
 		# Check if key already exists in keyring

@@ -22,8 +22,8 @@ function upgrade_gnome {
 function install_gnome_desktop {
 	show_header "Starting 'install_gnome_desktop' function..."
 	# Check list
-	GNOMEDESKTOP="$(dirname "$0")/data/gnome-desktop.list"
-	# Draw Window
+	GNOMEDESKTOP=$(dirname "$0")'/data/gnome-desktop.list'
+	# Draw window
 	if (eval `resize` && whiptail \
 		--title "GNOME Desktop" \
 		--yesno "Packages to install for a basic GNOME desktop: \n\n$(cat $GNOMEDESKTOP) \n\nProceed with installation?" \
@@ -49,17 +49,17 @@ function install_gnome_desktop {
 		# Finish
 		echo "Installation complete"
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
-		main
+		gnome
 	else
-		main
+		gnome
 	fi
 
 # Install GNOME Core Apps
 function install_gnome_apps {
 	show_header "Starting 'install_gnome_apps' function..."
 	# Check list
-	GNOMEAPPS="$(dirname "$0")/data/gnome-apps.list"
-	# Draw Window
+	GNOMEAPPS=$(dirname "$0")'/data/gnome-apps.list'
+	# Draw window
 	if (eval `resize` && whiptail \
 		--title "GNOME Core Apps" \
 		--yesno "Current list of GNOME core apps: \n\n$(cat $GNOMEAPPS) \n\nWould you like to install these apps?" \
@@ -85,7 +85,7 @@ function install_gnome_apps {
 		# Finish
 		echo "Installation complete"
 		whiptail --title "Finished" --msgbox "GNOME Apps are installed complete." 8 78
-		main
+		gnome
 	else
 		gnome
 	fi

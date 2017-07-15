@@ -24,7 +24,7 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-stable
 				NAME="Google Chrome (Stable)"
 				# Check if already installed
-				echo 'Checking if '$NAME' is already installed...'
+				show_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
 					echo $NAME 'is not installed. Proceeding'
@@ -65,7 +65,7 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-beta
 				NAME="Google Chrome (Beta)"
 				# Check if already installed
-				echo 'Checking if '$NAME' is already installed...'
+				show_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
 					echo $NAME 'is not installed. Proceeding'
@@ -106,7 +106,7 @@ if [ $exitstatus = 0 ]; then
 				PACKAGE=google-chrome-unstable
 				NAME="Google Chrome (Unstable)"
 				# Check if already installed
-				echo 'Checking if '$NAME' is already installed...'
+				show_info 'Checking if '$NAME' already installed...'
 				PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 				if [ "" == "$PKGCHECK" ]; then
 					echo $NAME 'is not installed. Proceeding'

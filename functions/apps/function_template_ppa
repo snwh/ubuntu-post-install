@@ -19,7 +19,7 @@ function function_name {
 	# Install
 	show_header 'Begin '$NAME' installation'
 	# Check if already installed
-	echo 'Checking if '$NAME' is already installed...'
+	show_info 'Checking if '$NAME' already installed...'
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		echo $NAME 'is not installed. Proceeding'

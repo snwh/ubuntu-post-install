@@ -5,7 +5,7 @@
 # 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
 function set_preferences {
 	# Check list
-	GSETTINGS="$(dirname "$0")/data/gsettings.list"
+	GSETTINGS=$(dirname "$0")'/data/gsettings.list'
 	show_info 'Setting preferred application-specific & desktop settings...'
 	while IFS= read line
 	do

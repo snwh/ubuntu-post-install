@@ -12,7 +12,7 @@ function check_fail {
 # Check for and install required packages for this script set.
 function check_dependencies {
 	# Check list
-	DEPS="$(dirname "$0")/data/dependencies.list"
+	DEPS=$(dirname "$0")'/data/dependencies.list'
 	for package in $(cat $DEPS); do 
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $package|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then

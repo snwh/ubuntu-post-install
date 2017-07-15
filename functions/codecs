@@ -4,7 +4,7 @@
 function codecs {
 	show_header "Starting 'codecs' function..."
 	# Check list
-	CODECS="$(dirname "$0")/data/codecs.list"
+	CODECS=$(dirname "$0")'/data/codecs.list'
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Multimedia Codecs" \

@@ -6,7 +6,7 @@
 function favs {
 	show_header "Starting 'favs' function..."
 	# Import list
-	FAVS="$(dirname "$0")/data/favs.list"
+	FAVS=$(dirname "$0")'/data/favs.list'
 	# Draw Window
 	if (eval `resize` && whiptail \
 		--title "Preferred Applications" \

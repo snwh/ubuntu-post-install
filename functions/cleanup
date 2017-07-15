@@ -7,7 +7,7 @@
 function purge_unused {
 	show_header "Starting 'purge_unused' function..."
 	# Check list
-	PURGED="$(dirname "$0")/data/purge.list"
+	PURGED=$(dirname "$0")'/data/purge.list'
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Remove Un-used Pre-installed Applications" \

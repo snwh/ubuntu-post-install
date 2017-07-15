@@ -27,7 +27,7 @@ clear
 
 #----- Import Functions -----#
 
-dir="$(dirname "$0")"
+dir=$(dirname "$0")
 
 . $dir/functions/check
 . $dir/functions/cleanup
@@ -94,7 +94,7 @@ function main {
 
 # Quit
 function quit {
-	show_header "Are you sure you want quit?"
+	show_header "Starting 'quit' function..."
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
 		echo "Exiting..."
 		show_info 'Thanks for using!'

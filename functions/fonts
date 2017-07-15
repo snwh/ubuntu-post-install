@@ -6,7 +6,7 @@
 function install_fonts {
 	show_header "Starting 'install_fonts' function..."
 	# Check list
-	FONTLIST="$(dirname "$0")/data/fonts.list"
+	FONTLIST=$(dirname "$0")'/data/fonts.list'
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Preferred Fonts" \
