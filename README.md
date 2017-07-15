@@ -3,7 +3,9 @@ Ubuntu Post Install Scripts
 
 An interactive set of post-installation and maintenance scripts for Ubuntu. They're designed to install your favourite applications, set your preferred settings, etc. mostly automatically.
 
-This project is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](/LICENSE). Do feel free to contribute any improvements you may have back to this original
+This project is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](/LICENSE).
+
+Do feel free to contribute back to this original, potential improvements are appreciated.
 
 ## Structure
 
