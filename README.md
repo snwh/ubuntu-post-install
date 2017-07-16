@@ -7,6 +7,9 @@ This project is free software; you can redistribute it and/or modify it under th
 
 Do feel free to contribute back to this original, potential improvements are appreciated.
 
+ > This project's settings adjustments, app lists and functions are tuned to the [original author's](https://github.com/snwh) preferences, I suggest maintaining a fork of this project with changes to those to adjust it to your liking. 
+
+
 ## Structure
 
 This project is coded and organized in a modular fashion so you can easily delete or exclude parts that you don't want to use.
