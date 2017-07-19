@@ -1,12 +1,14 @@
+cockpit
 dconf-tools
 gnome-disk-utility
+htop
 inxi
 libav-tools
 mediainfo
+openssh-blacklist
 openssh-server
 p7zip-full
 powertop
-ppa-purge
 rsync
 samba
 ssh

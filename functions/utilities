@@ -3,8 +3,8 @@
 # Update the list of packages in 'data/utilities.list' to suit your preferences
 
 # Install preferred utilities
-function utilities {
-	display_title "Starting 'utilities' function..."
+function install_utilities {
+	display_title "Starting 'install_utilities' function..."
 	# Check list
 	UTILS=$(dirname "$0")'/data/utilities.list'
 	# Draw window
@@ -34,7 +34,108 @@ function utilities {
 		# Finish
 		display_success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 78
-		main
+		utilities
+	else
+		utilities
+	fi
+}
+
+# Update the list of packages in 'data/node.list' to suit your preferences
+
+# Install preferred node utilities
+function node_packages {
+	display_title "Dependency check..."
+	node_check
+	display_title "Starting 'node_packages' function..."
+	# Check list
+	NODE=$(dirname "$0")'/data/node.list'
+	# Draw window
+	if (eval `resize` && whiptail --title \
+		"Preferred System Utilities"  --yesno \
+		"Current list of preferred NodeJS-based tools: \n\n$(cat $NODE) \n\nProceed with installation?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext ) then
+		# Install loop
+		display_info 'Installing preferred NodeJS-based tools...'
+		for PACKAGE in $(cat $NODE); do
+			# Check if package is installed
+			PKGCHECK=$(npm list -g | grep $PACKAGE)
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				display_info "'$PACKAGE' is not installed. Installing..."
+				display_warning 'Requires admin privileges'
+				$SUDOCMD npm install -g $PACKAGE
+				# Done
+				display_success "'$PACKAGE' installation is complete."
+			else
+				# Show already installed message
+				echo "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		display_success "Installation complete."
+		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		utilities
+	else
+		utilities
+	fi
+}
+
+# Check for and install required packages for this script set.
+function node_check {
+	# Check list
+	NODEDEPS="nodejs nodejs-legacy"
+	for PACKAGE in $NODEDEPS; do
+		display_title "Checking if '$PACKAGE' is installed..."
+		PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
+		if [ "" == "$PKGCHECK" ]; then
+			display_warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
+			display_question 'Would you like to install it now? (Y)es, (N)o :' && read REPLY
+			case $REPLY in
+			# Positive action
+			[Yy]* ) 
+				display_info "Intalling '$PACKAGE' installed. Proceeding."
+				display_warning 'Requires admin privileges'
+				$SUDOCMD apt -y install $PACKAGE
+				display_success "Package '$PACKAGE' installed. Proceeding."
+				;;
+			# Negative action
+			[Nn]* )
+				display_warning "Required dependencies are not present. :/"
+				echo "Exiting..."
+				exit 99
+				;;
+			# Error
+			* )
+				display_error '\aInvalid response, please try again.' && node_check
+				;;
+			esac
+		else
+			echo "Dependency '$PACKAGE' is installed."
+		fi
+	done
+	display_success "Dependencies are installed. :)"
+	echo "Proceeding."
+}
+
+
+# Install utilities
+function utilities {
+	display_title "Starting 'utilities' function..."
+	# Draw window
+	CLEANUP=$(eval `resize`&& whiptail \
+		--notags \
+		--title "System Cleanup" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		install_utilities	'Install preferred system utilities' \
+		node_packages		'Install NodeJS-based tools' \
+		3>&1 1>&2 2>&3)
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		$CLEANUP
 	else
 		main
 	fi
