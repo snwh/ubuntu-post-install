@@ -76,6 +76,7 @@ echo -e "\033[1;36m$@\033[0m"
 
 # Main
 function main {
+	display_title "Starting 'main' function..."
 	# Draw window
 	MAIN=$(eval `resize` && whiptail \
 		--notags \

@@ -43,6 +43,7 @@ function purge_unused {
 
 # Remove Orphaned Packages
 function remove_orphans {
+	display_title "Starting 'remove_orphans' function..."
 	display_info 'Removing orphaned packages...'
 	# Admin privileges
 	elevate_privilege "apt autoremove -y $PACKAGE"
@@ -54,6 +55,7 @@ function remove_orphans {
 
 # Remove Leftover Config files
 function remove_leftover_config {
+	display_title "Starting 'remove_leftover_config' function..."
 	display_info 'Removing leftover configuration files...'
 	# Admin privileges
 	elevate_privilege "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
@@ -65,6 +67,7 @@ function remove_leftover_config {
 
 # Clean apt cache
 function clean_apt_cache {
+	display_title "Starting 'clean_apt_cache' function..."
 	display_info 'Cleaning package cache...'
 	# Admin privileges
 	elevate_privilege "apt clean"

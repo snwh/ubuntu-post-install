@@ -21,7 +21,8 @@ function check_dependencies {
 		[Yy]* ) 
 			display_info "Intalling '$PACKAGE' installed. Proceeding."
 			# Admin privileges
-			elevate_privilege "apt install -y $PACKAGE"
+			display_warning 'Requires admin privileges'
+			sudo apt install -y $PACKAGE
 			display_success "Package '$PACKAGE' installed. Proceeding."
 			;;
 		# Negative action
