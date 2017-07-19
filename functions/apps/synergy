@@ -23,7 +23,7 @@ function install_synergy {
 	elevate_privilege "apt install -fy"
 	# Cleanup and finishh
 	rm ${PACKAGE}*.deb
-	display_success 'Done.'
+	display_success "Installation of '$PACKAGE' complete."
 }
 
 
@@ -36,20 +36,21 @@ function synergy {
 	NAME="Synergy"
 	# Install
 	display_header 'Begin '$NAME' installation'
-	# Check if already installed
-	display_info 'Checking if '$NAME' already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-	VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
-	if [ "" == "$PKGCHECK" ]; then
+	# Check if package is installed
+	check_packages $PACKAGE
+	exitstatus=$?
+	# If package is not installed
+	if [ $exitstatus = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_synergy
 		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 64
 		thirdparty
 	else
+		VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 		if [ "$BUILD" == "$VERSCHECK" ]; then
 			# Already installed
-			display_success $NAME 'already installed.'
+			display_info $NAME 'already installed.'
 			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 			thirdparty
 		else

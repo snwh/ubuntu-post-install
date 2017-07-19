@@ -17,9 +17,10 @@ function install_fonts {
 		display_info 'Installing preferred fonts...'
 		for PACKAGE in $(cat $FONTLIST); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -47,17 +48,16 @@ function msttcorefonts {
 	PACKAGE=ttf-mscorefonts-installer
 	NAME="Microsoft Core Fonts"
 	# Check if already installed
-	display_info 'Checking if already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-	if [ "" == "$PKGCHECK" ]; then
+	check_packages $PACKAGE
+	exitstatus=$?
+	# If package is not installed
+	if [ $exitstatus = 1 ]; then
 		display_info $NAME 'is not installed. Installing...'
 		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 8 64) then
 			# Install
 			display_info 'Installing...'
 			# Admin privileges
 			elevate_privilege "apt install -y $PACKAGE"
-			# Done
-			display_success 'Done.'
 			# Finished
 			display_success "'$NAME' is installation complete."
 			whiptail --title "Finished" --msgbox "Installation complete." 8 64

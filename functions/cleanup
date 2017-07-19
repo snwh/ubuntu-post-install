@@ -18,9 +18,10 @@ function purge_unused {
 		display_info 'Removing unused pre-installed applications...'
 		for PACKAGE in $(cat $PURGED); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Show already installed message
 				echo "Package '$PACKAGE' is already removed."
 			else

@@ -15,9 +15,10 @@ function codecs {
 		display_info 'Installing non-free codecs...'
 		for PACKAGE in $(cat $CODECS); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges

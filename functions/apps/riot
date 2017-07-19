@@ -10,10 +10,11 @@ function riot {
 	REPO="deb https://riot.im/packages/debian/ $(lsb_release -cs) main"
 	# Install
 	display_header 'Begin '$NAME' installation'
-	# Check if already installed
-	display_info 'Checking if '$NAME' already installed...'
-	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-	if [ "" == "$PKGCHECK" ]; then
+	# Check if package is installed
+	check_packages $PACKAGE
+	exitstatus=$?
+	# If package is not installed
+	if [ $exitstatus = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		# Check if repository already exists
@@ -24,7 +25,7 @@ function riot {
 			# Download key
 			curl -sL $KEY | elevate_privilege "apt-key add -"
 			# Done
-			display_success 'Done.'
+			display_success "Installation of '$PACKAGE' complete."
 			# Add the repository
 			display_info 'Adding '$NAME' repository to software sources...'
 			# Write repository to apt sources list file
@@ -32,7 +33,7 @@ function riot {
 			# Update repository information
 			display_info 'Updating repository information...'
 			elevate_privilege "apt update -y"
-			display_success 'Done.'
+			display_success "Installation of '$PACKAGE' complete."
 		else
 			display_info $NAME 'repository already in software sources.'
 		fi
@@ -40,12 +41,12 @@ function riot {
 		display_info 'Installing '$NAME'...'
 		elevate_privilege "apt install -y $PACKAGE"
 		# Done
-		display_success 'Done.'
+		display_success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
-		display_success $NAME 'already installed.'
+		display_info $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi

@@ -19,7 +19,7 @@ function rvm {
 			# Import Key
 			gpg --keyserver $KEYSERVER --recv-keys $KEYID
 			# Done
-			display_success 'Done.'
+			display_success "Installation of '$PACKAGE' complete."
 		else
 			display_info $NAME 'signing key already in keyring.'
 		fi
@@ -28,12 +28,12 @@ function rvm {
 		\curl -sSL https://get.rvm.io | bash -s stable --ruby
 		# \curl -sSL https://get.rvm.io | bash # Uncomment for development version
 		# Done
-		display_success 'Done.'
+		display_success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
-		display_success $NAME 'already installed.'
+		display_info $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi

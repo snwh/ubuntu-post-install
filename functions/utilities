@@ -17,9 +17,10 @@ function install_utilities {
 		display_info 'Installing preferred utilities...'
 		for PACKAGE in $(cat $UTILS); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -60,7 +61,7 @@ function node_packages {
 		for PACKAGE in $(cat $NODE); do
 			# Check if package is installed
 			PKGCHECK=$(npm list -g | grep $PACKAGE)
-			# If app package is not installed
+			# If package is not installed
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
@@ -87,9 +88,11 @@ function node_check {
 	# Check list
 	NODEDEPS="npm"
 	for PACKAGE in $NODEDEPS; do
-		display_title "Checking if '$PACKAGE' is installed..."
-		PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
-		if [ "" == "$PKGCHECK" ]; then
+		# Check if package is installed
+		check_packages $PACKAGE
+		exitstatus=$?
+		# If package is not installed
+		if [ $exitstatus = 1 ]; then
 			display_warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
 			# Draw window
 			if (eval `resize` && whiptail \

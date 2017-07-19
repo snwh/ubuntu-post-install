@@ -36,9 +36,10 @@ function install_gnome_desktop {
 		display_info 'Installing GNOME desktop...'
 		for PACKAGE in $(cat $GNOMEDESKTOP); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -74,9 +75,10 @@ function install_gnome_apps {
 		display_info 'Installing GNOME core apps...'
 		for PACKAGE in $(cat $GNOMEAPPS); do
 			# Check if package is installed
-			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
-			# If app package is not installed
-			if [ "" == "$PKGCHECK" ]; then
+			check_packages $PACKAGE
+			exitstatus=$?
+			# If package is not installed
+			if [ $exitstatus = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
