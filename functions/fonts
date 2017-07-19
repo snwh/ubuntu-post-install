@@ -10,8 +10,8 @@ function install_fonts {
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Preferred Fonts" \
-		--yesno "Current list of preferred fonts to install: \n\n$(cat $FONTLIST) \n\nProceed with installation?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--yesno "Current list of preferred fonts to install: \n\n$(for LINE in $(cat $FONTLIST); do echo '  '$LINE; done) \n\nProceed with installation?" \
+		32 96 16 \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing preferred fonts...'
@@ -22,8 +22,8 @@ function install_fonts {
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
-				display_warning 'Requires admin privileges'
-				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
+				# Admin privileges
+				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
 				display_success "'$PACKAGE' installation is complete."
 			else
@@ -33,7 +33,7 @@ function install_fonts {
 		done
 		# Finish
 		display_success "Installation complete."
-		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		fonts
 	else
 		fonts
@@ -51,16 +51,16 @@ function msttcorefonts {
 	PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE|grep "install ok installed")
 	if [ "" == "$PKGCHECK" ]; then
 		display_info $NAME 'is not installed. Installing...'
-		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 10 60) then
+		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 8 64) then
 			# Install
 			display_info 'Installing...'
-			display_warning 'Requires admin privileges'
-			$SUDOCMD apt install -y $PACKAGE
+			# Admin privileges
+			elevate_privilege "apt install -y $PACKAGE"
 			# Done
 			display_success 'Done.'
 			# Finished
 			display_success "'$NAME' is installation complete."
-			whiptail --title "Finished" --msgbox "Installation complete." 8 78
+			whiptail --title "Finished" --msgbox "Installation complete." 8 64
 			fonts
 		else
 			fonts
@@ -68,7 +68,7 @@ function msttcorefonts {
 	else
 		# Already installed
 		echo $NAME 'installed.'
-		whiptail --title "Finished" --msgbox "$NAME are installed." 8 78
+		whiptail --title "Finished" --msgbox "$NAME are installed." 8 64
 		fonts
 	fi
 }
@@ -76,19 +76,19 @@ function msttcorefonts {
 # Install Fonts
 function fonts {
 	display_title "Starting 'fonts' function..."
-	# Draw window
-	FONTS=$(eval `resize` && whiptail \
+	# check exit status
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		# Draw window
+		$(eval `resize` && whiptail \
 		--notags \
 		--title "Install Fonts" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		install_fonts	'Install favourite fonts' \
 		msttcorefonts	'Install Microsoft core fonts' \
 		3>&1 1>&2 2>&3)
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
-		$FONTS
 	else
 		main
 	fi

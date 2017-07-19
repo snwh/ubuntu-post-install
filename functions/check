@@ -20,8 +20,8 @@ function check_dependencies {
 		# Positive action
 		[Yy]* ) 
 			display_info "Intalling '$PACKAGE' installed. Proceeding."
-			display_warning 'Requires admin privileges'
-			$SUDOCMD apt -y install $PACKAGE
+			# Admin privileges
+			elevate_privilege "apt install -y $PACKAGE"
 			display_success "Package '$PACKAGE' installed. Proceeding."
 			;;
 		# Negative action
@@ -82,7 +82,7 @@ function check_privileges {
 	else
 		# Display warning about being root user
 		display_warning "You are logged in as the root user. This is not recommended. :/"
-		if (whiptail --title "Root User" --yesno "You are logged in as the root user. This is mostly fine, but not recommended.\n\nAre you sure you want to proceed?" 10 60) then
+		if (whiptail --title "Root User" --yesno "You are logged in as the root user. This is mostly fine, but not recommended.\n\nAre you sure you want to proceed?" 8 64) then
 			echo "Proceeding."
 			SUDOCMD=
 		else

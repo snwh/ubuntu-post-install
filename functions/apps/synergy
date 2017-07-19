@@ -14,14 +14,13 @@ function install_synergy {
 			curl -O https://binaries.symless.com/v${VERSION}/synergy-v${VERSION}-stable-${BUILD}-Linux-x86_64.deb
 			;;
 		*)
-			whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+			whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 			;;
 	esac
 	# Install package(s)
 	display_info 'Installing '$NAME'...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD dpkg -i ${PACKAGE}*.deb
-	$SUDOCMD apt install -fy
+	elevate_privilege "dpkg -i $PACKAGE*.deb"
+	elevate_privilege "apt install -fy"
 	# Cleanup and finishh
 	rm ${PACKAGE}*.deb
 	display_success 'Done.'
@@ -45,13 +44,13 @@ function synergy {
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_synergy
-		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 64
 		thirdparty
 	else
 		if [ "$BUILD" == "$VERSCHECK" ]; then
 			# Already installed
 			display_success $NAME 'already installed.'
-			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 			thirdparty
 		else
 			# Update
@@ -59,7 +58,7 @@ function synergy {
 			display_info 'Updating '$NAME'...'
 			# Install
 			install_synergy
-			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 78
+			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 64
 			thirdparty
 		fi
 	fi

@@ -8,14 +8,14 @@ if [ $exitstatus = 0 ]; then
 	status="0"
 	while [ "$status" -eq 0 ]; do
 		VERSION=$(whiptail \
-		--title "Google Chrome" --radiolist \
-		"Which version of Chrome would you like to install?" \
+		--title "Google Chrome" \
+		--radiolist "Which version of Chrome would you like to install?" \
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		"stable"	"Stable build" ON \
-		"beta"	  "Beta build" OFF \
-		"unstable"  "Unstable build" OFF \
+		"beta"		"Beta build" OFF \
+		"unstable"	"Unstable build" OFF \
 		3>&1 1>&2 2>&3) 
 		# Change to lower case and remove spaces.
 		case "${VERSION}" in
@@ -39,25 +39,24 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 							;;
 					esac
 					# Install package(s)
 					display_info 'Installing '$NAME'...'
-					display_warning 'Requires admin privileges'
-					$SUDOCMD dpkg -i $PACKAGE*.deb
-					$SUDOCMD apt install -fy
+					elevate_privilege "dpkg -i $PACKAGE*.deb"
+					elevate_privilege "apt install -fy"
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
 					display_success 'Done.'
-					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 					status=1
 					thirdparty
 				else
 					# Already installed
 					display_success $NAME 'already installed.'
-					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 					thirdparty
 				fi
 			;;
@@ -81,25 +80,24 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 							;;
 					esac
 					# Install package(s)
 					display_info 'Installing '$NAME'...'
-					display_warning 'Requires admin privileges'
-					$SUDOCMD dpkg -i $PACKAGE*.deb
-					$SUDOCMD apt install -fy
+					elevate_privilege "dpkg -i $PACKAGE*.deb"
+					elevate_privilege "apt install -fy"
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
 					display_success 'Done.'
-					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 					status=1
 					thirdparty
 				else
 					# Already installed
 					display_success $NAME 'already installed.'
-					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 					thirdparty
 				fi
 			;;
@@ -123,25 +121,24 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 							;;
 					esac
 					# Install package(s)
 					display_info 'Installing '$NAME'...'
-					display_warning 'Requires admin privileges'
-					$SUDOCMD dpkg -i $PACKAGE*.deb
-					$SUDOCMD apt install -fy
+					elevate_privilege "dpkg -i $PACKAGE*.deb"
+					elevate_privilege "apt install -fy"
 					# Cleanup and finish
 					rm $PACKAGE*.deb
 					# Done
 					display_success 'Done.'
-					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+					whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 					status=1
 					thirdparty
 				else
 					# Already installed
 					display_success $NAME 'already installed.'
-					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+					whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 					thirdparty
 				fi
 			;;

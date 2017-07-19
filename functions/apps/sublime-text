@@ -12,18 +12,16 @@ function install_sublime {
 			curl -O https://download.sublimetext.com/sublime-text_build-${BUILD}_amd64.deb
 			;;
 		*)
-			whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+			whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 			;;
 	esac
 	# Install package(s)
 	display_info 'Installing '$NAME'...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD dpkg -i ${PACKAGE}*.deb
-	$SUDOCMD apt install -fy
+	elevate_privilege "dpkg -i $PACKAGE*.deb"
+	elevate_privilege "apt install -fy"
 	# Create symbolic link
 	display_info 'Creating symbolic link...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime
+	elevate_privilege "ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime"
 	# Cleanup and finish
 	rm ${PACKAGE}*.deb
 	display_success 'Done.'
@@ -46,13 +44,13 @@ function sublime-text {
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_sublime
-		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 64
 		thirdparty
 	else
 		if [ "$BUILD" == "$VERSCHECK" ]; then
 			# Already installed
 			display_success $NAME 'already installed.'
-			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 			thirdparty
 		else
 			# Update
@@ -60,7 +58,7 @@ function sublime-text {
 			display_info 'Updating '$NAME'...'
 			# Install
 			install_sublime
-			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 78
+			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 64
 			thirdparty
 		fi
 	fi

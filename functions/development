@@ -11,8 +11,8 @@ function development {
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Preferred Development Applications" \
-		--yesno "Current list of preferred development tools to install: \n\n$(cat $DEVTOOLS) \n\nProceed with installation?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--yesno "Current list of preferred development tools to install: \n\n$(for LINE in $(cat $DEVTOOLS); do echo '  '$LINE; done) \n\nProceed with installation?" \
+		32 96 16 \
 		--scrolltext) then
 		display_info 'Installing preferred development applications...'
 		# Install loop
@@ -23,8 +23,8 @@ function development {
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
-				display_warning 'Requires admin privileges'
-				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
+				# Admin privileges
+				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
 				display_success "'$PACKAGE' installation is complete."
 			else
@@ -34,7 +34,7 @@ function development {
 		done
 		# Finished
 		display_success "Installation complete."
-		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		main
 	else
 		main

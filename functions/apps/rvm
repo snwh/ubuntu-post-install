@@ -29,12 +29,12 @@ function rvm {
 		# \curl -sSL https://get.rvm.io | bash # Uncomment for development version
 		# Done
 		display_success 'Done.'
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
 		display_success $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi
 }

@@ -21,34 +21,32 @@ function riot {
 		if [ ! -f /etc/apt/sources.list.d/${LIST} ]; then
 			# Add the repository signing key to be able to verify downloaded packages
 			display_info 'Adding '$NAME' signing key to keyring...'
-			display_warning 'Requires admin privileges'
 			# Download key
-			$SUDOCMD curl -L $KEY | $SUDOCMD apt-key add -
+			curl -sL $KEY | elevate_privilege "apt-key add -"
 			# Done
 			display_success 'Done.'
 			# Add the repository
 			display_info 'Adding '$NAME' repository to software sources...'
-			display_warning 'Requires admin privileges'
 			# Write repository to apt sources list file
-			echo $REPO | $SUDOCMD tee /etc/apt/sources.list.d/${LIST}
+			echo $REPO | elevate_privilege "tee /etc/apt/sources.list.d/${LIST}"
 			# Update repository information
 			display_info 'Updating repository information...'
-			$SUDOCMD apt update -y
+			elevate_privilege "apt update -y"
 			display_success 'Done.'
 		else
 			display_info $NAME 'repository already in software sources.'
 		fi
 		# Install
 		display_info 'Installing '$NAME'...'
-		$SUDOCMD apt install -y $PACKAGE
+		elevate_privilege "apt install -y $PACKAGE"
 		# Done
 		display_success 'Done.'
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
 		display_success $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi
 }

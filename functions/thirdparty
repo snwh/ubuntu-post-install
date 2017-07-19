@@ -25,21 +25,24 @@ source $dir/functions/apps/synergy
 # Install Third-Party Applications
 function thirdparty {
 	display_title "Starting 'thirdparty' function..."
-	# Draw window
-	THIRDPARTY=$(eval `resize` && whiptail \
+	# check exit status
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		# Draw window
+		$(eval `resize` && whiptail \
 		--notags \
 		--title "Third-Party Applications" \
-		--menu "\nWhat third-party apps would you like to install?" \
+		--menu "\nWhich third-party app would you like to install?" \
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		'dropbox'		'Dropbox' \
 		'flatpak'		'Flatpak' \
 		'fontforge'		'FontForge' \
 		'google-chrome'	'Google Chrome' \
 		'inkscape'		'Inkscape' \
 		'minecraft'		'Minecraft' \
-		'oracle-java'	'Oracle Java' \
+		'oracle-java'	'Oracle Java 9' \
 		'peek'			'Peek' \
 		'plex'			'Plex Media Server' \
 		'riot'			'Riot Chat' \
@@ -50,10 +53,6 @@ function thirdparty {
 		'sublime-text'	'Sublime Text 3' \
 		'synergy'		'Synergy' \
 		3>&1 1>&2 2>&3)
-
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
-		$THIRDPARTY
 	else
 		main
 	fi

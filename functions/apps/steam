@@ -4,6 +4,7 @@
 function steam {
 	# Variables
 	NAME="Steam"
+	PACKAGE=steam
 	# Install
 	display_header 'Begin '$NAME' installation'
 	# Check if already installed
@@ -22,28 +23,26 @@ function steam {
 				curl -O http://repo.steampowered.com/steam/archive/precise/steam_latest.deb
 				;;
 			*)
-				whiptail --title "No remote packages available to download." --msgbox "Error." 8 78
+				whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
 				;; 
 		esac
 		# Install package(s)
 		display_info 'Installing '$NAME'...'
-		display_warning 'Requires admin privileges'
-		$SUDOCMD dpkg -i steam*.deb
-		$SUDOCMD apt install -fy
+		elevate_privilege "dpkg -i $PACKAGE*.deb"
+		elevate_privilege "apt install -fy"
 		# Install dependencies
 		display_info 'Installing '$NAME' dependencies...'
-		display_warning 'Requires admin privileges'
-		$SUDOCMD apt install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386
+		elevate_privilege "apt install -y libgl1-mesa-glx libgl1-mesa-dev libgl1-mesa-dri:i386 libgl1-mesa-glx:i386 libc6:i386"
 		# Cleanup and finish
-		rm steam*.deb
+		rm $PACKAGE*.deb
 		# Done
 		display_success 'Done.'
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
 		display_success $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi
 }

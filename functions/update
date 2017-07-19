@@ -4,20 +4,21 @@
 function update {
 	display_title "Starting 'update' function..."
 	# Draw window
-	if (whiptail --title "System Update" --yesno "Proceed with system update?" 10 60) then
+	if (whiptail --title "System Update" --yesno "Proceed with system update?" 8 64) then
 		# Update repository information
 		display_info 'Updating repository information...'
-		display_warning 'Requires admin privileges'
-		$SUDOCMD apt update
+		# Admin privileges
+		elevate_privilege 'apt update -y'
 		display_success 'Repository information updated.'
-		# Dist-Upgrade
+		# Upgrade
 		display_info 'Performing system update...'
-		$SUDOCMD apt dist-upgrade -y
+		# Admin privileges
+		elevate_privilege 'apt dist-upgrade -y'
 		# Check
 		check_fail
 		# Done
 		display_success 'System update complete.'
-		whiptail --title "Finished" --msgbox "System update complete." 8 78
+		whiptail --title "Finished" --msgbox "System update complete." 8 64
 	else
 		main
 	fi

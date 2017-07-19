@@ -13,50 +13,49 @@ function set_preferences {
 	done < "$GSETTINGS"
 	# Done
 	display_success 'Settings changed successfully.'
-	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
+	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
 
 # Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
 function display_startup_apps {
 	display_info 'Changing display of startup applications...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
+	# Admin privileges
+	elevate_privilege "sed -i 's/NoDisplay=true/NoDisplay=false/g' /etc/xdg/autostart/*.desktop"
 	# Done
 	display_success 'Settings changed successfully.'
-	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
+	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
 
 # Disable Apport
 function disable_apport {
 	display_info 'Disabling apport crash dialogs...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD sed -i "s/enabled=1/enabled=0/g" /etc/default/apport
+	# Admin privileges
+	elevate_privilege "sed -i 's/enabled=1/enabled=0/g' /etc/default/apport"
 	# Done
 	display_success 'Settings changed successfully.'
-	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 78
+	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
 
 # Configure System
 function configure {
 	display_title "Starting 'configure' function..."
-	# Draw window
-	CONF=$(eval `resize` && whiptail \
+	# check exit status
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		# Draw window
+		$(eval `resize` && whiptail \
 		--notags \
 		--title "Configure System" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		set_preferences		'Set preferred application-specific & desktop settings' \
 		display_startup_apps	'Show all startup applications' \
 		disable_apport		'Disable system crash dialogs' \
 		3>&1 1>&2 2>&3)
-
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
-		$CONF
 	else
 		main
 	fi

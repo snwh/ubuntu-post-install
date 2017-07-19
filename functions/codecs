@@ -8,8 +8,8 @@ function codecs {
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Multimedia Codecs" \
-		--yesno "Current list of non-free codecs to install: \n\n$(cat $CODECS) \n\nProceed with installation?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--yesno "Current list of non-free codecs to install: \n\n$(for LINE in $(cat $CODECS); do echo '  '$LINE; done) \n\nProceed with installation?" \
+		32 96 16 \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing non-free codecs...'
@@ -20,8 +20,8 @@ function codecs {
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
-				display_warning 'Requires admin privileges'
-				$SUDOCMD apt install -y --no-install-recommends $PACKAGE
+				# Admin privileges
+				elevate_privilege "apt install -y $PACKAGE"
 				# Done
 				display_success "'$PACKAGE' installation is complete."
 			else
@@ -31,7 +31,7 @@ function codecs {
 		done
 		# Finish
 		display_success "Installation complete."
-		whiptail --title "Finished" --msgbox "Installation complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		main
 	else
 		main

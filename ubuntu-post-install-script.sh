@@ -37,6 +37,7 @@ dir=$(dirname "$0")
 . $dir/functions/favs
 . $dir/functions/fonts
 . $dir/functions/gnome
+. $dir/functions/password
 . $dir/functions/thirdparty
 . $dir/functions/update
 . $dir/functions/utilities
@@ -81,7 +82,7 @@ function main {
 		--title "Ubuntu Post-Install Script" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Quit" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		update		'Perform system update' \
 		favs		'Install preferred applications' \
 		utilities	'Install preferred system utilities' \
@@ -94,6 +95,7 @@ function main {
 		cleanup		'Cleanup the system' \
 		3>&1 1>&2 2>&3)
 
+	# check exit status
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
 		$MAIN
@@ -105,7 +107,7 @@ function main {
 # Quit
 function quit {
 	display_title "Starting 'quit' function..."
-	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
+	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 8 64) then
 		echo "Exiting..."
 		display_success 'Thanks for using!'
 		exit 99

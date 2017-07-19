@@ -11,15 +11,30 @@ function purge_unused {
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Remove Un-used Pre-installed Applications" \
-		--yesno "Current list of pre-installed applications to remove: \n\n$(cat $PURGED) \n\nAre you sure you want proceed?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--yesno "Current list of pre-installed applications to remove: \n\n$(for LINE in $(cat $PURGED); do echo '  '$LINE; done) \n\nAre you sure you want proceed?" \
+		32 96 16 \
 		--scrolltext ) then
+		# Remove loop
 		display_info 'Removing unused pre-installed applications...'
-		display_warning 'Requires admin privileges'
-		$SUDOCMD apt remove -y $(cat $PURGED)
+		for PACKAGE in $(cat $PURGED); do
+			# Check if package is installed
+			PKGCHECK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed")
+			# If app package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Show already installed message
+				echo "Package '$PACKAGE' is already removed."
+			else
+				# Remove package
+				display_info "'$PACKAGE' is installed. Removing..."
+				# Admin privileges
+				elevate_privilege "apt purge -y $PACKAGE"
+				# Done
+				display_success "'$PACKAGE' removal is complete."
+			fi
+		done
 		# Done
 		display_success 'Removal of unused packages complete.'
-		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 78
+		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 64
 		cleanup
 	else
 		cleanup
@@ -29,55 +44,53 @@ function purge_unused {
 # Remove Orphaned Packages
 function remove_orphans {
 	display_info 'Removing orphaned packages...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD apt autoremove -y
+	# Admin privileges
+	elevate_privilege "apt autoremove -y $PACKAGE"
 	# Done
 	display_success 'Removal of orphaned packages complete.'
-	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 78
+	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 64
 	cleanup
 }
 
 # Remove Leftover Config files
 function remove_leftover_config {
 	display_info 'Removing leftover configuration files...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)
-	display_success 'Done.'
+	# Admin privileges
+	elevate_privilege "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
 	# Done
 	display_success 'Removal of leftover configuration files complete.'
-	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 78
+	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 64
 	cleanup
 }
 
 # Clean apt cache
 function clean_apt_cache {
 	display_info 'Cleaning package cache...'
-	display_warning 'Requires admin privileges'
-	$SUDOCMD apt clean
+	# Admin privileges
+	elevate_privilege "apt clean"
 	# Done
 	display_success 'Package cache cleaned.'
-	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 78
+	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 64
 	cleanup
 }
 
 # Cleanup System
 function cleanup {
 	display_title "Starting 'cleanup' function..."
-	# Draw window
-	CLEANUP=$(eval `resize`&& whiptail \
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		# Draw window
+		$(eval `resize`&& whiptail \
 		--notags \
 		--title "System Cleanup" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
+		32 96 16 \
 		clean_apt_cache			'Clean package cache' \
 		remove_leftover_config	'Remove leftover configuration files' \
 		remove_orphans			'Remove orphaned packages' \
 		purge_unused			'Remove unused pre-installed packages' \
 		3>&1 1>&2 2>&3)
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
-		$CLEANUP
 	else
 		main
 	fi

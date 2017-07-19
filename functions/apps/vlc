@@ -16,23 +16,22 @@ function vlc {
 		echo 'Proceeding'
 		# Add repository
 		display_info 'Adding '$NAME' repository to software sources...'
-		display_warning 'Requires admin privileges'
-		$SUDOCMD add-apt-repository -y $PPANAME
+		elevate_privilege "add-apt-repository -y $PPANAME"
 		# Update repository information
 		display_info 'Updating repository information...'
-		$SUDOCMD apt update -y
+		elevate_privilege "apt update -y"
 		display_success 'Done.'
 		# Install
 		display_info 'Installing '$NAME'...'
-		$SUDOCMD apt install -y $PACKAGE
+		elevate_privilege "apt install -y $PACKAGE"
 		# Done
 		display_success 'Done.'
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 78
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
 		display_success $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 78
+		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi
 }
