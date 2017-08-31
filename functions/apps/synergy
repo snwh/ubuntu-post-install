@@ -14,7 +14,7 @@ function install_synergy {
 			curl -O https://binaries.symless.com/v${VERSION}/synergy-v${VERSION}-stable-${BUILD}-Linux-x86_64.deb
 			;;
 		*)
-			whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
+			whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
 			;;
 	esac
 	# Install package(s)
@@ -38,13 +38,13 @@ function synergy {
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
-	exitstatus=$?
+	EXITSTATUS=$?
 	# If package is not installed
-	if [ $exitstatus = 1 ]; then
+	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_synergy
-		whiptail --title "Finished" --msgbox "Installation $NAME complete." 8 64
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)

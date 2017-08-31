@@ -11,16 +11,16 @@ function install_fonts {
 	if (eval `resize` && whiptail \
 		--title "Preferred Fonts" \
 		--yesno "Current list of preferred fonts to install: \n\n$(for LINE in $(cat $FONTLIST); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing preferred fonts...'
 		for PACKAGE in $(cat $FONTLIST); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -49,9 +49,9 @@ function msttcorefonts {
 	NAME="Microsoft Core Fonts"
 	# Check if already installed
 	check_packages $PACKAGE
-	exitstatus=$?
+	EXITSTATUS=$?
 	# If package is not installed
-	if [ $exitstatus = 1 ]; then
+	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed. Installing...'
 		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 8 64) then
 			# Install
@@ -77,15 +77,15 @@ function msttcorefonts {
 function fonts {
 	display_title "Starting 'fonts' function..."
 	# check exit status
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
 		# Draw window
 		$(eval `resize` && whiptail \
 		--notags \
 		--title "Install Fonts" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		install_fonts	'Install favourite fonts' \
 		msttcorefonts	'Install Microsoft core fonts' \
 		3>&1 1>&2 2>&3)

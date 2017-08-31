@@ -11,16 +11,16 @@ function favs {
 	if (eval `resize` && whiptail \
 		--title "Preferred Applications" \
 		--yesno "Current list of preferred applications to install: \n\n$(for LINE in $(cat $FAVS); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing preferred applications...'
 		for PACKAGE in $(cat $FAVS); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges

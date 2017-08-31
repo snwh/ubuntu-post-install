@@ -3,8 +3,8 @@
 # Google Chrome
 function google-chrome {
 eval `resize` 
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
+EXITSTATUS=$?
+if [ $EXITSTATUS = 0 ]; then
 	status="0"
 	while [ "$status" -eq 0 ]; do
 		VERSION=$(whiptail \
@@ -12,7 +12,7 @@ if [ $exitstatus = 0 ]; then
 		--radiolist "Which version of Chrome would you like to install?" \
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		"stable"	"Stable build" ON \
 		"beta"		"Beta build" OFF \
 		"unstable"	"Unstable build" OFF \
@@ -25,9 +25,9 @@ if [ $exitstatus = 0 ]; then
 				NAME="Google Chrome (Stable)"
 				# Check if package is installed
 				check_packages $PACKAGE
-				exitstatus=$?
+				EXITSTATUS=$?
 				# If package is not installed
-				if [ $exitstatus = 1 ]; then
+				if [ $EXITSTATUS = 1 ]; then
 					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
 					display_info 'Downloading '$NAME'...'
@@ -40,7 +40,7 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
+							whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
 							;;
 					esac
 					# Install package(s)
@@ -67,9 +67,9 @@ if [ $exitstatus = 0 ]; then
 				NAME="Google Chrome (Beta)"
 				# Check if already installed
 				check_packages $PACKAGE
-				exitstatus=$?
+				EXITSTATUS=$?
 				# If package is not installed
-				if [ $exitstatus = 1 ]; then
+				if [ $EXITSTATUS = 1 ]; then
 					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
 					display_info 'Downloading '$NAME'...'
@@ -82,7 +82,7 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
+							whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
 							;;
 					esac
 					# Install package(s)
@@ -109,9 +109,9 @@ if [ $exitstatus = 0 ]; then
 				NAME="Google Chrome (Unstable)"
 				# Check if already installed
 				check_packages $PACKAGE
-				exitstatus=$?
+				EXITSTATUS=$?
 				# If package is not installed
-				if [ $exitstatus = 1 ]; then
+				if [ $EXITSTATUS = 1 ]; then
 					display_info $NAME 'is not installed.'
 					echo 'Proceeding'
 					display_info 'Downloading '$NAME'...'
@@ -124,7 +124,7 @@ if [ $exitstatus = 0 ]; then
 							curl -O https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
 							;;
 						*)
-							whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
+							whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
 							;;
 					esac
 					# Install package(s)

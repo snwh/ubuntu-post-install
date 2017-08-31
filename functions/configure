@@ -17,6 +17,26 @@ function set_preferences {
 	configure
 }
 
+function set_bash_aliases {
+	# Check list
+	ALIASES=$(dirname "$0")'/data/aliases.list'
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "Preferred Bash Aliases" \
+		--yesno "Current list of preferred bash aliases: \n\n$(while read LINE; do echo "  "$LINE; done < $ALIASES) \n\nProceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		display_info 'Setting bash aliases...'
+		# simply copy the list file to the aliases file
+		cp $ALIASES $HOME/.bash_aliases
+		display_success 'Bash aliases set successfully.'
+		whiptail --title "Finished" --msgbox "Bash aliases set successfully." 8 64
+		configure
+	else
+		configure
+	fi
+}
+
 # Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
 function display_startup_apps {
 	display_info 'Changing display of startup applications...'
@@ -43,18 +63,19 @@ function disable_apport {
 function configure {
 	display_title "Starting 'configure' function..."
 	# check exit status
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
 		# Draw window
 		$(eval `resize` && whiptail \
 		--notags \
 		--title "Configure System" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		32 96 16 \
-		set_preferences		'Set preferred application-specific & desktop settings' \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		set_preferences			'Set preferred application-specific & desktop settings' \
+		set_bash_aliases		'Set preferred bash aliases' \
 		display_startup_apps	'Show all startup applications' \
-		disable_apport		'Disable system crash dialogs' \
+		disable_apport			'Disable system crash dialogs' \
 		3>&1 1>&2 2>&3)
 	else
 		main

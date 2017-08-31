@@ -30,16 +30,16 @@ function install_gnome_desktop {
 	if (eval `resize` && whiptail \
 		--title "GNOME Desktop" \
 		--yesno "Packages to install for a basic GNOME desktop: \n\n$(for LINE in $(cat $GNOMEDESKTOP); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing GNOME desktop...'
 		for PACKAGE in $(cat $GNOMEDESKTOP); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -69,16 +69,16 @@ function install_gnome_apps {
 	if (eval `resize` && whiptail \
 		--title "GNOME Core Apps" \
 		--yesno "Current list of GNOME core apps: \n\n$(for LINE in $(cat $GNOMEAPPS); do echo '  '$LINE; done) \n\nWould you like to install these apps?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
 		display_info 'Installing GNOME core apps...'
 		for PACKAGE in $(cat $GNOMEAPPS); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -103,15 +103,15 @@ function install_gnome_apps {
 function gnome {
 	display_title "Starting 'gnome' function..."
 	# check exit status
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
 		# Draw window
 		$(eval `resize` && whiptail \
 		--notags \
 		--title "Install Latest GNOME" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		upgrade_gnome			'Update to latest GNOME' \
 		install_gnome_desktop	'Install basic GNOME desktop' \
 		install_gnome_apps		'Install GNOME core applications' \

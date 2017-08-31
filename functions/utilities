@@ -11,16 +11,16 @@ function install_utilities {
 	if (eval `resize` && whiptail --title \
 		"Preferred System Utilities"  --yesno \
 		"Current list of preferred system utilities: \n\n$(for LINE in $(cat $UTILS); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
 		display_info 'Installing preferred utilities...'
 		for PACKAGE in $(cat $UTILS); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
@@ -54,7 +54,7 @@ function node_packages {
 	if (eval `resize` && whiptail --title \
 		"Preferred System Utilities"  --yesno \
 		"Current list of preferred NodeJS-based tools: \n\n$(for LINE in $(cat $NODE); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
 		display_info 'Installing preferred NodeJS-based tools...'
@@ -90,9 +90,9 @@ function node_check {
 	for PACKAGE in $NODEDEPS; do
 		# Check if package is installed
 		check_packages $PACKAGE
-		exitstatus=$?
+		EXITSTATUS=$?
 		# If package is not installed
-		if [ $exitstatus = 1 ]; then
+		if [ $EXITSTATUS = 1 ]; then
 			display_warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
 			# Draw window
 			if (eval `resize` && whiptail \
@@ -101,7 +101,7 @@ function node_check {
 				--ok-button "Install" \
 				--cancel-button "Go Back" \
 				"In order to continue '$PACKAGE' needs to be installed. Continue?" 8 64 ) then
-				display_info "Intalling '$PACKAGE' installed. Proceeding."
+				display_info "Installing '$PACKAGE' installed. Proceeding."
 				# Admin privileges
 				elevate_privilege "apt install -y $PACKAGE"
 				display_success "Package '$PACKAGE' installed. Proceeding."
@@ -123,14 +123,14 @@ function node_check {
 function utilities {
 	display_title "Starting 'utilities' function..."
 	# check exit status
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
 		# Draw window
 		$(eval `resize`&& whiptail \
 		--notags \
 		--title "Install Utilities" \
 		--menu "\nWhat would you like to do?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--cancel-button "Go Back" \
 		install_utilities	'Install preferred system utilities' \
 		node_packages		'Install NodeJS-based tools' \

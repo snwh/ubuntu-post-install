@@ -7,14 +7,15 @@ function riot {
 	PACKAGE=riot-web
 	LIST=riot-im.list
 	KEY='https://riot.im/packages/debian/repo-key.asc'
+	# KEY='E019645248E8F4A1'
 	REPO="deb https://riot.im/packages/debian/ $(lsb_release -cs) main"
 	# Install
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
-	exitstatus=$?
+	EXITSTATUS=$?
 	# If package is not installed
-	if [ $exitstatus = 1 ]; then
+	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		# Check if repository already exists

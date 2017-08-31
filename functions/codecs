@@ -9,16 +9,16 @@ function codecs {
 	if (eval `resize` && whiptail \
 		--title "Multimedia Codecs" \
 		--yesno "Current list of non-free codecs to install: \n\n$(for LINE in $(cat $CODECS); do echo '  '$LINE; done) \n\nProceed with installation?" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
 		display_info 'Installing non-free codecs...'
 		for PACKAGE in $(cat $CODECS); do
 			# Check if package is installed
 			check_packages $PACKAGE
-			exitstatus=$?
+			EXITSTATUS=$?
 			# If package is not installed
-			if [ $exitstatus = 1 ]; then
+			if [ $EXITSTATUS = 1 ]; then
 				# Install package
 				display_info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges

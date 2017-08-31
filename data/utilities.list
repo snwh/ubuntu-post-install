@@ -1,11 +1,12 @@
 cockpit
 dconf-tools
+gifsicle
 gnome-disk-utility
 htop
 inxi
 libav-tools
 mediainfo
-openssh-blacklist
+openvpn
 openssh-server
 p7zip-full
 powertop

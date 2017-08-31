@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Download function for ease of reuse
-function install_sublime {
+function install_mattermost {
 	display_info 'Downloading '$NAME'...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 		i386|i486|i586|i686)
-			curl -O https://download.sublimetext.com/sublime-text_build-${BUILD}_i386.deb
+			curl -O https://releases.mattermost.com/desktop/${VERSION}/${PACKAGE}-${VERSION}-linux-i386.deb
 			;;
 		x86_64)
-			curl -O https://download.sublimetext.com/sublime-text_build-${BUILD}_amd64.deb
+			curl -O https://releases.mattermost.com/desktop/${VERSION}/${PACKAGE}-${VERSION}-linux-amd64.deb
 			;;
 		*)
 			whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
@@ -19,21 +19,18 @@ function install_sublime {
 	display_info 'Installing '$NAME'...'
 	elevate_privilege "dpkg -i $PACKAGE*.deb"
 	elevate_privilege "apt install -fy"
-	# Create symbolic link
-	display_info 'Creating symbolic link...'
-	elevate_privilege "ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime"
 	# Cleanup and finish
 	rm ${PACKAGE}*.deb
 	display_success "Installation of '$PACKAGE' complete."
 }
 
 
-# Sublime Text 3
-function sublime-text {
+# Mattermost
+function mattermost {
 	# Variables
-	NAME="Sublime Text 3"
-	PACKAGE=sublime-text
-	BUILD=3126
+	NAME="Mattermost"
+	PACKAGE=mattermost-desktop
+	VERSION=3.7.0
 	# Install
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed
@@ -43,12 +40,12 @@ function sublime-text {
 	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
-		install_sublime
+		install_mattermost
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
-		if [ "$BUILD" == "$VERSCHECK" ]; then
+		if [ "$VERSION" == "$VERSCHECK" ]; then
 			# Already installed
 			display_info $NAME 'already installed.'
 			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
@@ -58,7 +55,7 @@ function sublime-text {
 			display_info $NAME '$NAME is already installed, but out-of-date.'
 			display_info 'Updating '$NAME'...'
 			# Install
-			install_sublime
+			install_mattermost
 			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 64
 			thirdparty
 		fi

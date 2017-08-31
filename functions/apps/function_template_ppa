@@ -20,9 +20,9 @@ function function_name {
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
-	exitstatus=$?
+	EXITSTATUS=$?
 	# If package is not installed
-	if [ $exitstatus = 1 ]; then
+	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		# Add repository

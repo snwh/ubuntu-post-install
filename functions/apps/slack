@@ -10,9 +10,9 @@ function slack {
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
-	exitstatus=$?
+	EXITSTATUS=$?
 	# If package is not installed
-	if [ $exitstatus = 1 ]; then
+	if [ $EXITSTATUS = 1 ]; then
 		display_info $NAME 'is not installed.'
 		echo 'Proceeding'
 		display_info 'Downloading '$NAME'...'
@@ -25,7 +25,7 @@ function slack {
 				curl -O https://downloads.slack-edge.com/linux_releases/slack-desktop-${VERSION}-amd64.deb
 				;;
 			*)
-				whiptail --title "No remote packages available to download." --msgbox "Error." 8 64
+				whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
 				;;
 		esac
 		# Install package(s)

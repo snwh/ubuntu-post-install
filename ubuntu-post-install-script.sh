@@ -83,7 +83,7 @@ function main {
 		--title "Ubuntu Post-Install Script" \
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Quit" \
-		32 96 16 \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
 		update		'Perform system update' \
 		favs		'Install preferred applications' \
 		utilities	'Install preferred system utilities' \
@@ -97,8 +97,8 @@ function main {
 		3>&1 1>&2 2>&3)
 
 	# check exit status
-	exitstatus=$?
-	if [ $exitstatus = 0 ]; then
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
 		$MAIN
 	else
 		quit

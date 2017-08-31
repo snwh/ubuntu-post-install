@@ -1,0 +1,15 @@
+# Bash Aliases
+
+# fancy listing
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# ensure remove confirmations
+alias rm='rm -i'
+
+# human readable df
+alias df='df -h'
+
+# ignore common typos
+alias naon='nano'
