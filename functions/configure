@@ -17,6 +17,7 @@ function set_preferences {
 	configure
 }
 
+# Set preferred bash aliased by copying the 'aliases.list' file to ~/.bash_aliases
 function set_bash_aliases {
 	# Check list
 	ALIASES=$(dirname "$0")'/data/aliases.list'
@@ -28,7 +29,7 @@ function set_bash_aliases {
 		--scrolltext) then
 		display_info 'Setting bash aliases...'
 		# simply copy the list file to the aliases file
-		cp $ALIASES $HOME/.bash_aliases
+		cp $ALIASES ~/.bash_aliases
 		display_success 'Bash aliases set successfully.'
 		whiptail --title "Finished" --msgbox "Bash aliases set successfully." 8 64
 		configure
