@@ -32,4 +32,4 @@ You use these scripts, you can just run the main script from the root of the sou
 
 Or you can add the location of this project to your custom shell paths to run it on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
 
-    export PATH=${PATH}:$HOME/ubuntu-post-install/
+    export PATH=${PATH}:~/ubuntu-post-install/
