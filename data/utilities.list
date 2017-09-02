@@ -2,13 +2,13 @@ cockpit
 dconf-tools
 gifsicle
 gnome-disk-utility
-htop
 inxi
 libav-tools
 mediainfo
 openvpn
 openssh-server
 p7zip-full
+pciutils
 powertop
 rsync
 samba
