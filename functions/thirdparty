@@ -5,25 +5,28 @@
 
 dir=$(dirname "$0")
 
-# Import apps functions
-source $dir/functions/apps/atom
+# Import apps functions; commented-out imports are omitted from the function below.
+
+# source $dir/functions/apps/atom
 source $dir/functions/apps/dropbox
 source $dir/functions/apps/flatpak
+# source $dir/functions/apps/fontforge
 source $dir/functions/apps/google-chrome
 source $dir/functions/apps/inkscape
-source $dir/functions/apps/mattermost
-source $dir/functions/apps/minecraft
-source $dir/functions/apps/oracle-java
+# source $dir/functions/apps/mattermost
+# source $dir/functions/apps/minecraft
+# source $dir/functions/apps/oracle-java
 source $dir/functions/apps/peek
 source $dir/functions/apps/pia
 source $dir/functions/apps/plex
 source $dir/functions/apps/riot
 source $dir/functions/apps/rvm
 source $dir/functions/apps/slack
-source $dir/functions/apps/spotify
+# source $dir/functions/apps/spotify
 source $dir/functions/apps/steam
 source $dir/functions/apps/sublime-text
-source $dir/functions/apps/synergy
+# source $dir/functions/apps/synergy
+# source $dir/functions/apps/vlc
 
 # Install Third-Party Applications
 function thirdparty {
@@ -39,25 +42,18 @@ function thirdparty {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'atom'			'Atom' \
 		'dropbox'		'Dropbox' \
 		'flatpak'		'Flatpak' \
-		'fontforge'		'FontForge' \
 		'google-chrome'	'Google Chrome' \
 		'inkscape'		'Inkscape' \
-		'mattermost'	'Mattermost Desktop' \
-		'minecraft'		'Minecraft' \
-		'oracle-java'	'Oracle Java 9' \
 		'peek'			'Peek' \
 		'pia'			'Private Internet Access' \
 		'plex'			'Plex Media Server' \
 		'riot'			'Riot Chat' \
 		'rvm'			'Ruby Version Manager (RVM)' \
 		'slack'			'Slack Desktop' \
-		'spotify'		'Spotify' \
 		'steam'			'Steam' \
 		'sublime-text'	'Sublime Text 3' \
-		'synergy'		'Synergy' \
 		3>&1 1>&2 2>&3)
 	else
 		main
