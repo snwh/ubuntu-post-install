@@ -39,25 +39,25 @@ function thirdparty {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'atom'			'Atom' \
-		'dropbox'		'Dropbox' \
-		'flatpak'		'Flatpak' \
-		'fontforge'		'FontForge' \
-		'google-chrome'	'Google Chrome' \
-		'inkscape'		'Inkscape' \
-		'mattermost'	'Mattermost Desktop' \
-		'minecraft'		'Minecraft' \
-		'oracle-java'	'Oracle Java 9' \
-		'peek'			'Peek' \
-		'pia'			'Private Internet Access' \
-		'plex'			'Plex Media Server' \
-		'riot'			'Riot Chat' \
-		'rvm'			'Ruby Version Manager (RVM)' \
-		'slack'			'Slack Desktop' \
-		'spotify'		'Spotify' \
-		'steam'			'Steam' \
-		'sublime-text'	'Sublime Text 3' \
-		'synergy'		'Synergy' \
+		'atom'				'Atom' \
+		'dropbox'			'Dropbox' \
+		'flatpak'			'Flatpak' \
+		'fontforge'			'FontForge' \
+		'google-chrome'		'Google Chrome' \
+		'inkscape'			'Inkscape' \
+		'mattermost'		'Mattermost Desktop' \
+		'minecraft'			'Minecraft' \
+		'oracle-java'		'Oracle Java 9' \
+		'peek'				'Peek' \
+		'pia'				'Private Internet Access' \
+		'plex'				'Plex Media Server' \
+		'riot'				'Riot Chat' \
+		'rvm'				'Ruby Version Manager (RVM)' \
+		'slack'				'Slack Desktop' \
+		'spotify'			'Spotify' \
+		'steam'				'Steam' \
+		'sublime-text'		'Sublime Text 3' \
+		'synergy'			'Synergy' \
 		3>&1 1>&2 2>&3)
 	else
 		main
