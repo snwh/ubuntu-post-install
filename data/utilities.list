@@ -1,12 +1,15 @@
 cockpit
 dconf-tools
+flatpak
 gifsicle
 gnome-disk-utility
 inxi
 libav-tools
 mediainfo
-openvpn
 openssh-server
+openvpn
+network-manager-l2tp-gnome
+network-manager-openvpn-gnome
 p7zip-full
 pciutils
 powertop

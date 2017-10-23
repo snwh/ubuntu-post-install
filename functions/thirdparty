@@ -6,6 +6,7 @@
 dir=$(dirname "$0")
 
 # Import apps functions
+source $dir/functions/apps/atom
 source $dir/functions/apps/dropbox
 source $dir/functions/apps/flatpak
 source $dir/functions/apps/google-chrome
@@ -38,6 +39,7 @@ function thirdparty {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'atom'			'Atom' \
 		'dropbox'		'Dropbox' \
 		'flatpak'		'Flatpak' \
 		'fontforge'		'FontForge' \

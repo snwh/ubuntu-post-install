@@ -4,8 +4,8 @@
 function pia {
 	# Variables
 	NAME="Private Internet Access"
-	TARBALL=pia-v72-installer-linux
-	VERSION=v72
+	TARBALL=pia-v73-installer-linux
+	VERSION=v73
 	CHECKSUM=4948b4a7f8d6454ac3bada85e37883a3b775a45f7da8e83a2c17042053c62b4b
 	# Start
 	display_header 'Begin '$NAME' installation'

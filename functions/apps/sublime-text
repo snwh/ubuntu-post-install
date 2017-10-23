@@ -2,6 +2,7 @@
 
 # Download function for ease of reuse
 function install_sublime {
+	# Install
 	display_info 'Downloading '$NAME'...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
@@ -33,7 +34,7 @@ function sublime-text {
 	# Variables
 	NAME="Sublime Text 3"
 	PACKAGE=sublime-text
-	BUILD=3126
+	BUILD=3143
 	# Install
 	display_header 'Begin '$NAME' installation'
 	# Check if package is installed

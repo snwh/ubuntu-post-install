@@ -1,7 +1,7 @@
 activity-log-manager
 aisleriot
-deja-dup
 checkbox-converged
+deja-dup
 gnome-mahjongg
 gnome-mines
 gnome-sudoku
@@ -13,8 +13,10 @@ overlay-scrollbar-gtk3
 remmina
 rhythmbox
 shotwell
+shotwell-common
 thunderbird
 ubuntu-system-settings
+ubuntu-web-launchers
 unity-scope-calculator
 unity-scope-chromiumbookmarks
 unity-scope-colourlovers
