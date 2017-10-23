@@ -9,9 +9,9 @@ dir=$(dirname "$0")
 
 # source $dir/functions/apps/atom
 source $dir/functions/apps/dropbox
+source $dir/functions/apps/chrome
 source $dir/functions/apps/flatpak
 # source $dir/functions/apps/fontforge
-source $dir/functions/apps/google-chrome
 source $dir/functions/apps/inkscape
 # source $dir/functions/apps/mattermost
 # source $dir/functions/apps/minecraft
@@ -24,7 +24,7 @@ source $dir/functions/apps/rvm
 source $dir/functions/apps/slack
 # source $dir/functions/apps/spotify
 source $dir/functions/apps/steam
-source $dir/functions/apps/sublime-text
+source $dir/functions/apps/sublime
 # source $dir/functions/apps/synergy
 # source $dir/functions/apps/vlc
 
@@ -44,7 +44,7 @@ function thirdparty {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		'dropbox'		'Dropbox' \
 		'flatpak'		'Flatpak' \
-		'google-chrome'	'Google Chrome' \
+		'chrome'		'Google Chrome' \
 		'inkscape'		'Inkscape' \
 		'peek'			'Peek' \
 		'pia'			'Private Internet Access' \
@@ -53,7 +53,7 @@ function thirdparty {
 		'rvm'			'Ruby Version Manager (RVM)' \
 		'slack'			'Slack Desktop' \
 		'steam'			'Steam' \
-		'sublime-text'	'Sublime Text 3' \
+		'sublime'		'Sublime Text 3' \
 		3>&1 1>&2 2>&3)
 	else
 		main
