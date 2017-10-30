@@ -8,9 +8,10 @@
 #	ppa_url = the url of the PPA in the form ppa:user/ppa
 #	app_name = a human readable name of the app you're installing
 #
-# next set the function_name and reference it in the 'thirdparty' function in the 'thirdparty' function file 
+# next set the 'function_name' and reference it in the 'thirdparty' function in the 'thirdparty' function file 
 # and be sure to 'source' it in the list at the top of that file as well
 
+# Function
 function function_name {
 	# Variables
 	NAME="app_name"

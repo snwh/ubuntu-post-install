@@ -20,7 +20,7 @@ This project is coded and organized in a modular fashion so you can easily delet
 
 ## Adding Functions
 
-You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there is a generic [template](/functions/apps/function_template_ppa) readily available for adding PPA functions.
+You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there are a few [templates](/functions/templates) readily available for adding functions.
 
 When you do add (or remove) functions be sure to update the main [`thirdparty`](/functions/thirdparty) function to reflect those changes, else the script will fail.
 

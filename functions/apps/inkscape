@@ -21,7 +21,7 @@ function inkscape {
 		# Update repository information
 		display_info 'Updating repository information...'
 		elevate_privilege "apt update -y"
-		display_success "Installation of '$PACKAGE' complete."
+		display_success 'Done'
 		# Install
 		display_info 'Installing '$NAME'...'
 		elevate_privilege "apt install -y $PACKAGE"
