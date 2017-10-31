@@ -13,3 +13,6 @@ alias df='df -h'
 
 # ignore common typos
 alias naon='nano'
+
+# daily update script
+alias update="sudo apt update; sudo apt -y upgrade; sudo apt autoremove -y"
