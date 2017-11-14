@@ -10,6 +10,7 @@ dir=$(dirname "$0")
 # source $dir/functions/apps/atom
 source $dir/functions/apps/dropbox
 source $dir/functions/apps/chrome
+source $dir/functions/apps/firefox
 source $dir/functions/apps/flatpak
 # source $dir/functions/apps/fontforge
 source $dir/functions/apps/inkscape
@@ -43,6 +44,7 @@ function thirdparty {
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		'dropbox'		'Dropbox' \
+		'firefox'		'Firefox (Beta)' \
 		'flatpak'		'Flatpak' \
 		'chrome'		'Google Chrome' \
 		'inkscape'		'Inkscape' \
