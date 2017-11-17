@@ -27,7 +27,7 @@ function pia {
 		display_success "Checksums look good. Proceeding"
 		# Unpack tarball
 		display_info 'Unpacking '$NAME' archive...'
-		tar -xzf  $TARBALL*.tar.gz
+		tar -xzf $TARBALL*.tar.gz
 		# Run install script
 		display_info 'Running install script...'
 		./${TARBALL}.sh

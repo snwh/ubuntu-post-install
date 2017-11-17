@@ -27,6 +27,7 @@ source $dir/functions/apps/slack
 source $dir/functions/apps/steam
 source $dir/functions/apps/sublime
 # source $dir/functions/apps/synergy
+source $dir/functions/apps/telegram
 # source $dir/functions/apps/vlc
 
 # Install Third-Party Applications
@@ -56,6 +57,7 @@ function thirdparty {
 		'slack'			'Slack Desktop' \
 		'steam'			'Steam' \
 		'sublime'		'Sublime Text 3' \
+		'telegram'		'Telegram' \
 		3>&1 1>&2 2>&3)
 	else
 		main

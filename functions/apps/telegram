@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Telegram
+function telegram {
+	# Variables
+	NAME="Telegram"
+	TARBALL=tsetup
+	VERSION=1.1.23
+	# Start
+	display_header 'Begin '$NAME' installation'
+	# Download
+	display_info 'Downloading tarball for version '$VERSION'...'
+	# Download Debian file that matches system architecture
+	case `uname -i` in
+		i386|i486|i586|i686)
+			curl -O https://updates.tdesktop.com/tlinux32/tsetup32.${VERSION}.tar.xz
+			;;
+		x86_64)
+			curl -O https://updates.tdesktop.com/tlinux/tsetup.${VERSION}.tar.xz
+			;;
+		*)
+			whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
+			;;
+	esac
+	# Install
+	install_telegram
+	# Finish
+	display_success "Installation of '$NAME' complete."
+	whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
+	thirdparty
+}
+
+function install_telegram {
+	# Unpack tarball to /opt
+	display_info 'Unpacking '$NAME' archive...'
+	elevate_privilege "tar -xf ${TARBALL}*.tar.xz -C /opt/"
+	display_success 'Done.'
+	# Create .desktop fle
+	display_info 'Creating .desktop file for $NAME...'
+echo "[Desktop Entry]
+Version=$VERSION
+Name=$NAME
+ 
+Exec=/opt/Telegram/Telegram
+Terminal=false
+Icon=telegram
+Type=Application" >> $NAME.desktop
+	# Move .desktop file
+	elevate_privilege "mv -f $NAME.desktop /usr/share/applications/"
+	display_success 'Done.'
+	# Fetch icon
+	display_info 'Fetching $NAME icon...'
+	curl -O https://telegram.org/img/t_logo.png
+	elevate_privilege "mv -f t_logo.png /usr/share/icons/hicolor/256x256/apps/telegram.png"
+	elevate_privilege "gtk-update-icon-cache /usr/share/icons/hicolor"
+	display_success 'Done.'
+	# Cleanup and finish
+	rm ${TARBALL}*.tar.gz
+}
