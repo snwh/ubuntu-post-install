@@ -9,7 +9,7 @@ dir=$(dirname "$0")
 
 # source $dir/functions/apps/atom
 source $dir/functions/apps/dropbox
-source $dir/functions/apps/chrome
+# source $dir/functions/apps/chrome
 source $dir/functions/apps/firefox
 source $dir/functions/apps/flatpak
 # source $dir/functions/apps/fontforge
@@ -47,7 +47,6 @@ function thirdparty {
 		'dropbox'		'Dropbox' \
 		'firefox'		'Firefox (Beta)' \
 		'flatpak'		'Flatpak' \
-		'chrome'		'Google Chrome' \
 		'inkscape'		'Inkscape' \
 		'peek'			'Peek' \
 		'pia'			'Private Internet Access' \
