@@ -9,11 +9,11 @@ This project is free software; you can redistribute it and/or modify it under th
 
 This project is designed to be fairly modular (and not be one huge script) so you can easily delete or exclude bits/functions that you don't want to use.
 
- * [`data`](/data): files which are lists of packages&dagger; read by various functions.
+ * [`data`](/data): files which are lists of packages<sup>&dagger;</sup> read by various functions.
  * [`functions`](/functions): the main functions of this scriptset. They should require little user-preference modification.
  * [`apps`](/functions/apps): functions for installing third-party applications. They are called in the [`thirdparty`](/functions/thirdparty) function.
 
-**&dagger;These lists are preferential and you should to update them with packages you prefer**
+*<sup>&dagger;</sup>These lists are preferential and you should to update them with packages you prefer*
 
 ## Adding Functions
 
