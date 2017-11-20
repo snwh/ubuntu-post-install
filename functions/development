@@ -5,7 +5,7 @@
 
 # Install preferred development apps
 function development {
-	display_title "Starting 'development' function..."
+	echo_message title "Starting 'development' function..."
 	# Check list
 	DEVTOOLS=$(dirname "$0")'/data/development.list'
 	# Draw window
@@ -14,7 +14,7 @@ function development {
 		--yesno "Current list of preferred development tools to install: \n\n$(for LINE in $(cat $DEVTOOLS); do echo '  '$LINE; done) \n\nProceed with installation?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
-		display_info 'Installing preferred development applications...'
+		echo_message info 'Installing preferred development applications...'
 		# Install loop
 		for PACKAGE in $(cat $DEVTOOLS); do
 			# Check if package is installed
@@ -23,18 +23,18 @@ function development {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finished
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		main
 	else

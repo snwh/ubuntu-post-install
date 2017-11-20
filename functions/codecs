@@ -2,7 +2,7 @@
 
 # Install non-free multimedia codecs using the list 'data/codec.list'
 function codecs {
-	display_title "Starting 'codecs' function..."
+	echo_message title "Starting 'codecs' function..."
 	# Check list
 	CODECS=$(dirname "$0")'/data/codecs.list'
 	# Draw window
@@ -12,7 +12,7 @@ function codecs {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
-		display_info 'Installing non-free codecs...'
+		echo_message info 'Installing non-free codecs...'
 		for PACKAGE in $(cat $CODECS); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -20,18 +20,18 @@ function codecs {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		main
 	else

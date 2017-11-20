@@ -4,7 +4,7 @@
 
 # Install preferred utilities
 function install_utilities {
-	display_title "Starting 'install_utilities' function..."
+	echo_message title "Starting 'install_utilities' function..."
 	# Check list
 	UTILS=$(dirname "$0")'/data/utilities.list'
 	# Draw window
@@ -14,7 +14,7 @@ function install_utilities {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
-		display_info 'Installing preferred utilities...'
+		echo_message info 'Installing preferred utilities...'
 		for PACKAGE in $(cat $UTILS); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -22,18 +22,18 @@ function install_utilities {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		utilities
 	else
@@ -45,9 +45,9 @@ function install_utilities {
 
 # Install preferred node utilities
 function node_packages {
-	display_title "Dependency check..."
+	echo_message title "Dependency check..."
 	node_check
-	display_title "Starting 'node_packages' function..."
+	echo_message title "Starting 'node_packages' function..."
 	# Check list
 	NODE=$(dirname "$0")'/data/node.list'
 	# Draw window
@@ -57,25 +57,25 @@ function node_packages {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
-		display_info 'Installing preferred NodeJS-based tools...'
+		echo_message info 'Installing preferred NodeJS-based tools...'
 		for PACKAGE in $(cat $NODE); do
 			# Check if package is installed
 			PKGCHECK=$(npm list -g | grep $PACKAGE)
 			# If package is not installed
 			if [ "" == "$PKGCHECK" ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "npm install -g $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		utilities
 	else
@@ -93,7 +93,7 @@ function node_check {
 		EXITSTATUS=$?
 		# If package is not installed
 		if [ $EXITSTATUS = 1 ]; then
-			display_warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
+			echo_message warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
 			# Draw window
 			if (eval `resize` && whiptail \
 				--yesno \
@@ -101,12 +101,12 @@ function node_check {
 				--ok-button "Install" \
 				--cancel-button "Go Back" \
 				"In order to continue '$PACKAGE' needs to be installed. Continue?" 8 64 ) then
-				display_info "Installing '$PACKAGE' installed. Proceeding."
+				echo_message info "Installing '$PACKAGE' installed. Proceeding."
 				# Admin privileges
 				elevate_privilege "apt install -y $PACKAGE"
-				display_success "Package '$PACKAGE' installed. Proceeding."
+				echo_message success "Package '$PACKAGE' installed. Proceeding."
 			else
-				display_warning "Required dependencies are not present. :/"
+				echo_message warning "Required dependencies are not present. :/"
 				# Draw window
 				whiptail --msgbox "Required dependency '$PACKAGE' was not installed. Aborting. \nPlease try again." 8 64
 				utilities
@@ -115,13 +115,13 @@ function node_check {
 			echo "Dependency '$PACKAGE' is installed."
 		fi
 	done
-	display_success "Dependencies are installed. :)"
+	echo_message success "Dependencies are installed. :)"
 	echo "Proceeding."
 }
 
 # Install utilities
 function utilities {
-	display_title "Starting 'utilities' function..."
+	echo_message title "Starting 'utilities' function..."
 	# check exit status
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then

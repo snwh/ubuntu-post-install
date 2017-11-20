@@ -6,13 +6,13 @@
 function set_preferences {
 	# Check list
 	GSETTINGS=$(dirname "$0")'/data/gsettings.list'
-	display_info 'Setting preferred application-specific & desktop settings...'
+	echo_message info 'Setting preferred application-specific & desktop settings...'
 	while IFS= read line
 	do
 		eval 'gsettings set' $line
 	done < "$GSETTINGS"
 	# Done
-	display_success 'Settings changed successfully.'
+	echo_message success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
@@ -27,10 +27,10 @@ function set_bash_aliases {
 		--yesno "Current list of preferred bash aliases: \n\n$(while read LINE; do echo "  "$LINE; done < $ALIASES) \n\nProceed?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
-		display_info 'Setting bash aliases...'
+		echo_message info 'Setting bash aliases...'
 		# simply copy the list file to the aliases file
 		cp $ALIASES ~/.bash_aliases
-		display_success 'Bash aliases set successfully.'
+		echo_message success 'Bash aliases set successfully.'
 		whiptail --title "Finished" --msgbox "Bash aliases set successfully." 8 64
 		configure
 	else
@@ -40,29 +40,29 @@ function set_bash_aliases {
 
 # Show start-up all start-up applications by modifying the 'NoDisplay' line of their .desktop files
 function display_startup_apps {
-	display_info 'Changing display of startup applications...'
+	echo_message info 'Changing display of startup applications...'
 	# Admin privileges
 	elevate_privilege "sed -i 's/NoDisplay=true/NoDisplay=false/g' /etc/xdg/autostart/*.desktop"
 	# Done
-	display_success 'Settings changed successfully.'
+	echo_message success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
 
 # Disable Apport
 function disable_apport {
-	display_info 'Disabling apport crash dialogs...'
+	echo_message info 'Disabling apport crash dialogs...'
 	# Admin privileges
 	elevate_privilege "sed -i 's/enabled=1/enabled=0/g' /etc/default/apport"
 	# Done
-	display_success 'Settings changed successfully.'
+	echo_message success 'Settings changed successfully.'
 	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 64
 	configure
 }
 
 # Configure System
 function configure {
-	display_title "Starting 'configure' function..."
+	echo_message title "Starting 'configure' function..."
 	# check exit status
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then

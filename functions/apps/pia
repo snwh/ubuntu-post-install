@@ -8,33 +8,33 @@ function pia {
 	VERSION=v73
 	CHECKSUM=4948b4a7f8d6454ac3bada85e37883a3b775a45f7da8e83a2c17042053c62b4b
 	# Start
-	display_header 'Begin '$NAME' installation'
+	echo_message header 'Begin '$NAME' installation'
 	# Download
-	display_info 'Downloading tarball for version '$VERSION'...'
+	echo_message info 'Downloading tarball for version '$VERSION'...'
 	curl -O https://installers.privateinternetaccess.com/download/${TARBALL}.tar.gz
 	# Verify download via sha256sum
-	display_info 'Verifying download using SHA-256...'
+	echo_message info 'Verifying download using SHA-256...'
 	sha256sum ${TARBALL}.tar.gz | grep $CHECKSUM &> /dev/null
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 1 ]; then
 		# If checksum fails
-		display_error 'Error: checksums do not match. Aborting...'
+		echo_message error 'Error: checksums do not match. Aborting...'
 		whiptail --title "Error" --msgbox "Verification of $NAME download failed." 8 64
 		rm ${TARBALL}*.tar.gz
 		thirdparty
 	else
 		# If checksum succeeds
-		display_success "Checksums look good. Proceeding"
+		echo_message success "Checksums look good. Proceeding"
 		# Unpack tarball
-		display_info 'Unpacking '$NAME' archive...'
+		echo_message info 'Unpacking '$NAME' archive...'
 		tar -xzf $TARBALL*.tar.gz
 		# Run install script
-		display_info 'Running install script...'
+		echo_message info 'Running install script...'
 		./${TARBALL}.sh
 		# Cleanup and finish
 		rm ${TARBALL}*.tar.gz
 		rm ${TARBALL}*.sh
-		display_success "Installation of '$TARBALL' complete."
+		echo_message success "Installation of '$TARBALL' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	fi

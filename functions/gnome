@@ -3,27 +3,27 @@
 # Add GNOME PPA
 function upgrade_gnome {
 	PPA=ppa:gnome3-team/gnome3
-	display_title "Starting 'upgrade_gnome' function..."
+	echo_message title "Starting 'upgrade_gnome' function..."
 	# Add repository
-	display_info 'Adding GNOME3 PPA to software sources...'
+	echo_message info 'Adding GNOME3 PPA to software sources...'
 	# Admin privileges
 	elevate_privilege "add-apt-repository -y $PPA"
 	# Update repository information
-	display_info 'Updating repository information...'
+	echo_message info 'Updating repository information...'
 	# Admin privileges
 	elevate_privilege "apt update -y"
-	display_success 'Done.'
+	echo_message success 'Done.'
 	# Upgrade GNOME
-	display_info 'Upgrading GNOME software...'
+	echo_message info 'Upgrading GNOME software...'
 	# Admin privileges
 	elevate_privilege "apt dist-upgrade -y"
-	display_success "Upgrade complete."
+	echo_message success "Upgrade complete."
 	gnome
 }
 
 # Install GNOME Desktop
 function install_gnome_desktop {
-	display_title "Starting 'install_gnome_desktop' function..."
+	echo_message title "Starting 'install_gnome_desktop' function..."
 	# Check list
 	GNOMEDESKTOP=$(dirname "$0")'/data/gnome-desktop.list'
 	# Draw window
@@ -33,7 +33,7 @@ function install_gnome_desktop {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
-		display_info 'Installing GNOME desktop...'
+		echo_message info 'Installing GNOME desktop...'
 		for PACKAGE in $(cat $GNOMEDESKTOP); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -41,18 +41,18 @@ function install_gnome_desktop {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		gnome
 	else
@@ -62,7 +62,7 @@ function install_gnome_desktop {
 
 # Install GNOME Core Apps
 function install_gnome_apps {
-	display_title "Starting 'install_gnome_apps' function..."
+	echo_message title "Starting 'install_gnome_apps' function..."
 	# Check list
 	GNOMEAPPS=$(dirname "$0")'/data/gnome-apps.list'
 	# Draw window
@@ -72,7 +72,7 @@ function install_gnome_apps {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Install loop
-		display_info 'Installing GNOME core apps...'
+		echo_message info 'Installing GNOME core apps...'
 		for PACKAGE in $(cat $GNOMEAPPS); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -80,18 +80,18 @@ function install_gnome_apps {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "GNOME Apps are installed complete." 8 64
 		gnome
 	else
@@ -101,7 +101,7 @@ function install_gnome_apps {
 
 # GNOME
 function gnome {
-	display_title "Starting 'gnome' function..."
+	echo_message title "Starting 'gnome' function..."
 	# check exit status
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then

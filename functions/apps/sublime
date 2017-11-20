@@ -3,7 +3,7 @@
 # Download function for ease of reuse
 function install_sublime {
 	# Install
-	display_info 'Downloading '$NAME'...'
+	echo_message info 'Downloading '$NAME'...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 		i386|i486|i586|i686)
@@ -17,15 +17,15 @@ function install_sublime {
 			;;
 	esac
 	# Install package(s)
-	display_info 'Installing '$NAME'...'
+	echo_message info 'Installing '$NAME'...'
 	elevate_privilege "dpkg -i $PACKAGE*.deb"
 	elevate_privilege "apt install -fy"
 	# Create symbolic link
-	display_info 'Creating symbolic link...'
+	echo_message info 'Creating symbolic link...'
 	elevate_privilege "ln -sf /opt/sublime_text/sublime_text /usr/bin/sublime"
 	# Cleanup and finish
 	rm ${PACKAGE}*.deb
-	display_success "Installation of '$PACKAGE' complete."
+	echo_message success "Installation of '$PACKAGE' complete."
 }
 
 
@@ -36,13 +36,13 @@ function sublime {
 	PACKAGE=sublime-text
 	BUILD=3143
 	# Install
-	display_header 'Begin '$NAME' installation'
+	echo_message header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
 	EXITSTATUS=$?
 	# If package is not installed
 	if [ $EXITSTATUS = 1 ]; then
-		display_info $NAME 'is not installed.'
+		echo_message info $NAME 'is not installed.'
 		echo 'Proceeding'
 		install_sublime
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
@@ -51,13 +51,13 @@ function sublime {
 		VERSCHECK=$(dpkg-query -W --showformat='${Version}\n' $PACKAGE)
 		if [ "$BUILD" == "$VERSCHECK" ]; then
 			# Already installed
-			display_info $NAME 'already installed.'
+			echo_message info $NAME 'already installed.'
 			whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 			thirdparty
 		else
 			# Update
-			display_info $NAME '$NAME is already installed, but out-of-date.'
-			display_info 'Updating '$NAME'...'
+			echo_message info $NAME '$NAME is already installed, but out-of-date.'
+			echo_message info 'Updating '$NAME'...'
 			# Install
 			install_sublime
 			whiptail --title "Finished" --msgbox "Updating of $NAME complete." 8 64

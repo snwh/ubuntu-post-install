@@ -7,31 +7,31 @@ function minecraft {
 	PACKAGE=minecraft-installer
 	PPANAME=ppa:minecraft-installer-peeps/minecraft-installer
 	# Install
-	display_header 'Begin '$NAME' installation'
+	echo_message header 'Begin '$NAME' installation'
 	# Check if package is installed
 	check_packages $PACKAGE
 	EXITSTATUS=$?
 	# If package is not installed
 	if [ $EXITSTATUS = 1 ]; then
-		display_info $NAME 'is not installed.'
+		echo_message info $NAME 'is not installed.'
 		echo 'Proceeding'
 		# Add repository
-		display_info 'Adding '$NAME' repository to software sources...'
+		echo_message info 'Adding '$NAME' repository to software sources...'
 		elevate_privilege "add-apt-repository -y $PPANAME"
 		# Update repository information
-		display_info 'Updating repository information...'
+		echo_message info 'Updating repository information...'
 		elevate_privilege "apt update -y"
-		display_success "Installation of '$PACKAGE' complete."
+		echo_message success "Installation of '$PACKAGE' complete."
 		# Install
-		display_info 'Installing '$NAME'...'
+		echo_message info 'Installing '$NAME'...'
 		elevate_privilege "apt install -y $PACKAGE"
 		# Done
-		display_success "Installation of '$PACKAGE' complete."
+		echo_message success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
-		display_info $NAME 'already installed.'
+		echo_message info $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi

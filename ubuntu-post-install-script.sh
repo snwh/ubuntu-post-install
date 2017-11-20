@@ -44,39 +44,38 @@ dir=$(dirname "$0")
 
 
 # Fancy colorful messages
-
-# grey titles
-display_title(){
-echo -e "\033[1;30m$@\033[0m"
-}
-# red error messages
-display_error(){
-echo -e "\033[1;31m$@\033[0m" 1>&2
-}
-# green info messages
-display_info(){
-echo -e "\033[1;32m$@\033[0m"
-}
-# yellow warning messages
-display_warning(){
-echo -e "\033[1;33m$@\033[0m"
-}
-# blue questions
-display_question(){
-echo -e "\033[1;34m$@\033[0m"
-}
-# pink success messages
-display_success(){
-echo -e "\033[1;35m$@\033[0m"
-}
-# cyan header messages
-display_header(){
-echo -e "\033[1;36m$@\033[0m"
+function echo_message(){
+	local color=$1;
+	local exp=$2;
+	if ! [[ $color =~ '^[0-9]$' ]] ; then
+		case $(echo -e $color | tr '[:upper:]' '[:lower:]') in
+			# black
+			title) color=0 ;;
+			# red
+			error) color=1 ;;
+			# green
+			info) color=2 ;;
+			# yellow
+			warning) color=3 ;;
+			# blue
+			question) color=4 ;;
+			# magenta
+			success) color=5 ;;
+			# cyan
+			header) color=6 ;;
+			# white
+			*) color=7 ;;
+		esac
+	fi
+	tput bold;
+	tput setaf $color;
+	echo $exp;
+	tput sgr0;
 }
 
 # Main
 function main {
-	display_title "Starting 'main' function..."
+	echo_message title "Starting 'main' function..."
 	# Draw window
 	MAIN=$(eval `resize` && whiptail \
 		--notags \
@@ -106,11 +105,12 @@ function main {
 }
 
 # Quit
+
 function quit {
-	display_title "Starting 'quit' function..."
+	echo_message title "Starting 'quit' function..."
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 8 64) then
 		echo "Exiting..."
-		display_success 'Thanks for using!'
+		echo_message success 'Thanks for using!'
 		exit 99
 	else
 		main
@@ -118,9 +118,9 @@ function quit {
 }
 
 # Welcome message
-display_header "Ubuntu Post-Install Script"
+echo_message header "Ubuntu Post-Install Script"
 # Check
-display_title "Starting 'check' function..."
+echo_message title "Starting 'check' function..."
 check
 
 # Main

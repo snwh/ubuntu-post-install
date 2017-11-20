@@ -10,9 +10,9 @@ function install_chrome {
 	EXITSTATUS=$?
 	# If package is not installed
 	if [ $EXITSTATUS = 1 ]; then
-		display_info $NAME 'is not installed.'
+		echo_message info $NAME 'is not installed.'
 		echo 'Proceeding'
-		display_info 'Downloading '$NAME'...'
+		echo_message info 'Downloading '$NAME'...'
 		# Download Debian file that matches system architecture
 		case `uname -i` in
 			i386|i486|i586|i686)
@@ -26,19 +26,19 @@ function install_chrome {
 				;;
 		esac
 		# Install package(s)
-		display_info 'Installing '$NAME'...'
+		echo_message info 'Installing '$NAME'...'
 		elevate_privilege "dpkg -i $PACKAGE*.deb"
 		elevate_privilege "apt install -fy"
 		# Cleanup and finish
 		rm $PACKAGE*.deb
 		# Done
-		display_success "Installation of '$PACKAGE' complete."
+		echo_message success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		status=1
 		thirdparty
 	else
 		# Already installed
-		display_info $NAME 'already installed.'
+		echo_message info $NAME 'already installed.'
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi

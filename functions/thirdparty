@@ -32,7 +32,7 @@ source $dir/functions/apps/telegram
 
 # Install Third-Party Applications
 function thirdparty {
-	display_title "Starting 'thirdparty' function..."
+	echo_message title "Starting 'thirdparty' function..."
 	# check exit status
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then

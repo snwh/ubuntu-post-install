@@ -5,7 +5,7 @@
 
 # Remove unused preinstalled apps
 function purge_unused {
-	display_title "Starting 'purge_unused' function..."
+	echo_message title "Starting 'purge_unused' function..."
 	# Check list
 	PURGED=$(dirname "$0")'/data/purge.list'
 	# Draw window
@@ -15,7 +15,7 @@ function purge_unused {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
 		# Remove loop
-		display_info 'Removing unused pre-installed applications...'
+		echo_message info 'Removing unused pre-installed applications...'
 		for PACKAGE in $(cat $PURGED); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -26,15 +26,15 @@ function purge_unused {
 				echo "Package '$PACKAGE' is already removed."
 			else
 				# Remove package
-				display_info "'$PACKAGE' is installed. Removing..."
+				echo_message info "'$PACKAGE' is installed. Removing..."
 				# Admin privileges
 				elevate_privilege "apt purge -y $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' removal is complete."
+				echo_message success "'$PACKAGE' removal is complete."
 			fi
 		done
 		# Done
-		display_success 'Removal of unused packages complete.'
+		echo_message success 'Removal of unused packages complete.'
 		whiptail --title "Finished" --msgbox "Your list of unwanted pre-installed applications have been removed." 8 64
 		cleanup
 	else
@@ -44,43 +44,43 @@ function purge_unused {
 
 # Remove Orphaned Packages
 function remove_orphans {
-	display_title "Starting 'remove_orphans' function..."
-	display_info 'Removing orphaned packages...'
+	echo_message title "Starting 'remove_orphans' function..."
+	echo_message info 'Removing orphaned packages...'
 	# Admin privileges
 	elevate_privilege "apt autoremove -y $PACKAGE"
 	# Done
-	display_success 'Removal of orphaned packages complete.'
+	echo_message success 'Removal of orphaned packages complete.'
 	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 64
 	cleanup
 }
 
 # Remove Leftover Config files
 function remove_leftover_config {
-	display_title "Starting 'remove_leftover_config' function..."
-	display_info 'Removing leftover configuration files...'
+	echo_message title "Starting 'remove_leftover_config' function..."
+	echo_message info 'Removing leftover configuration files...'
 	# Admin privileges
 	elevate_privilege "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
 	# Done
-	display_success 'Removal of leftover configuration files complete.'
+	echo_message success 'Removal of leftover configuration files complete.'
 	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 64
 	cleanup
 }
 
 # Clean apt cache
 function clean_apt_cache {
-	display_title "Starting 'clean_apt_cache' function..."
-	display_info 'Cleaning package cache...'
+	echo_message title "Starting 'clean_apt_cache' function..."
+	echo_message info 'Cleaning package cache...'
 	# Admin privileges
 	elevate_privilege "apt clean"
 	# Done
-	display_success 'Package cache cleaned.'
+	echo_message success 'Package cache cleaned.'
 	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 64
 	cleanup
 }
 
 # Cleanup System
 function cleanup {
-	display_title "Starting 'cleanup' function..."
+	echo_message title "Starting 'cleanup' function..."
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then
 		# Draw window

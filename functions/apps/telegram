@@ -7,9 +7,9 @@ function telegram {
 	TARBALL=tsetup
 	VERSION=1.1.23
 	# Start
-	display_header 'Begin '$NAME' installation'
+	echo_message header 'Begin '$NAME' installation'
 	# Download
-	display_info 'Downloading tarball for version '$VERSION'...'
+	echo_message info 'Downloading tarball for version '$VERSION'...'
 	# Download Debian file that matches system architecture
 	case `uname -i` in
 		i386|i486|i586|i686)
@@ -25,18 +25,18 @@ function telegram {
 	# Install
 	install_telegram
 	# Finish
-	display_success "Installation of '$NAME' complete."
+	echo_message success "Installation of '$NAME' complete."
 	whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 	thirdparty
 }
 
 function install_telegram {
 	# Unpack tarball to /opt
-	display_info 'Unpacking '$NAME' archive...'
+	echo_message info 'Unpacking '$NAME' tarball...'
 	elevate_privilege "tar -xf ${TARBALL}*.tar.xz -C /opt/"
-	display_success 'Done.'
+	echo_message success 'Done.'
 	# Create .desktop fle
-	display_info 'Creating .desktop file for $NAME...'
+	echo_message info 'Creating .desktop file for $NAME...'
 echo "[Desktop Entry]
 Version=$VERSION
 Name=$NAME
@@ -47,13 +47,14 @@ Icon=telegram
 Type=Application" >> $NAME.desktop
 	# Move .desktop file
 	elevate_privilege "mv -f $NAME.desktop /usr/share/applications/"
-	display_success 'Done.'
+	elevate_privilege "chown root /usr/share/applications/$NAME.desktop"
+	echo_message success 'Done.'
 	# Fetch icon
-	display_info 'Fetching $NAME icon...'
+	echo_message info 'Fetching $NAME icon...'
 	curl -O https://telegram.org/img/t_logo.png
 	elevate_privilege "mv -f t_logo.png /usr/share/icons/hicolor/256x256/apps/telegram.png"
 	elevate_privilege "gtk-update-icon-cache /usr/share/icons/hicolor"
-	display_success 'Done.'
+	echo_message success 'Done.'
 	# Cleanup and finish
 	rm ${TARBALL}*.tar.gz
 }

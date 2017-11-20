@@ -4,7 +4,7 @@
 
 # Install preferred fonts
 function install_fonts {
-	display_title "Starting 'install_fonts' function..."
+	echo_message title "Starting 'install_fonts' function..."
 	# Check list
 	FONTLIST=$(dirname "$0")'/data/fonts.list'
 	# Draw window
@@ -14,7 +14,7 @@ function install_fonts {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		# Install loop
-		display_info 'Installing preferred fonts...'
+		echo_message info 'Installing preferred fonts...'
 		for PACKAGE in $(cat $FONTLIST); do
 			# Check if package is installed
 			check_packages $PACKAGE
@@ -22,18 +22,18 @@ function install_fonts {
 			# If package is not installed
 			if [ $EXITSTATUS = 1 ]; then
 				# Install package
-				display_info "'$PACKAGE' is not installed. Installing..."
+				echo_message info "'$PACKAGE' is not installed. Installing..."
 				# Admin privileges
 				elevate_privilege "apt install -y --no-install-recommends $PACKAGE"
 				# Done
-				display_success "'$PACKAGE' installation is complete."
+				echo_message success "'$PACKAGE' installation is complete."
 			else
 				# Show already installed message
 				echo "Package '$PACKAGE' is installed."
 			fi
 		done
 		# Finish
-		display_success "Installation complete."
+		echo_message success "Installation complete."
 		whiptail --title "Finished" --msgbox "Installation complete." 8 64
 		fonts
 	else
@@ -43,7 +43,7 @@ function install_fonts {
 
 # Install Microsoft Core Fonts
 function msttcorefonts {
-	display_title "Starting 'msttcorefonts' function..."
+	echo_message title "Starting 'msttcorefonts' function..."
 	# Variables
 	PACKAGE=ttf-mscorefonts-installer
 	NAME="Microsoft Core Fonts"
@@ -52,14 +52,14 @@ function msttcorefonts {
 	EXITSTATUS=$?
 	# If package is not installed
 	if [ $EXITSTATUS = 1 ]; then
-		display_info $NAME 'is not installed. Installing...'
+		echo_message info $NAME 'is not installed. Installing...'
 		if (whiptail --title "Microsoft Core Fonts" --yesno "Install Microsoft Windows core fonts to extend font support?" 8 64) then
 			# Install
-			display_info 'Installing...'
+			echo_message info 'Installing...'
 			# Admin privileges
 			elevate_privilege "apt install -y $PACKAGE"
 			# Finished
-			display_success "'$NAME' is installation complete."
+			echo_message success "'$NAME' is installation complete."
 			whiptail --title "Finished" --msgbox "Installation complete." 8 64
 			fonts
 		else
@@ -75,7 +75,7 @@ function msttcorefonts {
 
 # Install Fonts
 function fonts {
-	display_title "Starting 'fonts' function..."
+	echo_message title "Starting 'fonts' function..."
 	# check exit status
 	EXITSTATUS=$?
 	if [ $EXITSTATUS = 0 ]; then
