@@ -100,6 +100,8 @@ function check_privileges {
 }
 
 function check {
+	# Check
+	echo_message title "Starting 'check' function..."
 	# Check sudo
 	echo_message info "Checking administrative privileges of current user..."
 	check_privileges

@@ -43,27 +43,27 @@ dir=$(dirname "$0")
 . $dir/functions/utilities
 
 
-# Fancy colorful messages
+# Fancy colorful echo messages
 function echo_message(){
 	local color=$1;
 	local exp=$2;
 	if ! [[ $color =~ '^[0-9]$' ]] ; then
 		case $(echo -e $color | tr '[:upper:]' '[:lower:]') in
-			# black
+			# 0 = black
 			title) color=0 ;;
-			# red
+			# 1 = red
 			error) color=1 ;;
-			# green
+			# 2 = green
 			info) color=2 ;;
-			# yellow
+			# 3 = yellow
 			warning) color=3 ;;
-			# blue
+			# 4 = blue
 			question) color=4 ;;
-			# magenta
+			# 5 = magenta
 			success) color=5 ;;
-			# cyan
+			# 6 = cyan
 			header) color=6 ;;
-			# white
+			# 7 = white
 			*) color=7 ;;
 		esac
 	fi
@@ -105,7 +105,6 @@ function main {
 }
 
 # Quit
-
 function quit {
 	echo_message title "Starting 'quit' function..."
 	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 8 64) then
@@ -119,8 +118,7 @@ function quit {
 
 # Welcome message
 echo_message header "Ubuntu Post-Install Script"
-# Check
-echo_message title "Starting 'check' function..."
+# Run check
 check
 
 # Main

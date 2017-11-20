@@ -1,28 +1,23 @@
 Ubuntu Post Install Scripts
 ===========================
 
-An interactive set of post-installation and maintenance scripts for Ubuntu. They're designed to install your favourite applications, set your preferred settings, etc. mostly automatically.
+A semi-automatic and interactive set of post-installation scripts for Ubuntu and its derivatives. You can use this project to install your favourite apps, set your preferred settings, and do minor housekeeping.
 
-This project is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](/LICENSE).
+This project is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](/LICENSE). If you have improvements, contributions to the [original](https://github.com/snwh/ubuntu-post-install) are much appreciated.
 
-Do feel free to contribute back to this original, potential improvements are appreciated.
+## Organization
 
- > This project's settings adjustments, app lists and functions are tuned to the [original author's](https://github.com/snwh) preferences, I suggest maintaining a fork of this project with changes to those to adjust it to your liking. 
+This project is designed to be fairly modular (and not be one huge script) so you can easily delete or exclude bits/functions that you don't want to use.
 
+ * [`data`](/data): files which are lists of packages&dagger; read by various functions.
+ * [`functions`](/functions): the main functions of this scriptset. They should require little user-preference modification.
+ * [`apps`](/functions/apps): functions for installing third-party applications. They are called in the [`thirdparty`](/functions/thirdparty) function.
 
-## Structure
-
-This project is coded and organized in a modular fashion so you can easily delete or exclude parts that you don't want to use.
-
- * [`data`](/data): this folder contains files which are lists of packages read by various functions. *You should to update these lists to suit your preferences*.
- * [`functions`](/functions): this folder contains the main functions of this scriptset. They should require little user-preference modification.
- * [`apps`](/functions/apps): this sub-directory contains all functions for the installation of third-party applications &ndash;those that aren't necessarily in the main repositories. You can add/remove these as you like.
+**&dagger;These lists are preferential and you should to update them with packages you prefer**
 
 ## Adding Functions
 
-You can add more functions to install additional third-party apps by easily editing one of the many already included functions, as they are written pretty generically, you need only change the variables. Though there are a few [templates](/functions/templates) readily available for adding functions.
-
-When you do add (or remove) functions be sure to update the main [`thirdparty`](/functions/thirdparty) function to reflect those changes, else the script will fail.
+Adding additional functions is as easy as editing one of the many already included functions (or one of the [function templates](/functions/templates)) and simply changing the variables. When you do add (or remove) functions be sure to update the main [`thirdparty`](/functions/thirdparty) function to reflect those changes.
 
 ## Usage
 
@@ -30,6 +25,6 @@ You use these scripts, you can just run the main script from the root of the sou
 
     ./ubuntu-post-install-script.sh
 
-Or you can add the location of this project to your custom shell paths to run it on-demand. For example, adding it as the following line to your `.bashrc` (editing the path appropriately):
+Alternatively, if you use `bash` and cloned this to your home folder, add the following to your `.bashrc` to run this script on-demand.
 
     export PATH=${PATH}:~/ubuntu-post-install/
