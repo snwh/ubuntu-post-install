@@ -61,7 +61,7 @@ function check_distribution {
 			echo 'Current distribution is: '$(lsb_release -ds)
 			echo_message success "You are using Ubuntu. :D"
 			echo "Proceeding."
-		if lsb_release -ds | grep -qE '(Mint|elementary)'; then
+		elif lsb_release -ds | grep -qE '(Mint|elementary)'; then
 			echo 'Current distribution is: '$(lsb_release -ds)
 			echo_message success "You are using an Ubuntu-based distribution. It's probably fine. :)"
 			echo "Proceeding."
