@@ -35,6 +35,7 @@ dir=$(dirname "$0")
 . $dir/functions/configure
 . $dir/functions/development
 . $dir/functions/favs
+. $dir/functions/node_apps
 . $dir/functions/fonts
 . $dir/functions/gnome
 . $dir/functions/password
@@ -85,12 +86,13 @@ function main {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		update		'Perform system update' \
 		favs		'Install preferred applications' \
-		utilities	'Install preferred system utilities' \
+		utilities	'Install preferred CLI utilities' \
 		development	'Install preferred development tools' \
 		codecs		'Install non-free codecs' \
 		fonts		'Install additional fonts' \
 		thirdparty	'Install third-party applications' \
 		gnome		'Install latest GNOME software' \
+		node_apps	'Install NodeJS-based tools' \
 		configure	'Configure system' \
 		cleanup		'Cleanup the system' \
 		3>&1 1>&2 2>&3)

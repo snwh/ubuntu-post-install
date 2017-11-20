@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+# Update the list of packages in 'data/node.list' to suit your preferences
+
+# Install preferred node apps
+function node_apps {
+	echo_message title "Dependency check..."
+	node_check
+	# Start
+	echo_message title "Starting 'node_apps' function..."
+	# Check list
+	NODE=$(dirname "$0")'/data/node.list'
+	# Draw window
+	if (eval `resize` && whiptail --title \
+		"Preferred System Utilities"  --yesno \
+		"Current list of preferred NodeJS-based tools: \n\n$(for LINE in $(cat $NODE); do echo '  '$LINE; done) \n\nProceed with installation?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext ) then
+		# Install loop
+		echo_message info 'Installing preferred NodeJS-based tools...'
+		for PACKAGE in $(cat $NODE); do
+			# Check if package is installed
+			PKGCHECK=$(npm list -g | grep $PACKAGE)
+			# If package is not installed
+			if [ "" == "$PKGCHECK" ]; then
+				# Install package
+				echo_message info "'$PACKAGE' is not installed. Installing..."
+				# Admin privileges
+				elevate_privilege "npm install -g $PACKAGE"
+				# Done
+				echo_message success "'$PACKAGE' installation is complete."
+			else
+				# Show already installed message
+				echo "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finish
+		echo_message success "Installation complete."
+		whiptail --title "Finished" --msgbox "Installation complete." 8 64
+		main
+	else
+		main
+	fi
+}
+
+# Check for and install required packages for this script set.
+function node_check {
+	# Check list
+	NODEDEPS="npm"
+	for PACKAGE in $NODEDEPS; do
+		# Check if package is installed
+		check_packages $PACKAGE
+		EXITSTATUS=$?
+		# If package is not installed
+		if [ $EXITSTATUS = 1 ]; then
+			echo_message warning "Dependency '$PACKAGE' is not present on your system and is required to continue."
+			# Draw window
+			if (eval `resize` && whiptail \
+				--yesno \
+				--title "Dependency Check" \
+				--ok-button "Install" \
+				--cancel-button "Go Back" \
+				"In order to continue '$PACKAGE' needs to be installed. Continue?" 8 64 ) then
+				echo_message info "Installing '$PACKAGE' installed. Proceeding."
+				# Admin privileges
+				elevate_privilege "apt install -y $PACKAGE"
+				echo_message success "Package '$PACKAGE' installed. Proceeding."
+			else
+				echo_message warning "Required dependencies are not present. :/"
+				# Draw window
+				whiptail --msgbox "Required dependency '$PACKAGE' was not installed. Aborting. \nPlease try again." 8 64
+				utilities
+			fi
+		else
+			echo "Dependency '$PACKAGE' is installed."
+		fi
+	done
+	echo_message success "Dependencies are installed. :)"
+	echo "Proceeding."
+}

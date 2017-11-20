@@ -2,7 +2,6 @@
 #
 # Update the list of packages in 'data/development.list' to suit your preferences
 
-
 # Install preferred development apps
 function development {
 	echo_message title "Starting 'development' function..."
