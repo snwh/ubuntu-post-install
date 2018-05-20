@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Private Internet Access
-function pia {
+function install_pia {
 	# Variables
 	NAME="Private Internet Access"
-	TARBALL=pia-v73-installer-linux
-	VERSION=v73
+	TARBALL=pia-v75-installer-linux
+	VERSION=v75
 	CHECKSUM=4948b4a7f8d6454ac3bada85e37883a3b775a45f7da8e83a2c17042053c62b4b
 	# Start
 	echo_message header 'Begin '$NAME' installation'

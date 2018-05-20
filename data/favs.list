@@ -1,12 +1,12 @@
-cockpit
 dconf-tools
-gimp
 gnome-disk-utility
+gnome-session
 gnome-software
+gnome-software-plugin-flatpak
+gnome-software-plugin-snap
 gnome-sushi
 gnome-tweak-tool
 gpick
 nautilus
-plank
 sparkleshare
 transmission

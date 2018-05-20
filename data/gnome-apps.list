@@ -1,5 +1,6 @@
 bijiben
 epiphany-browser
+fonts-cantarell
 gedit
 gnome-builder
 gnome-calculator
@@ -15,4 +16,5 @@ gnome-screenshot
 gnome-software
 gnome-system-monitor
 gnome-terminal
+gnome-todo
 gnome-weather

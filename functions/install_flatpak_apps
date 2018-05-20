@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# install gimp
+function install_flatpak_gimp {
+	# check if flathub repo is added
+	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
+	#install_flatpak_package "Name" "source" "com.package.Name" return_function
+	install_flatpak_package "GIMP" "flathub" " org.gimp.GIMP" install_flatpak_apps
+}
+
+# install peek
+function install_flatpak_peek {
+	# check if flathub repo is added
+	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
+	#install_flatpak_package "Name" "source" "com.package.Name" return_function
+	install_flatpak_package "Peek" "flathub" " com.uploadedlobster.peek" install_flatpak_apps
+}
+
+# install riot
+function install_flatpak_riot {
+	# check if flathub repo is added
+	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
+	#install_flatpak_package "Name" "source" "com.package.Name" return_function
+	install_flatpak_package "Riot" "flathub" " im.riot.Riot" install_flatpak_apps
+}
+
+# install steam
+function install_flatpak_steam {
+	# check if flathub repo is added
+	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
+	#install_flatpak_package "Name" "source" "com.package.Name" return_function
+	install_flatpak_package "Steam" "flathub" "com.valvesoftware.Steam" install_flatpak_apps
+}
+
+
+# Install Flatpak Applications
+function install_flatpak_apps {
+	# check if flatpak is installed
+	check_package "flatpak" main
+	# install
+	NAME="Flatpak Applications"
+	echo_message title "Starting installation of ${NAME,,}..."
+	# Draw window
+	FLATPAKAPPS=$(eval `resize` && whiptail \
+		--notags \
+		--title "Install $NAME" \
+		--menu "\nWhat ${NAME,,} would you like to install?" \
+		--ok-button "Install" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'install_flatpak_gimp'		'GIMP' \
+		'install_flatpak_peek'		'Peek' \
+		'install_flatpak_riot'		'Riot' \
+		'install_flatpak_steam'		'Steam' \
+		3>&1 1>&2 2>&3)
+
+	# check exit status
+	if [ $? = 0 ]; then
+		echo_message header "Starting '$FLATPAKAPPS' function..."
+		$FLATPAKAPPS
+	else
+		# Cancelled
+		echo_message info "Installation of ${NAME,,} cancelled."
+		main
+	fi
+}

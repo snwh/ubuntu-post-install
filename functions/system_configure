@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
+# 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
+function set_preferences {
+	echo_message info "Setting preferred application-specific & desktop settings..."
+	# Variables
+	LIST=$(dirname "$0")'/data/gsettings.list'
+	while IFS= read line
+	do
+		gsettings set $line
+	done < "$LIST"
+	# Finished
+	echo_message success "Settings changed successfully."
+	whiptail --title "Finished" --msgbox "Settings changed successfully." 8 56
+	system_configure
+}
+
+# Set preferred bash aliased by copying the 'aliases.list' file to ~/.bash_aliases
+function set_bash_aliases {
+	# Check list
+	LIST=$(dirname "$0")'/data/aliases.list'
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "Preferred Bash Aliases" \
+		--yesno "Current list of preferred bash aliases: \n\n$(while read LINE; do echo "  "$LINE; done < $LIST) \n\nProceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		echo_message info "Setting bash aliases..."
+		# simply copy the list file to the aliases file
+		cp $LIST ~/.bash_aliases
+		echo_message success "Bash aliases set successfully."
+		whiptail --title "Finished" --msgbox "Bash aliases set successfully." 8 56
+		system_configure
+	else
+		system_configure
+	fi
+}
+# Put apport in permissive mode
+function disable_apport {
+	# Check if apport is aleady disabled.
+	if [[ $(cat '/etc/default/apport' | grep -q 'enabled=0'; echo $?) != 0 ]]; then
+		echo_message info "Disabling Apport crash dialogs..."
+		elevate_privilege "sed --in-place s/enabled=1/enabled=0/g /etc/default/apport"
+		# Finished
+		echo_message info "Apport crash dialogs disabled."
+		whiptail --title "Finished" --msgbox "Apport crash dialogs disabled successfully." 8 56
+		system_configure
+	else
+		# Already configured
+		echo_message info "Apport crash dialogs are aleady disabled."
+		whiptail --title "Finished" --msgbox "apport is aleady disabled." 8 56
+		system_configure
+	fi
+}
+
+# Configure System
+function system_configure {
+	NAME="System Configuration"
+	echo_message title "Starting ${NAME,,}..."
+	# Draw window
+	CONFIGURE=$(eval `resize` && whiptail \
+		--notags \
+		--title "$NAME" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'set_preferences'			'Set preferred application-specific & desktop settings' \
+		'set_bash_aliases'		'Set preferred bash aliases' \
+		'disable_apport'			'Disable system crash dialogs' \
+		3>&1 1>&2 2>&3)
+	# check exit status
+	if [ $? = 0 ]; then
+		echo_message header "Starting '$CONFIGURE' function"
+		$CONFIGURE
+	else
+		# Cancelled
+		echo_message info "$NAME cancelled."
+		main
+	fi
+}

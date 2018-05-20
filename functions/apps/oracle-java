@@ -1,38 +1,25 @@
 #!/bin/bash
 
-# Java
-function oracle-java {
-	# Variables
+# Install Oracle Java from PPA
+function install_oracle_java {
 	NAME="Oracle Java 9"
-	PACKAGE=oracle-java9-installer
-	PPANAME=ppa:webupd8team/java
-	# Install
-	echo_message header 'Begin '$NAME' installation'
-	# Check if package is installed
-	check_packages $PACKAGE
-	EXITSTATUS=$?
-	# If package is not installed
-	if [ $EXITSTATUS = 1 ]; then
-		echo_message info $NAME 'is not installed.'
-		echo 'Proceeding'
-		# Add repository
-		echo_message info 'Adding '$NAME' repository to software sources...'
-		elevate_privilege "add-apt-repository -y $PPANAME"
-		# Update repository information
-		echo_message info 'Updating repository information...'
-		elevate_privilege "apt update -y"
-		echo_message success "Installation of '$PACKAGE' complete."
-		# Install
-		echo_message info 'Installing '$NAME'...'
-		elevate_privilege "apt install -y $PACKAGE"
+	PACKAGE="oracle-java9-installer"
+	# Do not include the "ppa:" bit, it will break other functions
+	PPA="webupd8team/java"
+	# Add PPA repository
+	add_launchpad_ppa "$NAME" "$PPA" install_thirdparty
+	# check exit status
+	if [ $? = 0 ]; then
+		# Install package
+		install_package "$NAME" "$PACKAGE" install_thirdparty
 		# Done
 		echo_message success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
-		thirdparty
+		install_thirdparty
 	else
-		# Already installed
-		echo_message info $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
-		thirdparty
+		# Cancelled
+		echo_message info "Installation of $NAME cancelled."
+		# return
+		install_thirdparty
 	fi
 }

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Perform system upgrade via apt
+function system_update {
+	echo_message title "Performing system update..."
+	# Draw window
+	if (whiptail --title "System Update" --yesno "Check for system software updates?" 8 64) then
+		# Update repository information
+		echo_message info 'Updating repository information...'
+		# Admin privileges
+		elevate_privilege 'apt update -y'
+		echo_message success 'Repository information updated.'
+		# Move on to package upgrade
+		system_upgrade
+		# Done
+		echo_message success 'System update complete.'
+		whiptail --title "Finished" --msgbox "System update complete." 8 64
+	else
+		# Cancelled
+		echo_message info "Installation of ${2} cancelled."
+		main
+	fi
+}
+
+# Perform system update
+function system_upgrade {
+	echo_message title "Performing system upgrade..."
+	NAME="System Upgrade"
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "${NAME^}" \
+		--yesno "Current list of packages to be updated: \n\n$(apt list --upgradeable) \n\nAre you sure you want proceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext ) then
+		# Upgrade
+		echo_message info 'Upgrading packages...'
+		elevate_privilege "apt dist-upgrade -y"
+		# Finished
+		echo_message success "$NAME complete."
+		whiptail --title "Finished" --msgbox "$NAME complete." 8 56
+		main
+	else
+		# Cancelled
+		echo_message info "$NAME cancelled."
+		main
+	fi
+}

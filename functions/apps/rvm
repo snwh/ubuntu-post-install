@@ -1,39 +1,39 @@
 #!/bin/bash
 
 # RVM
-function rvm {
+function install_rvm {
 	# Variables
 	NAME="Ruby Version Manager"
 	KEYID='409B6B1796C275462A1703113804BB82D39DC0E3'
 	KEYSERVER='hkp://keys.gnupg.net'
 	# Check if already installed
-	echo_message info 'Checking if '$NAME' already installed...'
+	echo_message info "Checking if $NAME already installed..."
 	if [ ! -f ~/.rvm/installed.at ]; then
-		echo_message info $NAME 'is not installed.'
+		echo_message info "$NAME is not installed."
 		echo 'Proceeding'
 		# Check if key already exists in keyring
 		KEYCHECK=$(gpg --list-keys | grep -w ${KEYID})
 		if [ "" == "$KEYCHECK" ]; then
 			# Add the repository signing key to be able to verify downloaded packages
-			echo_message info 'Adding '$NAME' signing key to keyring...'
+			echo_message info "Adding $NAME signing key to keyring..."
 			# Import Key
 			gpg --keyserver $KEYSERVER --recv-keys $KEYID
 			# Done
 			echo_message success "Installation of '$PACKAGE' complete."
 		else
-			echo_message info $NAME 'signing key already in keyring.'
+			echo_message info "$NAME signing key already in keyring."
 		fi
 		# Install
-		echo_message info 'Installing '$NAME'...'
+		echo_message info "Installing $NAME..."
 		\curl -sSL https://get.rvm.io | bash -s stable --ruby
 		# \curl -sSL https://get.rvm.io | bash # Uncomment for development version
 		# Done
-		echo_message success "Installation of '$PACKAGE' complete."
+		echo_message success "Installation of $NAME complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
 		thirdparty
 	else
 		# Already installed
-		echo_message info $NAME 'already installed.'
+		echo_message info "$NAME already installed."
 		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
 		thirdparty
 	fi

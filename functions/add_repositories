@@ -1,0 +1,44 @@
+
+# Add Flatpak Repo
+function add_flatpak_repo() {
+	echo_message header "Starting 'add_flatpak_repo' function"
+	# Check if already added
+	flatpak remotes | grep $1 &> /dev/null
+	# If repo is added
+	if [ $? = 0 ]; then
+		echo_message info "Repository already added."
+		whiptail --msgbox "The $1 repository is already added." 8 56
+	else
+		# Add repository
+		echo_message info "Adding flatpak repository..."
+		flatpak remote-add --if-not-exists $1 $2
+		echo_message success "Repository added."
+		whiptail --title "Finished" --msgbox "The '$1' repository has been added." 8 56
+	fi
+}
+
+# Add Launchpad PPA
+function add_launchpad_ppa() {
+	echo_message header "Starting 'add_launchpad_ppa' function"
+	# Check if PPA already added
+	if ! grep -q "^deb .*${2}" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+		# draw window
+		if (whiptail \
+			--title "Add PPA Repository" \
+			--yesno "The ${1} PPA repository (${2}) is not present on your system. \n\nWould you like to add it to continue? " 10 64) then
+			# Add repository
+			echo_message info "Adding ${1} PPA repository..."
+			elevate_privilege "add-apt-repository -y ppa:${2}"
+			# Update repository information
+			elevate_privilege "apt update -y"
+			# Done
+			echo_message success "Repository added."
+		else
+			# Cancelled
+			echo_message info "Addition of ${1} repository cancelled."
+			$3
+		fi
+	else 
+		echo_message info "${1} repository already added."
+	fi
+}

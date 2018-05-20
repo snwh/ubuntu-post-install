@@ -1,51 +1,17 @@
 #!/bin/bash
 
 # Install Chrome
-function install_chrome { 
+function download_chrome { 
 	# Variables
-	PACKAGE=google-chrome-$@
 	NAME="Google Chrome ($@)"
-	# Check if package is installed
-	check_packages $PACKAGE
-	EXITSTATUS=$?
-	# If package is not installed
-	if [ $EXITSTATUS = 1 ]; then
-		echo_message info $NAME 'is not installed.'
-		echo 'Proceeding'
-		echo_message info 'Downloading '$NAME'...'
-		# Download Debian file that matches system architecture
-		case `uname -i` in
-			i386|i486|i586|i686)
-				curl -O https://dl.google.com/linux/direct/${PACKAGE}_current_i386.deb
-				;;
-			x86_64)
-				curl -O https://dl.google.com/linux/direct/${PACKAGE}_current_amd64.deb
-				;;
-			*)
-				whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
-				;;
-		esac
-		# Install package(s)
-		echo_message info 'Installing '$NAME'...'
-		elevate_privilege "dpkg -i $PACKAGE*.deb"
-		elevate_privilege "apt install -fy"
-		# Cleanup and finish
-		rm $PACKAGE*.deb
-		# Done
-		echo_message success "Installation of '$PACKAGE' complete."
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
-		status=1
-		thirdparty
-	else
-		# Already installed
-		echo_message info $NAME 'already installed.'
-		whiptail --title "Finished" --msgbox "$NAME is already installed." 8 64
-		thirdparty
-	fi
+	PACKAGE=google-chrome-$@_current
+	REMOTE="https://dl.google.com/linux/direct"
+	install_remote_package $NAME $PACKAGE $REMOTE install_thirdparty
+	status=1
 }
 
 # Google Chrome
-function chrome {
+function install_chrome {
 eval `resize` 
 EXITSTATUS=$?
 if [ $EXITSTATUS = 0 ]; then
@@ -64,20 +30,20 @@ if [ $EXITSTATUS = 0 ]; then
 		# Change to lower case and remove spaces.
 		case "${VERSION}" in
 			stable)
-				install_chrome stable;
+				download_chrome stable;
 			;;
 			beta)
-				install_chrome beta;
+				download_chrome beta;
 			;;
 			unstable)
-				install_chrome unstable;
+				download_chrome unstable;
 			;;
 			*) status=1 
-				thirdparty
+				install_thirdparty
 			;;
 		esac
 	done
 else
-	thirdparty
+	install_thirdparty
 fi
 }

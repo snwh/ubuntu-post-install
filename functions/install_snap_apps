@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# install Atom from snap
+function install_snap_atom {
+	#install_snap_package "Name" "package"
+	install_snap_package "atom" install_snap_apps
+}
+
+# install Slack from snap
+function install_snap_slack {
+	#install_snap_package "Name" "package"
+	install_snap_package "slack" install_snap_apps
+}
+
+# install Spotify from snap
+function install_snap_spotify {
+	#install_snap_package "Name" "package"
+	install_snap_package "spotify" install_snap_apps
+}
+
+# install Slack from snap
+function install_snap_sublime_text {
+	#install_snap_package "Name" "package"
+	install_snap_package "sublime-text" install_snap_apps
+}
+
+
+# Install Snap Applications
+function install_snap_apps {
+	NAME="Snap Applications"
+	echo_message title "Starting installation of ${NAME,,}..."
+	# Draw window
+	FLATPAKAPPS=$(eval `resize` && whiptail \
+		--notags \
+		--title "Install $NAME" \
+		--menu "\nWhat ${NAME,,} would you like to install?" \
+		--ok-button "Install" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'install_snap_atom'				'Atom' \
+		'install_snap_slack'			'Slack' \
+		'install_snap_spotify'			'Spotify' \
+		'install_snap_sublime_text'		'Sublime Text' \
+		3>&1 1>&2 2>&3)
+
+	# check exit status
+	if [ $? = 0 ]; then
+		echo_message header "Starting '$FLATPAKAPPS' function..."
+		$FLATPAKAPPS
+	else
+		# Cancelled
+		echo_message info "Installation of ${NAME,,} cancelled."
+		main
+	fi
+}

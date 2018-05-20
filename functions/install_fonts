@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Install preferred fonts
+function install_favs_fonts {
+	# Update the list of packages in 'data/favs-fonts.list' to suit your preferences
+	install_from_list favs-fonts "preferred fonts" install_fonts
+}
+
+# Install Microsoft Core Fonts
+function install_mscorefonts {
+	# Update the list of packages in 'data/favs-fonts.list' to suit your preferences
+	install_package ttf-mscorefonts-installer "Microsoft Core Fonts" install_fonts
+}
+
+# Install Fonts
+function install_fonts {
+	echo_message title "Starting 'fonts' function..."
+	# check exit status
+	EXITSTATUS=$?
+	if [ $EXITSTATUS = 0 ]; then
+		# Draw window
+		$(eval `resize` && whiptail \
+		--notags \
+		--title "Install Fonts" \
+		--menu "\nWhat would you like to do?" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		install_favs_fonts		'Install favourite fonts' \
+		install_mscorefonts		'Install Microsoft core fonts' \
+		3>&1 1>&2 2>&3)
+	else
+		main
+	fi
+}
