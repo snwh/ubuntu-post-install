@@ -3,9 +3,8 @@
 # Check if single package is installed
 function check_package() {
 	# echo_message header "Starting 'check_package' function"
-	dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null
-	# if not installed
-	if [ $? = 1 ]; then
+	# if package is not installed
+	if [ $(dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 		# draw window
 		if (whiptail \
 			--title "Install ${1}" \
@@ -30,10 +29,8 @@ function check_package() {
 # Check for Flatpak repository
 function check_flatpak_repo {
 	# echo_message header "Starting 'check_flatpak_repo' function"
-	# Check if already added
-	flatpak remotes | grep $1 &> /dev/null
-	# If repo is added
-	if [ $? = 1 ]; then
+	# If repo not is added
+	if [ $(flatpak remotes | grep $1 &> /dev/null; echo $?) = 1 ]; then
 		# draw window
 		if (whiptail \
 			--title "Add ${1} Repository" \
@@ -71,23 +68,27 @@ function check_os {
 
 # Check which distribution the user is running
 function check_distribution {
-	EXITSTATUS=$(which lsb_release &>/dev/null; echo $?)
-	if [[ $EXITSTATUS != 0 ]]; then
+	# check if 'lsb_release' exists
+	if [[ $(which lsb_release &>/dev/null; echo $?) != 0 ]]; then
 		echo_message error "\aCan't check which distribution you are using! Aborting."
 		echo_message error " Aborting..." && sleep 3 && exit 99
 	else
+		# if Ubuntu
 		if lsb_release -ds | grep -qE '(Ubuntu)'; then
 			echo 'Current distribution is: '$(lsb_release -ds)
 			echo_message success "You are using Ubuntu. :D"
 			echo "Proceeding."
+		# if Mint or elementary
 		elif lsb_release -ds | grep -qE '(Mint|elementary)'; then
 			echo 'Current distribution is: '$(lsb_release -ds)
 			echo_message success "You are using an Ubuntu-based distribution. It's probably fine. :)"
 			echo "Proceeding."
+		# if Debian
 		elif lsb_release -ds | grep -q 'Debian'; then
 			echo 'Current distribution is: '$(lsb_release -ds)
 			echo_message warning "You are using Debian. This is not recommended. Some functions may not work. :/"
 			echo "Proceeding nonetheless."
+		# if anything else
 		else
 			echo_message warning "You are using a distribution that may not be compatible with this script set."
 			echo_message warning "Proceeding may break your system."

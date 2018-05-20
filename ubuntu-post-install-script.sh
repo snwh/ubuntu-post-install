@@ -89,10 +89,10 @@ function import_functions {
 	done
 }
 
-# Welcome message
-echo_message welcome "$TITLE"
 # Import main functions
 import_functions
+# Welcome message
+echo_message welcome "$TITLE"
 # Run system checks
 system_checks
 # main

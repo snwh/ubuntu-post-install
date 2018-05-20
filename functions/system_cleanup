@@ -18,7 +18,7 @@ function purge_unused {
 		# Remove loop
 		for PACKAGE in $(cat $LIST); do
 			# If package is not installed
-			if [ $(dpkgkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+			if [ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 				# Show already removed message
 				echo_message info "Package '$PACKAGE' already removed."
 			else
