@@ -38,7 +38,7 @@ function main {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Quit" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'system_update'			'Perform system update' \
+		'system_update'			'Perform system updates' \
 		'install_favs'			'Install preferred applications' \
 		'install_favs_utils'	'Install preferred utilities' \
 		'install_favs_dev'		'Install preferred development tools' \

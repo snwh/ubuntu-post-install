@@ -143,7 +143,6 @@ function install_remote_package() {
 	fi
 }
 
-
 # Install flatpak package
 function install_flatpak_package() {
 	# echo_message header "Starting 'install_flatpak_package' function..."
@@ -159,17 +158,17 @@ function install_flatpak_package() {
 			flatpak install -y ${2} ${3}
 			# Finished
 			echo_message success "$1 is installation complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1} Flatpak complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1^} (Flatpak) complete." 8 64
 			$4
 		else
 			# Cancelled
-			echo_message info "Installation of ${1} cancelled."
+			echo_message info "Installation of ${1^} cancelled."
 			$4
 		fi
 	else
 		# Already installed
 		echo_message info "${3} is already installed."
-		whiptail --title "Installed" --msgbox "The Flatpak for ${1} is already installed." 8 64
+		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 64
 		$4
 	fi
 }
@@ -190,7 +189,7 @@ function install_snap_package() {
 			elevate_privilege "snap install ${1}"
 			# Finished
 			echo_message success "'${1}' is installation complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1^} Snap complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1^} (Snap) complete." 8 64
 			$3
 		else
 			# Cancelled
@@ -200,7 +199,7 @@ function install_snap_package() {
 	else
 		# Already installed
 		echo_message info "${1} is already installed."
-		whiptail --title "Installed" --msgbox "The Snap for ${1^} is already installed." 8 64
+		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 64
 		$3
 	fi
 }

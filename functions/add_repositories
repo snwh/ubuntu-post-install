@@ -30,7 +30,7 @@ function add_launchpad_ppa() {
 			echo_message info "Adding ${1} PPA repository..."
 			elevate_privilege "add-apt-repository -y ppa:${2}"
 			# Update repository information
-			elevate_privilege "apt update -y"
+			elevate_privilege "apt update -qq -y"
 			# Done
 			echo_message success "Repository added."
 		else

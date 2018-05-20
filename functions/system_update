@@ -1,20 +1,41 @@
 #!/bin/bash
 
 # Perform system upgrade via apt
-function system_update {
+function update_system {
 	echo_message title "Performing system update..."
 	# Draw window
 	if (whiptail --title "System Update" --yesno "Check for system software updates?" 8 64) then
 		# Update repository information
 		echo_message info 'Updating repository information...'
 		# Admin privileges
-		elevate_privilege 'apt update -y'
+		elevate_privilege 'apt update -qq -y'
 		echo_message success 'Repository information updated.'
-		# Move on to package upgrade
-		system_upgrade
-		# Done
-		echo_message success 'System update complete.'
-		whiptail --title "Finished" --msgbox "System update complete." 8 64
+		# List upgrades
+		if [ $(apt list --upgradeable | wc -l) = 1 ]; then
+			# Cancelled
+			echo_message info "System is up to date."
+			whiptail --title "Finished" --msgbox "No updates available. System is up to date." 8 56
+			main
+		else
+			# Move on to package upgrade
+			if (eval `resize` && whiptail \
+				--title "System Upgrade" \
+				--yesno "Current list of packages to be updated: \n\n$(apt list --upgradeable) \n\nAre you sure you want proceed?" \
+				$LINES $COLUMNS $(( $LINES - 12 )) \
+				--scrolltext ) then
+				# Upgrade
+				echo_message info 'Upgrading packages...'
+				elevate_privilege "apt dist-upgrade -y"
+				# Finished
+				echo_message success "System update complete."
+				whiptail --title "Finished" --msgbox "System update complete." 8 56
+				main
+			else
+				# Cancelled
+				echo_message info "System update cancelled."
+				main
+			fi
+		fi
 	else
 		# Cancelled
 		echo_message info "Installation of ${2} cancelled."
@@ -22,26 +43,70 @@ function system_update {
 	fi
 }
 
-# Perform system update
-function system_upgrade {
-	echo_message title "Performing system upgrade..."
-	NAME="System Upgrade"
-	# Draw window
-	if (eval `resize` && whiptail \
-		--title "${NAME^}" \
-		--yesno "Current list of packages to be updated: \n\n$(apt list --upgradeable) \n\nAre you sure you want proceed?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		--scrolltext ) then
-		# Upgrade
-		echo_message info 'Upgrading packages...'
-		elevate_privilege "apt dist-upgrade -y"
+# Check for snap updates
+function update_snap_apps {
+	# check if flatpak is installed
+	check_package "snapd" system_update
+	# continue
+	echo_message info "Updating installed snap packages..."
+	elevate_privilege "snap refresh"
+	if [ $? = 0 ]; then
 		# Finished
-		echo_message success "$NAME complete."
-		whiptail --title "Finished" --msgbox "$NAME complete." 8 56
+		echo_message success "All snaps up to date."
+		whiptail --title "Finished" --msgbox "All snaps up to date." 8 56
 		main
 	else
+		# Finished
+		echo_message success "Snap package update complete."
+		whiptail --title "Finished" --msgbox "Snap package update complete." 8 56
+		main
+	fi
+}
+
+# Check for flatpak updates
+function update_flatpak_apps {
+	# check if flatpak is installed
+	check_package "flatpak" system_update
+	# continue
+	echo_message info "Updating installed flatpak packages..."
+	flatpak update
+	if [ $? = 0 ]; then
+		# Finished
+		echo_message success "All flatpaks up to date."
+		whiptail --title "Finished" --msgbox "All flatpaks up to date." 8 56
+		main
+	else
+		# Finished
+		echo_message success "Flatpak package update complete."
+		whiptail --title "Finished" --msgbox "Flatpak package update complete." 8 56
+		main
+	fi
+}
+
+# Perform system updates
+function system_update {
+	# install
+	echo_message title "Starting system updates..."
+	# Draw window
+	UPDATE=$(eval `resize` && whiptail \
+		--notags \
+		--title "Install $NAME" \
+		--menu "\nWhat ${NAME,,} would you like to install?" \
+		--ok-button "Install" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		'update_system'			'Update system' \
+		'update_snap_apps'		'Update Snap apps' \
+		'update_flatpak_apps'	'Update Flatpak apps' \
+		3>&1 1>&2 2>&3)
+
+	# check exit status
+	if [ $? = 0 ]; then
+		echo_message header "Starting '$UPDATE' function..."
+		$UPDATE
+	else
 		# Cancelled
-		echo_message info "$NAME cancelled."
+		echo_message info "System updates cancelled."
 		main
 	fi
 }

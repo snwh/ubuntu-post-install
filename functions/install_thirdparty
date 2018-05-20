@@ -1,4 +1,4 @@
-#!/bin/bash#
+#!/bin/bash
 #
 # When adding (or removing) any functions remember to update
 # the 'install_thirdparty' function below to reflect any changes you make
