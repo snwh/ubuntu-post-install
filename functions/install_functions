@@ -21,7 +21,7 @@ function install_favs_utils {
 # Install preferred GNOME apps
 function install_codecs {
 	# Update the list of packages in 'data/codecs.list' to suit your preferences
-	install_from_list codecs "multimedia Codes" main
+	install_from_list codecs "multimedia codecs" main
 }
 
 # Install from list
