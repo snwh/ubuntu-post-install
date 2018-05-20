@@ -17,7 +17,7 @@ This project is designed to be fairly modular (and not be one huge script) so yo
 
 ## Adding Functions
 
-Adding additional functions is as easy as editing one of the many already included functions (or one of the [function templates](/functions/templates)) and simply changing the variables. When you do add (or remove) functions be sure to update the main [`thirdparty`](/functions/thirdparty) function to reflect those changes.
+Adding additional functions is as easy as editing one of the many already included functions and simply changing the variables. When you do add (or remove) functions be sure to update any main function (such as [`thirdparty`](/functions/thirdparty)) to reflect those changes.
 
 ## Usage
 
