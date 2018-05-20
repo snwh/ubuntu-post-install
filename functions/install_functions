@@ -1,55 +1,15 @@
 #!/bin/bash
 
-# Install from list
-function install_from_list() {
-	# echo_message header "Starting 'install_from_list' function..."
-	echo_message title "Starting installation of ${2}..."
-	# Variables
-	LIST=$(dirname "$0")'/data/'${1}'.list'
-	# Draw window
-	if (eval `resize` && whiptail \
-		--title "Install ${2^}" \
-		--yesno "Current list of packages that will be installed: \n\n$(cat ${LIST}) \n\nWould you like to proceed?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		--scrolltext \
-		3>&1 1>&2 2>&3) then
-		# Install loop
-		for PACKAGE in $(cat $LIST); do
-			# Check if package is installed
-			if [ $(check_packages $PACKAGE; echo $?) = 1 ]; then
-				# Install package
-				echo_message warning "Package '$PACKAGE' is not installed. Installing..."
-				# Admin privileges
-				elevate_privilege "apt install -y $PACKAGE"
-				# Check if failed
-				if [[ $? != 0 ]]; then
-					echo_message error "Error installing '$PACKAGE'."
-				fi
-			else
-				# Show already installed message
-				echo_message info "Package '$PACKAGE' is installed."
-			fi
-		done
-		# Finished
-		echo_message success "Installation of ${2} complete."
-		whiptail --title "Finished" --msgbox "Installation of ${2} is complete." 8 56
-		$3
-	else
-		# Cancelled
-		echo_message info "Installation of ${2} cancelled."
-		$3
-	fi
-}
 
 # Install single package
 function install_package() {
 	echo_message header "Starting 'install_package' function..."
-	# Check if already installed
-	dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null
 	# If package is not installed
-	if [ $? = 1 ]; then
+	if [ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 		echo_message info "${1} is not installed. Installing..."
-		if (whiptail --title "Install ${1}" --yesno "Are you sure you want to proceed with installation?" 8 64) then
+		if (whiptail \
+			--title "Install ${2^}" \
+			--yesno "Proceed with installation of ${2^}?" 8 64) then
 			# Install
 			echo_message info "Installing '${2}'..."
 			# Admin privileges
@@ -77,10 +37,8 @@ function install_package() {
 # Install single remote package
 function install_remote_package() {
 	echo_message header "Starting 'install_remote_package' function..."
-	# Check if package is installed
-	dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null
 	# If package is not installed
-	if [ $? = 1 ]; then
+	if [ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 		echo_message info "$1 is not installed."
 		# Download Debian file that matches system architecture
 		case `uname -i` in
@@ -119,12 +77,53 @@ function install_remote_package() {
 	fi
 }
 
+
+# Install from list
+function install_from_list() {
+	# echo_message header "Starting 'install_from_list' function..."
+	echo_message title "Starting installation of ${2}..."
+	# Variables
+	LIST=$(dirname "$0")'/data/'${1}'.list'
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "Install ${2^}" \
+		--yesno "Current list of packages that will be installed: \n\n$(cat ${LIST}) \n\nWould you like to proceed?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext \
+		3>&1 1>&2 2>&3) then
+		# Install loop
+		for PACKAGE in $(cat $LIST); do
+			# If package is not installed
+			if [ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+				# Install package
+				echo_message warning "Package '$PACKAGE' is not installed. Installing..."
+				# Admin privileges
+				elevate_privilege "apt install -y $PACKAGE"
+				# Check if failed
+				if [[ $? != 0 ]]; then
+					echo_message error "Error installing '$PACKAGE'."
+				fi
+			else
+				# Show already installed message
+				echo_message info "Package '$PACKAGE' is installed."
+			fi
+		done
+		# Finished
+		echo_message success "Installation of ${2} complete."
+		whiptail --title "Finished" --msgbox "Installation of ${2} is complete." 8 56
+		$3
+	else
+		# Cancelled
+		echo_message info "Installation of ${2} cancelled."
+		$3
+	fi
+}
+
 # Install flatpak package
 function install_flatpak_package() {
 	# echo_message header "Starting 'install_flatpak_package' function..."
 	# If package is not installed
-	flatpak list | grep $3 &> /dev/null
-	if [ $? = 1 ]; then
+	if [ $(flatpak list | grep $3 &> /dev/null; echo $?) = 1 ]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1}" \
@@ -153,8 +152,7 @@ function install_flatpak_package() {
 function install_snap_package() {
 	# echo_message header "Starting 'install_snap_package' function..."
 	# If package is not installed
-	snap list | grep $1 &> /dev/null
-	if [ $? = 1 ]; then
+	if [ $(snap list | grep $1 &> /dev/null: echo $?) = 1 ]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1^}" \

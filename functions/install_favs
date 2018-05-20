@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Install preferred apps
 function install_favs {
 	# Update the list of packages in 'data/favs.list' to suit your preferences
@@ -18,6 +20,5 @@ function install_favs_utils {
 
 # Install preferred GNOME apps
 function install_codecs {
-	# Update the list of packages in 'data/codecs.list' to suit your preferences
-	install_from_list codecs "multimedia codecs" main
+	install_package ubuntu-restricted-extras "multimedia codecs" main
 }

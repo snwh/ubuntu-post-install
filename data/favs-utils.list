@@ -1,12 +1,12 @@
+ffmpeg
 flatpak
 gifsicle
 inxi
-libav-tools
 mediainfo
-openssh-server
-openvpn
 network-manager-l2tp-gnome
 network-manager-openvpn-gnome
+openssh-server
+openvpn
 p7zip-full
 pciutils
 powertop

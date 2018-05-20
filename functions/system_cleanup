@@ -15,11 +15,10 @@ function purge_unused {
 		--yesno "Current list of ${NAME,,} to remove: \n\n$(cat $LIST) \n\nAre you sure you want proceed?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext ) then
-		echo_message title "Removing ${NAME,,}..."
 		# Remove loop
 		for PACKAGE in $(cat $LIST); do
-			# Check if package is installed
-			if [ $(check_packages $PACKAGE; echo $?) = 1 ]; then
+			# If package is not installed
+			if [ $(dpkgkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 				# Show already removed message
 				echo_message info "Package '$PACKAGE' already removed."
 			else

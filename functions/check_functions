@@ -1,11 +1,6 @@
 #!/bin/bash
 
-# Check if package is installed
-function check_packages() {
-	dpkg-query -W --showformat='${Status}\n' $@ | grep "install ok installed"  &> /dev/null
-}
-
-# Check if package is installed
+# Check if single package is installed
 function check_package() {
 	# echo_message header "Starting 'check_package' function"
 	dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null
@@ -124,8 +119,8 @@ function check_dependencies {
 	LIST=$(dirname "$0")'/data/dependencies.list'
 	# Check dependencies
 	for PACKAGE in $(cat $LIST); do 
-		# Check if package is installed
-		if [ $(check_packages $PACKAGE; echo $?) = 1 ]; then
+		# If package is not installed
+		if [ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
 			echo_message info "This script requires '$PACKAGE' and it is not present on your system."
 			echo_message question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
 			case $REPLY in
