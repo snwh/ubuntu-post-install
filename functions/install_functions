@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Install single package
 function install_package() {
 	echo_message header "Starting 'install_package' function..."

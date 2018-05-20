@@ -12,12 +12,9 @@ function download_chrome {
 
 # Google Chrome
 function install_chrome {
-eval `resize` 
-EXITSTATUS=$?
-if [ $EXITSTATUS = 0 ]; then
 	status="0"
 	while [ "$status" -eq 0 ]; do
-		VERSION=$(whiptail \
+		VERSION=$(eval `resize` && whiptail \
 		--title "Google Chrome" \
 		--radiolist "Which version of Chrome would you like to install?" \
 		--ok-button "Install" \
@@ -43,7 +40,4 @@ if [ $EXITSTATUS = 0 ]; then
 			;;
 		esac
 	done
-else
-	install_thirdparty
-fi
 }
