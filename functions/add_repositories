@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Add Flatpak Repo
 function add_flatpak_repo() {
