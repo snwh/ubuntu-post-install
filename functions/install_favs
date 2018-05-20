@@ -1,0 +1,23 @@
+# Install preferred apps
+function install_favs {
+	# Update the list of packages in 'data/favs.list' to suit your preferences
+	install_from_list favs "preferred applications" main
+}
+
+# Install preferred development tools
+function install_favs_dev {
+	# Update the list of packages in 'data/favs-dev.list' to suit your preferences
+	install_from_list favs-dev "preferred development tools" main
+}
+
+# Install preferred utilities
+function install_favs_utils {
+	# Update the list of packages in 'data/favs-utils.list' to suit your preferences
+	install_from_list favs-utils "preferred utilities" main
+}
+
+# Install preferred GNOME apps
+function install_codecs {
+	# Update the list of packages in 'data/codecs.list' to suit your preferences
+	install_from_list codecs "multimedia codecs" main
+}

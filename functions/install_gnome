@@ -5,6 +5,7 @@ function install_gnome_apps {
 	# Update the list of packages in 'data/gnome-apps.list' to suit your preferences
 	install_from_list gnome-apps "preferred GNOME apps" install_gnome
 }
+
 # Install GNOME Shell Extensions
 function install_shell_extensions {
 	# Update the list of packages in 'data/gnome-shell-extensions.list' to suit your preferences

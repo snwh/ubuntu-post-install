@@ -36,7 +36,7 @@ function install_snap_apps {
 	NAME="Snap Applications"
 	echo_message title "Starting installation of ${NAME,,}..."
 	# Draw window
-	FLATPAKAPPS=$(eval `resize` && whiptail \
+	SNAPS=$(eval `resize` && whiptail \
 		--notags \
 		--title "Install $NAME" \
 		--menu "\nWhat ${NAME,,} would you like to install?" \
@@ -52,8 +52,8 @@ function install_snap_apps {
 
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$FLATPAKAPPS' function..."
-		$FLATPAKAPPS
+		echo_message header "Starting '$SNAPS' function..."
+		$SNAPS
 	else
 		# Cancelled
 		echo_message info "Installation of ${NAME,,} cancelled."

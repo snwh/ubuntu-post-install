@@ -41,7 +41,7 @@ function install_flatpak_apps {
 	NAME="Flatpak Applications"
 	echo_message title "Starting installation of ${NAME,,}..."
 	# Draw window
-	FLATPAKAPPS=$(eval `resize` && whiptail \
+	FLATPAKS=$(eval `resize` && whiptail \
 		--notags \
 		--title "Install $NAME" \
 		--menu "\nWhat ${NAME,,} would you like to install?" \
@@ -56,11 +56,11 @@ function install_flatpak_apps {
 
 	# check exit status
 	if [ $? = 0 ]; then
-		echo_message header "Starting '$FLATPAKAPPS' function..."
-		$FLATPAKAPPS
+		echo_message header "Starting '$FLATPAKS' function..."
+		$FLATPAKS
 	else
 		# Cancelled
-		echo_message info "Installation of ${NAME,,} cancelled."
+		echo_message info "Installation of ${NAME} cancelled."
 		main
 	fi
 }

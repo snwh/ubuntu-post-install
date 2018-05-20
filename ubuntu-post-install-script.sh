@@ -40,8 +40,8 @@ function main {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		'system_update'			'Perform system updates' \
 		'install_favs'			'Install preferred applications' \
-		'install_favs_utils'	'Install preferred utilities' \
 		'install_favs_dev'		'Install preferred development tools' \
+		'install_favs_utils'	'Install preferred utilities' \
 		'install_gnome'			'Install preferred GNOME software' \
 		'install_codecs'		'Install multimedia codecs' \
 		'install_fonts'			'Install additional fonts' \

@@ -14,21 +14,26 @@ function install_mscorefonts {
 
 # Install Fonts
 function install_fonts {
-	echo_message title "Starting 'fonts' function..."
-	# check exit status
-	EXITSTATUS=$?
-	if [ $EXITSTATUS = 0 ]; then
-		# Draw window
-		$(eval `resize` && whiptail \
+	NAME="Fonts"
+	echo_message title "Starting ${NAME,,}..."
+	# Draw window
+	FONTS=$(eval `resize` && whiptail \
 		--notags \
-		--title "Install Fonts" \
+		--title "Install $NAME" \
 		--menu "\nWhat would you like to do?" \
+		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		install_favs_fonts		'Install favourite fonts' \
-		install_mscorefonts		'Install Microsoft core fonts' \
+		'install_favs_fonts'		'Install favourite fonts' \
+		'install_mscorefonts'		'Install Microsoft core fonts' \
 		3>&1 1>&2 2>&3)
+	# check exit status
+	if [ $? = 0 ]; then
+		echo_message header "Starting '$FONTS' function"
+		$FONTS
 	else
+		# Cancelled
+		echo_message info "$NAME installation cancelled."
 		main
 	fi
 }
