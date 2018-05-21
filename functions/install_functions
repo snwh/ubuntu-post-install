@@ -78,7 +78,6 @@ function install_remote_package() {
 	fi
 }
 
-
 # Install from list
 # ${1} = Name, ${2} = list-name, ${3} = return_function
 function install_from_list() {

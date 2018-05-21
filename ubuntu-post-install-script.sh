@@ -61,7 +61,6 @@ function main {
 	fi
 }
 
-
 # Quit
 function quit {
 	echo_message header "Starting 'quit' function"
