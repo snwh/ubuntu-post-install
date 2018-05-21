@@ -8,8 +8,11 @@ function install_favs_fonts {
 
 # Install Microsoft Core Fonts
 function install_mscorefonts {
-	# Update the list of packages in 'data/favs-fonts.list' to suit your preferences
 	install_package "Microsoft Core Fonts" "ttf-mscorefonts-installer" install_fonts
+}
+# Install Microsoft Core Fonts
+function install_color_emoji {
+	install_package "Emoji One" "fonts-emojione" install_fonts
 }
 
 # Install Fonts
@@ -26,6 +29,7 @@ function install_fonts {
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		'install_favs_fonts'		'Install favourite fonts' \
 		'install_mscorefonts'		'Install Microsoft core fonts' \
+		'install_color_emoji'		'Install Emoji One colour emoji' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
