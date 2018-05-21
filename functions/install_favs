@@ -3,22 +3,22 @@
 # Install preferred apps
 function install_favs {
 	# Update the list of packages in 'data/favs.list' to suit your preferences
-	install_from_list favs "preferred applications" main
+	install_from_list "preferred applications" "favs" main
 }
 
 # Install preferred development tools
 function install_favs_dev {
 	# Update the list of packages in 'data/favs-dev.list' to suit your preferences
-	install_from_list favs-dev "preferred development tools" main
+	install_from_list "preferred development tools" "favs-dev" main
 }
 
 # Install preferred utilities
 function install_favs_utils {
 	# Update the list of packages in 'data/favs-utils.list' to suit your preferences
-	install_from_list favs-utils "preferred utilities" main
+	install_from_list "preferred utilities" "favs-utils" main
 }
 
 # Install preferred GNOME apps
 function install_codecs {
-	install_package ubuntu-restricted-extras "multimedia codecs" main
+	install_package "multimedia codecs" "ubuntu-restricted-extras" main
 }

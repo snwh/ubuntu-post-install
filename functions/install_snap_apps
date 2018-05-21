@@ -18,29 +18,29 @@ function install_snap_apps {
 			'install_snap_inkscape'		'Inkscape' \
 			'install_snap_slack'		'Slack' \
 			'install_snap_spotify'		'Spotify' \
-			'install_snap_sublime'		'Sublime Text' \
+			'install_snap_sublime'		'Sublime Text 3' \
 			3>&1 1>&2 2>&3)
 
 		case "${SNAPS}" in
 			install_snap_atom)
 				# install Atom text editor
-				install_snap_package "atom" install_snap_apps
+				install_snap_package "Atom" "atom" install_snap_apps
 				;;
 			install_snap_inkscape)
 				# install Inkscape
-				install_snap_package "inkscape" install_snap_apps
+				install_snap_package "Inkscape" "inkscape" install_snap_apps
 				;;
 			install_snap_slack)
 				# install Slack
-				install_snap_package "slack" install_snap_apps
+				install_snap_package "Slack" "slack" install_snap_apps
 				;;
 			install_snap_spotify)
 				# install Spotify
-				install_snap_package "spotify" install_snap_apps
+				install_snap_package "Spotify" "spotify" install_snap_apps
 				;;
 			install_snap_sublime)
 				# install Sublime Text
-				install_snap_package "sublime-text" install_snap_apps
+				install_snap_package "Sublime Text 3" "sublime-text" install_snap_apps
 				;;
 			*) 
 				# cancel

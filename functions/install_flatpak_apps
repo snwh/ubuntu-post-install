@@ -5,7 +5,7 @@ function install_flathub_app() {
 	echo_message header "Starting 'install_flathub_app' function..."
 	# check if flathub repo is added
 	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
-	#install_flatpak_package "Name" "source" "com.package.Name" return_function
+	#install_flatpak_package "Name" "remote" "com.package.Name" return_function
 	install_flatpak_package $1 "flathub" $2 install_flatpak_apps
 }
 

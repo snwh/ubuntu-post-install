@@ -3,13 +3,13 @@
 # Install preferred fonts
 function install_favs_fonts {
 	# Update the list of packages in 'data/favs-fonts.list' to suit your preferences
-	install_from_list favs-fonts "preferred fonts" install_fonts
+	install_from_list "preferred fonts" "favs-fonts" install_fonts
 }
 
 # Install Microsoft Core Fonts
 function install_mscorefonts {
 	# Update the list of packages in 'data/favs-fonts.list' to suit your preferences
-	install_package ttf-mscorefonts-installer "Microsoft Core Fonts" install_fonts
+	install_package "Microsoft Core Fonts" "ttf-mscorefonts-installer" install_fonts
 }
 
 # Install Fonts
