@@ -20,9 +20,9 @@ function install_chrome {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		"stable"	"Stable build" ON \
-		"beta"		"Beta build" OFF \
-		"unstable"	"Unstable build" OFF \
+		"stable"    "Stable build" ON \
+		"beta"      "Beta build" OFF \
+		"unstable"  "Unstable build" OFF \
 		3>&1 1>&2 2>&3) 
 		# Change to lower case and remove spaces.
 		case "${VERSION}" in

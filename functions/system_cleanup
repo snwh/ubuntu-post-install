@@ -122,11 +122,11 @@ function system_cleanup {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		clean_apt_cache		'Clean package cache' \
-		remove_orphans		'Remove orphaned packages' \
-		remove_leftovers	'Remove leftover configuration files' \
-		purge_unused		'Remove unused pre-installed packages' \
-		purge_snaps			'Remove unused pre-installed snaps' \
+		clean_apt_cache     'Clean package cache' \
+		remove_orphans      'Remove orphaned packages' \
+		remove_leftovers    'Remove leftover configuration files' \
+		purge_unused        'Remove unused pre-installed packages' \
+		purge_snaps         'Remove unused pre-installed snaps' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then

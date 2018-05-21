@@ -28,9 +28,9 @@ function install_fonts {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'install_favs_fonts'		'Install favourite fonts' \
-		'install_mscorefonts'		'Install Microsoft core fonts' \
-		'install_emojione'			'Install Emoji One colour emoji' \
+		'install_favs_fonts'        'Install favourite fonts' \
+		'install_mscorefonts'       'Install Microsoft core fonts' \
+		'install_emojione'          'Install Emoji One colour emoji' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then

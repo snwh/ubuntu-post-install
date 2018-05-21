@@ -14,11 +14,11 @@ function install_snap_apps {
 			--ok-button "Install" \
 			--cancel-button "Go Back" \
 			$LINES $COLUMNS $(( $LINES - 12 )) \
-			'install_snap_atom'			'Atom' \
-			'install_snap_inkscape'		'Inkscape' \
-			'install_snap_slack'		'Slack' \
-			'install_snap_spotify'		'Spotify' \
-			'install_snap_sublime'		'Sublime Text 3' \
+			'install_snap_atom'         'Atom' \
+			'install_snap_inkscape'     'Inkscape' \
+			'install_snap_slack'        'Slack' \
+			'install_snap_spotify'      'Spotify' \
+			'install_snap_sublime'      'Sublime Text 3' \
 			3>&1 1>&2 2>&3)
 
 		case "${SNAPS}" in

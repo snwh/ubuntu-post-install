@@ -95,9 +95,9 @@ function system_update {
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'update_system'			'Check for system updates' \
-		'update_snap_apps'		'Check for Snap app updates' \
-		'update_flatpak_apps'	'Check for Flatpak app updates' \
+		'update_system'         'Check for system updates' \
+		'update_snap_apps'      'Check for Snap app updates' \
+		'update_flatpak_apps'   'Check for Flatpak app updates' \
 		3>&1 1>&2 2>&3)
 
 	# check exit status
