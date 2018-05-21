@@ -1,24 +1,26 @@
 #!/bin/bash
 
 # Add Flatpak Repo
+# ${1} = remote, ${2} = https://remote.example.com/
 function add_flatpak_repo() {
 	echo_message header "Starting 'add_flatpak_repo' function"
 	# Check if already added
-	flatpak remotes | grep $1 &> /dev/null
+	flatpak remotes | grep ${1} &> /dev/null
 	# If repo is added
 	if [ $? = 0 ]; then
 		echo_message info "Repository already added."
-		whiptail --msgbox "The $1 repository is already added." 8 56
+		whiptail --msgbox "The ${1} repository is already added." 8 56
 	else
 		# Add repository
 		echo_message info "Adding flatpak repository..."
-		flatpak remote-add --if-not-exists $1 $2
+		flatpak remote-add --if-not-exists ${1} ${2}
 		echo_message success "Repository added."
-		whiptail --title "Finished" --msgbox "The '$1' repository has been added." 8 56
+		whiptail --title "Finished" --msgbox "The '${1}' repository has been added." 8 56
 	fi
 }
 
 # Add Launchpad PPA
+# ${1} = Name, ${2} = launchpad-user/ppa-name
 function add_launchpad_ppa() {
 	echo_message header "Starting 'add_launchpad_ppa' function"
 	# Check if PPA already added

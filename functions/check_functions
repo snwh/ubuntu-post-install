@@ -7,10 +7,11 @@ function check_package_installed() {
 }
 
 # Check if single package is installed
+# ${1} = package, ${2} = return_function
 function check_package() {
 	# echo_message header "Starting 'check_package' function"
 	# if package is not installed
-	if [ $(check_package_installed $PACKAGE) != 0 ]; then
+	if [ $(check_package_installed ${1}) != 0 ]; then
 		# draw window
 		if (whiptail \
 			--title "Install ${1}" \
@@ -19,13 +20,13 @@ function check_package() {
 			echo_message info "Installing '${3}'..."
 			elevate_privilege "apt install -y ${1}"
 			# Finished
-			echo_message success "$1 is installation complete."
+			echo_message success "${1} is installation complete."
 			whiptail --title "Finished" --msgbox "Installation of ${1} Flatpak complete." 8 64
-			$2
+			${2}
 		else
 			# Cancelled
 			echo_message info "Installation of ${1} cancelled."
-			$2
+			${2}
 		fi
 	else
 		echo_message info "Function dependency '${1}' is installed."
@@ -33,23 +34,24 @@ function check_package() {
 }
 
 # Check for Flatpak repository
+# ${1} = remote, ${2} = https://remote.example.com/, ${3} = return_function
 function check_flatpak_repo {
 	# echo_message header "Starting 'check_flatpak_repo' function"
 	# If repo not is added
-	if [ $(flatpak remotes | grep $1 &> /dev/null; echo $?) = 1 ]; then
+	if [ $(flatpak remotes | grep ${1} &> /dev/null; echo $?) = 1 ]; then
 		# draw window
 		if (whiptail \
 			--title "Add ${1} Repository" \
 			--yesno "This function requires '${1^}' repository but it is not present on your system. \n\nWould you like to add it to continue? " 10 64) then
 			# Add repository
 			echo_message info "Adding flatpak repository..."
-			flatpak remote-add --if-not-exists $1 $2
+			flatpak remote-add --if-not-exists ${1} ${2}
 			echo_message success "Repository added."
 			whiptail --title "Finished" --msgbox "The ${1^} repository has been added." 8 56
 		else
 			# Cancelled
 			echo_message info "Addition of ${1^} repository cancelled."
-			$3
+			${3}
 		fi
 	else
 		echo_message info "${1^} repository already added."
