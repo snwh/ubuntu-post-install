@@ -36,7 +36,8 @@ function set_bash_aliases {
 		system_configure
 	fi
 }
-# Put apport in permissive mode
+
+# Disable apport crash dialogs
 function disable_apport {
 	# Check if apport is aleady disabled.
 	if [[ $(cat '/etc/default/apport' | grep -q 'enabled=0'; echo $?) != 0 ]]; then
@@ -54,6 +55,24 @@ function disable_apport {
 	fi
 }
 
+# Hide snap directory in home folder
+function hide_snap_folder {
+	# Check if snap folder is aleady hidden.
+	if [[ $(cat ~/.hidden | grep -q 'snap'; echo $?) != 0 ]]; then
+		echo_message info "Hiding 'snap' folder in user home..."
+		echo snap >> ~/.hidden
+		# Finished
+		echo_message info "Successfully hidden 'snap' folder in user home."
+		whiptail --title "Finished" --msgbox "Successfully hidden 'snap' folder in user home" 8 56
+		system_configure
+	else
+		# Already configured
+		echo_message info "The 'snap' folder in user home is already hidden."
+		whiptail --title "Finished" --msgbox "The 'snap' folder in user home is already hidden." 8 56
+		system_configure
+	fi
+}
+
 # Configure System
 function system_configure {
 	NAME="System Configuration"
@@ -65,9 +84,10 @@ function system_configure {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'set_preferences'			'Set preferred application-specific & desktop settings' \
+		'set_preferences'		'Set preferred application-specific & desktop settings' \
 		'set_bash_aliases'		'Set preferred bash aliases' \
-		'disable_apport'			'Disable system crash dialogs' \
+		'hide_snap_folder'		'Hide the snap folder in user home' \
+		'disable_apport'		'Disable system crash dialogs' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
