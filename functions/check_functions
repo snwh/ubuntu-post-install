@@ -136,7 +136,7 @@ function check_dependencies {
 			# Positive action
 			[Yy]* ) 
 				echo_message warning "Requires root privileges"
-				sudo dnf -y install $PACKAGE
+				sudo apt -y install $PACKAGE
 				echo_message success "Package '$PACKAGE' installed."
 				;;
 			# Negative action
@@ -172,11 +172,32 @@ function check_privileges {
 			echo_message success "Current user has sudo privileges. :)"
 		fi
 	else
-		if (whiptail --title "Root User" --yesno "You are logged in as the root user. This is not recommended.\n\nAre you sure you want to proceed?" 8 56) then
-			echo_message warning "You are logged in as the root user. This is not recommended. :/"
+		# if dependency whiptail is installed
+		if command -v whiptail 2>&1 >/dev/null; then
+			# draw window
+			if (whiptail --title "Root User" --yesno "You are logged in as the root user. This is not recommended.\n\nAre you sure you want to proceed?" 12 56) then
+				echo_message warning "You are logged in as the root user. This is not recommended. :/"
+			else
+				echo_message info "Exiting..."
+				exit 99
+			fi
 		else
-			echo_message info "Exiting..."
-			exit 99
+			# text-based warning
+			echo_message warning "You are logged in as the root user. This is not recommended. :/"
+			read -p "Are you sure you want to proceed? [y/N] " REPLY
+			REPLY=${REPLY:-n}
+			case $REPLY in
+			[Yy]* )
+				echo_message info "Proceeding..."
+				;;
+			[Nn]* )
+				echo_message info "Exiting..."
+				exit 99
+				;;
+			* )
+				echo_message error 'Sorry, try again.' && check_privileges
+				;;
+			esac
 		fi
 	fi
 }

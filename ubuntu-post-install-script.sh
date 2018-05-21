@@ -66,7 +66,7 @@ function quit {
 	echo_message header "Starting 'quit' function"
 	echo_message title "Exiting $TITLE..."
 	# Draw window
-	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 10 60) then
+	if (whiptail --title "Quit" --yesno "Are you sure you want quit?" 8 56) then
 		echo_message welcome 'Thanks for using!'
 		exit 99
 	else
