@@ -1,66 +1,60 @@
 #!/bin/bash
 
-# install gimp
-function install_flatpak_gimp {
+# install app from flathub repository
+function install_flathub_app() {
+	echo_message header "Starting 'install_flathub_app' function..."
 	# check if flathub repo is added
 	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
 	#install_flatpak_package "Name" "source" "com.package.Name" return_function
-	install_flatpak_package "GIMP" "flathub" "org.gimp.GIMP" install_flatpak_apps
+	install_flatpak_package $1 "flathub" $2 install_flatpak_apps
 }
-
-# install peek
-function install_flatpak_peek {
-	# check if flathub repo is added
-	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
-	#install_flatpak_package "Name" "source" "com.package.Name" return_function
-	install_flatpak_package "Peek" "flathub" "com.uploadedlobster.peek" install_flatpak_apps
-}
-
-# install riot
-function install_flatpak_riot {
-	# check if flathub repo is added
-	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
-	#install_flatpak_package "Name" "source" "com.package.Name" return_function
-	install_flatpak_package "Riot" "flathub" "im.riot.Riot" install_flatpak_apps
-}
-
-# install steam
-function install_flatpak_steam {
-	# check if flathub repo is added
-	check_flatpak_repo "flathub" "https://flathub.org/repo/flathub.flatpakrepo" install_flatpak_apps
-	#install_flatpak_package "Name" "source" "com.package.Name" return_function
-	install_flatpak_package "Steam" "flathub" "com.valvesoftware.Steam" install_flatpak_apps
-}
-
 
 # Install Flatpak Applications
 function install_flatpak_apps {
-	# check if flatpak is installed
+	# check if 'flatpak' is installed
 	check_package "flatpak" main
 	# install
 	NAME="Flatpak Applications"
 	echo_message title "Starting installation of ${NAME,,}..."
-	# Draw window
-	FLATPAKS=$(eval `resize` && whiptail \
-		--notags \
-		--title "Install $NAME" \
-		--menu "\nWhat ${NAME,,} would you like to install?" \
-		--ok-button "Install" \
-		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'install_flatpak_gimp'		'GIMP' \
-		'install_flatpak_peek'		'Peek' \
-		'install_flatpak_riot'		'Riot' \
-		'install_flatpak_steam'		'Steam' \
-		3>&1 1>&2 2>&3)
+	status="0"
+	while [ "$status" -eq 0 ]; do
+		# Draw window
+		FLATPAKS=$(eval `resize` && whiptail \
+			--notags \
+			--title "Install $NAME" \
+			--menu "\nWhat ${NAME,,} would you like to install?" \
+			--ok-button "Install" \
+			--cancel-button "Go Back" \
+			$LINES $COLUMNS $(( $LINES - 12 )) \
+			'install_flatpak_gimp'		'GIMP' \
+			'install_flatpak_peek'		'Peek' \
+			'install_flatpak_peek'		'Riot' \
+			'install_flatpak_steam'		'Steam' \
+			3>&1 1>&2 2>&3)
 
-	# check exit status
-	if [ $? = 0 ]; then
-		echo_message header "Starting '$FLATPAKS' function..."
-		$FLATPAKS
-	else
-		# Cancelled
-		echo_message info "Installation of ${NAME} cancelled."
-		main
-	fi
+		case "${FLATPAKS}" in
+			install_flatpak_gimp)
+				# install GIMP
+				install_flathub_app "GIMP" "org.gimp.GIMP"
+				;;
+			install_flatpak_peek)
+				# install Peek
+				install_flathub_app "Peek" "com.uploadedlobster.peek"
+				;;
+			install_flatpak_riot)
+				# install Riot chat
+				install_flathub_app "Riot" "im.riot.Riot"
+				;;
+			install_flatpak_steam)
+				# install Steam
+				install_flathub_app "Steam" "com.valvesoftware.Steam"
+				;;
+			*) 
+				# cancel
+				echo_message info "Returning..."
+				status=1
+				main
+			;;
+		esac
+	done
 }

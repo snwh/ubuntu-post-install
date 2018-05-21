@@ -126,7 +126,7 @@ function install_flatpak_package() {
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1}" \
-			--yesno "The ${1} Flatpak package is not installed. \n\nProceed with installation of '${3}'?" 10 64) then
+			--yesno "The flatpak package for ${1} is not installed. \n\nProceed with installation of '${3}'?" 10 64) then
 			# Install
 			echo_message info "Installing flatpak '${3}'..."
 			flatpak install -y ${2} ${3}
@@ -141,7 +141,7 @@ function install_flatpak_package() {
 		fi
 	else
 		# Already installed
-		echo_message info "${3} is already installed."
+		echo_message info "Flatpak '${3}' is already installed."
 		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 64
 		$4
 	fi
@@ -151,11 +151,11 @@ function install_flatpak_package() {
 function install_snap_package() {
 	# echo_message header "Starting 'install_snap_package' function..."
 	# If package is not installed
-	if [ $(snap list | grep $1 &> /dev/null: echo $?) = 1 ]; then
+	if [ $(snap list | grep $1 &> /dev/null; echo $?) = 1 ]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1^}" \
-			--yesno "The Snap package for ${1^} is not installed. \n\nProceed with installation of '${1}'?" 10 64) then
+			--yesno "The snap package for ${1^} is not installed. \n\nProceed with installation of '${1}'?" 10 64) then
 			# Install
 			echo_message info "Installing snap '${1}'..."
 			# Admin privileges
@@ -171,7 +171,7 @@ function install_snap_package() {
 		fi
 	else
 		# Already installed
-		echo_message info "${1} is already installed."
+		echo_message info "Snap '${1}' is already installed."
 		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 64
 		$3
 	fi

@@ -1,62 +1,53 @@
 #!/bin/bash
 
-# install Atom from snap
-function install_snap_atom {
-	#install_snap_package "Name" "package"
-	install_snap_package "atom" install_snap_apps
-}
-
-# install Inkscape from snap
-function install_snap_inkscape {
-	#install_snap_package "Name" "package"
-	install_snap_package "inkscape" install_snap_apps
-}
-
-# install Slack from snap
-function install_snap_slack {
-	#install_snap_package "Name" "package"
-	install_snap_package "slack" install_snap_apps
-}
-
-# install Spotify from snap
-function install_snap_spotify {
-	#install_snap_package "Name" "package"
-	install_snap_package "spotify" install_snap_apps
-}
-
-# install Slack from snap
-function install_snap_sublime_text {
-	#install_snap_package "Name" "package"
-	install_snap_package "sublime-text" install_snap_apps
-}
-
-
 # Install Snap Applications
 function install_snap_apps {
 	NAME="Snap Applications"
 	echo_message title "Starting installation of ${NAME,,}..."
-	# Draw window
-	SNAPS=$(eval `resize` && whiptail \
-		--notags \
-		--title "Install $NAME" \
-		--menu "\nWhat ${NAME,,} would you like to install?" \
-		--ok-button "Install" \
-		--cancel-button "Go Back" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'install_snap_atom'				'Atom' \
-		'install_snap_inkscape'			'Inkscape' \
-		'install_snap_slack'			'Slack' \
-		'install_snap_spotify'			'Spotify' \
-		'install_snap_sublime_text'		'Sublime Text' \
-		3>&1 1>&2 2>&3)
+	status="0"
+	while [ "$status" -eq 0 ]; do
+		# Draw window
+		SNAPS=$(eval `resize` && whiptail \
+			--notags \
+			--title "Install $NAME" \
+			--menu "\nWhat ${NAME,,} would you like to install?" \
+			--ok-button "Install" \
+			--cancel-button "Go Back" \
+			$LINES $COLUMNS $(( $LINES - 12 )) \
+			'install_snap_atom'			'Atom' \
+			'install_snap_inkscape'		'Inkscape' \
+			'install_snap_slack'		'Slack' \
+			'install_snap_spotify'		'Spotify' \
+			'install_snap_sublime'		'Sublime Text' \
+			3>&1 1>&2 2>&3)
 
-	# check exit status
-	if [ $? = 0 ]; then
-		echo_message header "Starting '$SNAPS' function..."
-		$SNAPS
-	else
-		# Cancelled
-		echo_message info "Installation of ${NAME,,} cancelled."
-		main
-	fi
+		case "${SNAPS}" in
+			install_snap_atom)
+				# install Atom text editor
+				install_snap_package "atom" install_snap_apps
+				;;
+			install_snap_inkscape)
+				# install Inkscape
+				install_snap_package "inkscape" install_snap_apps
+				;;
+			install_snap_slack)
+				# install Slack
+				install_snap_package "slack" install_snap_apps
+				;;
+			install_snap_spotify)
+				# install Spotify
+				install_snap_package "spotify" install_snap_apps
+				;;
+			install_snap_sublime)
+				# install Sublime Text
+				install_snap_package "sublime-text" install_snap_apps
+				;;
+			*) 
+				# cancel
+				echo_message info "Returning..."
+				status=1
+				main
+			;;
+		esac
+	done
 }
