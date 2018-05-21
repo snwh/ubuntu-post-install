@@ -125,7 +125,7 @@ function install_from_list() {
 function install_flatpak_package() {
 	# echo_message header "Starting 'install_flatpak_package' function..."
 	# If package is not installed
-	if [[ $(flatpak list | grep ${3} &> /dev/null; echo $?) != 1 ]]; then
+	if [[ $(flatpak list | grep ${3} &> /dev/null; echo $?) != 0 ]]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1}" \
@@ -155,7 +155,7 @@ function install_flatpak_package() {
 function install_snap_package() {
 	# echo_message header "Starting 'install_snap_package' function..."
 	# If package is not installed
-	if [[ $(snap list | grep ${1} &> /dev/null; echo $?) != 1 ]]; then
+	if [[ $(snap list | grep ${2} &> /dev/null; echo $?) != 0 ]]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1}" \
