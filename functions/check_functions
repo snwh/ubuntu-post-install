@@ -18,7 +18,7 @@ function check_package() {
 			--yesno "This function requires '${1}' but it is not present on your system. \n\nWould you like to install it to continue? " 10 64) then
 			# Install
 			echo_message info "Installing '${3}'..."
-			elevate_privilege "apt install -y ${1}"
+			superuser_do "apt install -y ${1}"
 			# Finished
 			echo_message success "${1} is installation complete."
 			whiptail --title "Finished" --msgbox "Installation of ${1} Flatpak complete." 8 56

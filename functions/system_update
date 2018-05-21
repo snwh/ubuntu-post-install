@@ -8,7 +8,7 @@ function update_system {
 		# Update repository information
 		echo_message info 'Updating repository information...'
 		# Admin privileges
-		elevate_privilege 'apt update -qq -y'
+		superuser_do 'apt update -qq -y'
 		echo_message success 'Repository information updated.'
 		# List upgrades
 		if [ $(apt list --upgradeable | wc -l) = 1 ]; then
@@ -25,7 +25,7 @@ function update_system {
 				--scrolltext ) then
 				# Upgrade
 				echo_message info 'Upgrading packages...'
-				elevate_privilege "apt dist-upgrade -y"
+				superuser_do "apt dist-upgrade -y"
 				# Finished
 				echo_message success "System update complete."
 				whiptail --title "Finished" --msgbox "System update complete." 8 56
@@ -49,7 +49,7 @@ function update_snap_apps {
 	check_package "snapd" system_update
 	# continue
 	echo_message info "Updating installed snap packages..."
-	elevate_privilege "snap refresh"
+	superuser_do "snap refresh"
 	if [ $? = 0 ]; then
 		# Finished
 		echo_message success "All snaps up to date."

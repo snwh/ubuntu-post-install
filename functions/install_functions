@@ -13,7 +13,7 @@ function install_package() {
 			# Install
 			echo_message info "Installing package '${2}'..."
 			# Admin privileges
-			elevate_privilege "apt install -y ${2}"
+			superuser_do "apt install -y ${2}"
 			# Finished
 			echo_message success "Installation of package '${2}' is complete."
 			whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 56
@@ -60,10 +60,10 @@ function install_remote_package() {
 		esac
 		# Install package(s)
 		echo_message info "Installing '${2}' package..."
-		elevate_privilege "dpkg -i ${2}*.deb"
+		superuser_do "dpkg -i ${2}*.deb"
 		# Install depencies, if any
 		echo_message info "Correcting any dependency errors..."
-		elevate_privilege "apt install -fy"
+		superuser_do "apt install -fy"
 		# Cleanup and finish
 		rm ${2}*.deb
 		# Done
@@ -99,7 +99,7 @@ function install_from_list() {
 				# Install package
 				echo_message warning "Package '$PACKAGE' is not installed. Installing..."
 				# Admin privileges
-				elevate_privilege "apt install -y $PACKAGE"
+				superuser_do "apt install -y $PACKAGE"
 				# Check if failed
 				if [[ $? != 0 ]]; then
 					echo_message error "Error installing '$PACKAGE'."
@@ -163,7 +163,7 @@ function install_snap_package() {
 			# Install
 			echo_message info "Installing snap package '${2}'..."
 			# Admin privileges
-			elevate_privilege "snap install ${2}"
+			superuser_do "snap install ${2}"
 			# Finished
 			echo_message success "Installation of '${2}' is complete."
 			whiptail --title "Finished" --msgbox "Installation of ${1} is complete." 8 56

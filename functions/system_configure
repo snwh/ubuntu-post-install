@@ -42,7 +42,7 @@ function disable_crash_dialogs {
 	# Check if apport is aleady disabled.
 	if [[ $(cat '/etc/default/apport' | grep -q 'enabled=0'; echo $?) != 0 ]]; then
 		echo_message info "Disabling Apport crash dialogs..."
-		elevate_privilege "sed --in-place s/enabled=1/enabled=0/g /etc/default/apport"
+		superuser_do "sed --in-place s/enabled=1/enabled=0/g /etc/default/apport"
 		# Finished
 		echo_message info "Apport crash dialogs disabled."
 		whiptail --title "Finished" --msgbox "Apport crash dialogs disabled successfully." 8 56

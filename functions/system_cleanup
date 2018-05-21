@@ -25,7 +25,7 @@ function purge_unused {
 				# Remove package
 				echo_message info "'$PACKAGE' is installed. Removing..."
 				# Admin privileges
-				elevate_privilege "apt remove -y $PACKAGE"
+				superuser_do "apt remove -y $PACKAGE"
 				# Finished
 				echo_message success "'$PACKAGE' removal is complete."
 			fi
@@ -62,7 +62,7 @@ function purge_snaps {
 				# Remove package
 				echo_message info "snap '$PACKAGE' is installed. Removing..."
 				# Admin privileges
-				elevate_privilege "snap remove $PACKAGE"
+				superuser_do "snap remove $PACKAGE"
 				# Finished
 				echo_message success "'$PACKAGE' removal is complete."
 			fi
@@ -82,7 +82,7 @@ function purge_snaps {
 function remove_orphans {
 	echo_message info "Removing orphaned packages..."
 	# Admin privileges
-	elevate_privilege "apt autoremove -y $PACKAGE"
+	superuser_do "apt autoremove -y $PACKAGE"
 	# Done
 	echo_message success "Removal of orphaned packages complete."
 	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 56
@@ -93,7 +93,7 @@ function remove_orphans {
 function remove_leftovers {
 	echo_message info "Removing leftover configuration files..."
 	# Admin privileges
-	elevate_privilege "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
+	superuser_do "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
 	# Done
 	echo_message success "Removal of leftover configuration files complete."
 	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 56
@@ -104,7 +104,7 @@ function remove_leftovers {
 function clean_apt_cache {
 	echo_message info "Cleaning package cache..."
 	# Admin privileges
-	elevate_privilege "apt clean"
+	superuser_do "apt clean"
 	# Done
 	echo_message success "Package cache cleaned."
 	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 56
