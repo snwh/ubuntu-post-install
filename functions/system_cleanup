@@ -100,7 +100,7 @@ function remove_leftovers {
 	system_cleanup
 }
 
-# Clean apt cache
+# Clean packages cache
 function clean_apt_cache {
 	echo_message info "Cleaning package cache..."
 	# Admin privileges

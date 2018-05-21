@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# accept user passwords and pass them to another command that requires elevated privilege
+# accept user passwords and pass them to another command that requires superuser privilege
 
 function superuser_do() {
 	echo_message header "Starting 'superuser_do' function"
@@ -41,7 +41,7 @@ function superuser_do() {
 						fi
 					else
 						# pass the command to sudo
-						sudo $@
+						sudo ${@}
 						break
 					fi
 				done

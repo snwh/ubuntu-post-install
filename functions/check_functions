@@ -136,7 +136,7 @@ function check_dependencies {
 			# Positive action
 			[Yy]* ) 
 				echo_message warning "Requires root privileges"
-				sudo apt -y install $PACKAGE
+				sudo apt install -y $PACKAGE
 				echo_message success "Package '$PACKAGE' installed."
 				;;
 			# Negative action
