@@ -19,7 +19,7 @@ function install_pia {
 	if [ $EXITSTATUS = 1 ]; then
 		# If checksum fails
 		echo_message error 'Error: checksums do not match. Aborting...'
-		whiptail --title "Error" --msgbox "Verification of $NAME download failed." 8 64
+		whiptail --title "Error" --msgbox "Verification of $NAME download failed." 8 56
 		rm ${TARBALL}*.tar.gz
 		thirdparty
 	else
@@ -35,7 +35,7 @@ function install_pia {
 		rm ${TARBALL}*.tar.gz
 		rm ${TARBALL}*.sh
 		echo_message success "Installation of '$TARBALL' complete."
-		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64
+		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 56
 		thirdparty
 	fi
 }

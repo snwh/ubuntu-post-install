@@ -9,14 +9,14 @@ function install_package() {
 		echo_message info "${2} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${1^}" \
-			--yesno "Proceed with installation of ${1^}?" 8 64) then
+			--yesno "Proceed with installation of ${1^}?" 8 56) then
 			# Install
 			echo_message info "Installing package '${2}'..."
 			# Admin privileges
 			elevate_privilege "apt install -y ${2}"
 			# Finished
 			echo_message success "Installation of package '${2}' is complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 56
 			# return
 			${3}
 		else
@@ -28,7 +28,7 @@ function install_package() {
 	else
 		# Already installed
 		echo_message info "Package '${2}' is already installed."
-		whiptail --title "Finished" --msgbox "Installation of ${1} is already complete." 8 64
+		whiptail --title "Finished" --msgbox "Installation of ${1} is already complete." 8 56
 		# return
 		${3}
 	fi
@@ -54,7 +54,7 @@ function install_remote_package() {
 				curl -O ${3}/${2}_amd64.deb
 				;;
 			*)
-				whiptail --title "Error." --msgbox "No remote packages available to download." 8 64
+				whiptail --title "Error." --msgbox "No remote packages available to download." 8 56
 				${4}
 				;;
 		esac
@@ -68,12 +68,12 @@ function install_remote_package() {
 		rm ${2}*.deb
 		# Done
 		echo_message success "Installation of ${1} complete."
-		whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 64
+		whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 56
 		${4}
 	else
 		# Already installed
 		echo_message info "${1} already installed."
-		whiptail --title "Finished" --msgbox "${1} is already installed." 8 64
+		whiptail --title "Finished" --msgbox "${1} is already installed." 8 56
 		${4}
 	fi
 }
@@ -135,7 +135,7 @@ function install_flatpak_package() {
 			flatpak install -y ${2} ${3}
 			# Finished
 			echo_message success "Installation of '${3}' is complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1^} (Flatpak) complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1^} (Flatpak) complete." 8 56
 			${4}
 		else
 			# Cancelled
@@ -145,7 +145,7 @@ function install_flatpak_package() {
 	else
 		# Already installed
 		echo_message info "Flatpak '${3}' is already installed."
-		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 64
+		whiptail --title "Installed" --msgbox "${1^} is already installed." 8 56
 		${4}
 	fi
 }
@@ -166,7 +166,7 @@ function install_snap_package() {
 			elevate_privilege "snap install ${2}"
 			# Finished
 			echo_message success "Installation of '${2}' is complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1} is complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1} is complete." 8 56
 			${3}
 		else
 			# Cancelled
@@ -176,7 +176,7 @@ function install_snap_package() {
 	else
 		# Already installed
 		echo_message info "Snap package '${2}' is already installed."
-		whiptail --title "Installed" --msgbox "${1} is already installed." 8 64
+		whiptail --title "Installed" --msgbox "${1} is already installed." 8 56
 		${3}
 	fi
 }

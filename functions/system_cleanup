@@ -85,7 +85,7 @@ function remove_orphans {
 	elevate_privilege "apt autoremove -y $PACKAGE"
 	# Done
 	echo_message success "Removal of orphaned packages complete."
-	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 64
+	whiptail --title "Finished" --msgbox "Orphaned packages have been successfully removed." 8 56
 	system_cleanup
 }
 
@@ -96,7 +96,7 @@ function remove_leftovers {
 	elevate_privilege "dpkg --purge $(COLUMNS=200 dpkg -l | grep '^rc' | tr -s ' ' | cut -d ' ' -f 2)"
 	# Done
 	echo_message success "Removal of leftover configuration files complete."
-	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 64
+	whiptail --title "Finished" --msgbox "Leftover configuration files have been removed." 8 56
 	system_cleanup
 }
 
@@ -107,7 +107,7 @@ function clean_apt_cache {
 	elevate_privilege "apt clean"
 	# Done
 	echo_message success "Package cache cleaned."
-	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 64
+	whiptail --title "Finished" --msgbox "Package cache has been cleaned." 8 56
 	system_cleanup
 }
 

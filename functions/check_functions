@@ -21,7 +21,7 @@ function check_package() {
 			elevate_privilege "apt install -y ${1}"
 			# Finished
 			echo_message success "${1} is installation complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1} Flatpak complete." 8 64
+			whiptail --title "Finished" --msgbox "Installation of ${1} Flatpak complete." 8 56
 			${2}
 		else
 			# Cancelled
