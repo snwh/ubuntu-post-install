@@ -4,7 +4,7 @@
 function install_package() {
 	echo_message header "Starting 'install_package' function..."
 	# If package is not installed
-	if [[ $(dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
+	if [ $(check_package_installed $PACKAGE) != 0 ]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${2^}" \
@@ -37,7 +37,7 @@ function install_package() {
 function install_remote_package() {
 	echo_message header "Starting 'install_remote_package' function..."
 	# If package is not installed
-	if [[ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
+	if [ $(check_package_installed $PACKAGE) != 0 ]; then
 		echo_message info "$1 is not installed."
 		# Download Debian file that matches system architecture
 		case `uname -i` in
@@ -93,7 +93,7 @@ function install_from_list() {
 		# Install loop
 		for PACKAGE in $(cat $LIST); do
 			# If package is not installed
-			if [[ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
+			if [ $(check_package_installed $PACKAGE) != 0 ]; then
 				# Install package
 				echo_message warning "Package '$PACKAGE' is not installed. Installing..."
 				# Admin privileges
