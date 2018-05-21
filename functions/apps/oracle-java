@@ -11,7 +11,7 @@ function install_oracle_java {
 	# check exit status
 	if [ $? = 0 ]; then
 		# Install package
-		install_package "$NAME" "$PACKAGE" install_thirdparty
+		install_package "$PACKAGE" "$NAME" install_thirdparty
 		# Done
 		echo_message success "Installation of '$PACKAGE' complete."
 		whiptail --title "Finished" --msgbox "Installation of $NAME complete." 8 64

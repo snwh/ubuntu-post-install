@@ -4,18 +4,18 @@
 function install_package() {
 	echo_message header "Starting 'install_package' function..."
 	# If package is not installed
-	if [ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+	if [[ $(dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
 		echo_message info "${1} is not installed. Installing..."
 		if (whiptail \
 			--title "Install ${2^}" \
 			--yesno "Proceed with installation of ${2^}?" 8 64) then
 			# Install
-			echo_message info "Installing '${2}'..."
+			echo_message info "Installing package '${1}'..."
 			# Admin privileges
-			elevate_privilege "apt install -y ${2}"
+			elevate_privilege "apt install -y ${1}"
 			# Finished
-			echo_message success "Installation of package '${2}' is complete."
-			whiptail --title "Finished" --msgbox "Installation of ${1} complete." 8 64
+			echo_message success "Installation of package '${1}' is complete."
+			whiptail --title "Finished" --msgbox "Installation of ${2} complete." 8 64
 			# return
 			$3
 		else
@@ -26,8 +26,8 @@ function install_package() {
 		fi
 	else
 		# Already installed
-		echo_message info "Package '${2}' is installed."
-		whiptail --title "Finished" --msgbox "Installation of ${1} is complete." 8 64
+		echo_message info "Package '${2}' is already installed."
+		whiptail --title "Finished" --msgbox "Installation of ${2} is already complete." 8 64
 		# return
 		$3
 	fi
@@ -37,7 +37,7 @@ function install_package() {
 function install_remote_package() {
 	echo_message header "Starting 'install_remote_package' function..."
 	# If package is not installed
-	if [ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+	if [[ $(dpkg-query -W --showformat='${Status}\n' $2 | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
 		echo_message info "$1 is not installed."
 		# Download Debian file that matches system architecture
 		case `uname -i` in
@@ -93,7 +93,7 @@ function install_from_list() {
 		# Install loop
 		for PACKAGE in $(cat $LIST); do
 			# If package is not installed
-			if [ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+			if [[ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
 				# Install package
 				echo_message warning "Package '$PACKAGE' is not installed. Installing..."
 				# Admin privileges

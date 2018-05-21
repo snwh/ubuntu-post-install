@@ -4,7 +4,7 @@
 function check_package() {
 	# echo_message header "Starting 'check_package' function"
 	# if package is not installed
-	if [ $(dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+	if [[ $(dpkg-query -W --showformat='${Status}\n' $1 | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
 		# draw window
 		if (whiptail \
 			--title "Install ${1}" \
@@ -121,7 +121,7 @@ function check_dependencies {
 	# Check dependencies
 	for PACKAGE in $(cat $LIST); do 
 		# If package is not installed
-		if [ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) = 1 ]; then
+		if [[ $(dpkg-query -W --showformat='${Status}\n' $PACKAGE | grep "install ok installed"  &> /dev/null; echo $?) != 0 ]]; then
 			echo_message info "This script requires '$PACKAGE' and it is not present on your system."
 			echo_message question 'Would you like to install it to continue? (Y)es, (N)o : ' && read REPLY
 			case $REPLY in

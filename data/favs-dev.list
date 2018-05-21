@@ -1,7 +1,6 @@
 autotools-dev
 bzr
 git
-git-core
 gtk-3-examples
 gtk-doc-tools
 icontool

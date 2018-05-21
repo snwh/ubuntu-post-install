@@ -38,7 +38,7 @@ function set_bash_aliases {
 }
 
 # Disable apport crash dialogs
-function disable_apport {
+function disable_crash_dialogs {
 	# Check if apport is aleady disabled.
 	if [[ $(cat '/etc/default/apport' | grep -q 'enabled=0'; echo $?) != 0 ]]; then
 		echo_message info "Disabling Apport crash dialogs..."
@@ -50,7 +50,7 @@ function disable_apport {
 	else
 		# Already configured
 		echo_message info "Apport crash dialogs are aleady disabled."
-		whiptail --title "Finished" --msgbox "apport is aleady disabled." 8 56
+		whiptail --title "Finished" --msgbox "Apport crash dialogs are aleady disabled." 8 56
 		system_configure
 	fi
 }
@@ -87,7 +87,7 @@ function system_configure {
 		'set_preferences'		'Set preferred application-specific & desktop settings' \
 		'set_bash_aliases'		'Set preferred bash aliases' \
 		'hide_snap_folder'		'Hide the snap folder in user home' \
-		'disable_apport'		'Disable system crash dialogs' \
+		'disable_crash_dialogs'	'Disable Apport crash dialogs' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
