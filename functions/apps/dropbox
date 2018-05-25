@@ -6,5 +6,6 @@ function install_dropbox {
 	NAME="Dropbox"
 	PACKAGE="dropbox_2.10.0"
 	REMOTE="https://linux.dropbox.com/packages/ubuntu"
+	# Download and install remote package
 	install_remote_package $NAME $PACKAGE $REMOTE install_thirdparty
 }

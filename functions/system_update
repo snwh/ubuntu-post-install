@@ -6,16 +6,16 @@ function update_system {
 	# Draw window
 	if (whiptail --title "System Update" --yesno "Check for system software updates?" 8 56) then
 		# Update repository information
-		echo_message info 'Updating repository information...'
+		echo_message info 'Refreshing repository information...'
 		# Admin privileges
-		superuser_do 'apt update -qq -y'
+		superuser_do 'apt update -y -qq'
 		echo_message success 'Repository information updated.'
 		# List upgrades
 		if [ $(apt list --upgradeable | wc -l) = 1 ]; then
 			# Cancelled
 			echo_message info "System is up to date."
 			whiptail --title "Finished" --msgbox "No updates available. System is up to date." 8 56
-			main
+			system_update
 		else
 			# Move on to package upgrade
 			if (eval `resize` && whiptail \
@@ -29,17 +29,17 @@ function update_system {
 				# Finished
 				echo_message success "System update complete."
 				whiptail --title "Finished" --msgbox "System update complete." 8 56
-				main
+				system_update
 			else
 				# Cancelled
 				echo_message info "System update cancelled."
-				main
+				system_update
 			fi
 		fi
 	else
 		# Cancelled
 		echo_message info "Installation of ${2} cancelled."
-		main
+		system_update
 	fi
 }
 
@@ -54,12 +54,12 @@ function update_snap_apps {
 		# Finished
 		echo_message success "All snaps up to date."
 		whiptail --title "Finished" --msgbox "All snaps up to date." 8 56
-		main
+		system_update
 	else
 		# Finished
 		echo_message success "Snap package update complete."
 		whiptail --title "Finished" --msgbox "Snap package update complete." 8 56
-		main
+		system_update
 	fi
 }
 
@@ -74,12 +74,12 @@ function update_flatpak_apps {
 		# Finished
 		echo_message success "All flatpaks up to date."
 		whiptail --title "Finished" --msgbox "All flatpaks up to date." 8 56
-		main
+		system_update
 	else
 		# Finished
 		echo_message success "Flatpak package update complete."
 		whiptail --title "Finished" --msgbox "Flatpak package update complete." 8 56
-		main
+		system_update
 	fi
 }
 

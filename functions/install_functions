@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# Install single package
-# ${1} = Name, ${2} = paclage, ${3} = return_function
+# Install single package function
+#
+# ${1} = Name
+# ${2} = package-name
+# ${3} = return_function
+
 function install_package() {
 	echo_message header "Starting 'install_package' function..."
 	# If package is not installed
@@ -34,8 +38,13 @@ function install_package() {
 	fi
 }
 
-# Install single remote package
-# ${1} = Name, ${2} = package, ${3} = https://remote.example.com/, ${4} = return_function
+# Install single remote package function
+#
+# ${1} = Name
+# ${2} = package
+# ${3} = https://remote.example.com/
+# ${4} = return_function
+
 function install_remote_package() {
 	echo_message header "Starting 'install_remote_package' function..."
 	# If package is not installed
@@ -78,8 +87,12 @@ function install_remote_package() {
 	fi
 }
 
-# Install from list
-# ${1} = Name, ${2} = list-name, ${3} = return_function
+# Install from list function
+#
+# ${1} = Name
+# ${2} = list-name
+# ${3} = return_function
+
 function install_from_list() {
 	# echo_message header "Starting 'install_from_list' function..."
 	echo_message title "Starting installation of ${1}..."

@@ -1,7 +1,49 @@
 #!/bin/bash
 
+# Add Apt Repo
+#
+# ${1} = "Name"
+# ${2} = https://key.example.com/signing-key-pub.gpg
+# ${3} = "deb https://repo.example.com/linux apt/repo"
+# ${4} = list-name (derived from package-name)
+# ${5} = return_function
+
+function add_apt_repo() {
+	echo_message header "Starting 'add_apt_repo' function"
+	# Check if already added
+	if ! grep -q "${3}" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+		# draw window
+		if (whiptail \
+			--title "Add package Repository" \
+			--yesno "The ${1} package repository is not present on your system. \n\nWould you like to add it to continue? " 10 64) then
+			# Add repository signing key
+			echo_message info "Adding '${4}' package repository signing key to keyring..."
+			wget -qO - "${2}" | superuser_do apt-key --keyring ${4}.gpg add -
+			# Add repository
+			echo_message info "Adding '${4}' apt repository to 'sources.list.d'..."
+			echo ${3} | superuser_do tee /etc/apt/sources.list.d/${4}.list
+			# Update repository information
+			echo_message info "Refreshing repository information..."
+			superuser_do "apt update -y -qq"
+			# Done
+			echo_message success "Repository added."
+			# whiptail --title "Finished" --msgbox "The '${1}' package repository has been added." 8 56
+		else
+			# Cancelled
+			echo_message info "Addition of '${4}' package repository cancelled."
+			$5
+		fi
+	else 
+		echo_message info "${1} repository already added."
+	fi
+}
+
+
 # Add Flatpak Repo
-# ${1} = remote, ${2} = https://remote.example.com/
+#
+# ${1} = remote
+# ${2} = https://remote.example.com/
+
 function add_flatpak_repo() {
 	echo_message header "Starting 'add_flatpak_repo' function"
 	# Check if already added
@@ -9,18 +51,21 @@ function add_flatpak_repo() {
 	# If repo is added
 	if [ $? = 0 ]; then
 		echo_message info "Repository already added."
-		whiptail --msgbox "The ${1} repository is already added." 8 56
+		# whiptail --msgbox "The ${1} Flatpak repository is already added." 8 56
 	else
 		# Add repository
 		echo_message info "Adding flatpak repository..."
 		flatpak remote-add --if-not-exists ${1} ${2}
 		echo_message success "Repository added."
-		whiptail --title "Finished" --msgbox "The '${1}' repository has been added." 8 56
+		# whiptail --title "Finished" --msgbox "The '${1}' Flatpak repository has been added." 8 56
 	fi
 }
 
 # Add Launchpad PPA
-# ${1} = Name, ${2} = launchpad-user/ppa-name
+#
+# ${1} = Name 
+# ${2} = launchpad-user/ppa-name
+
 function add_launchpad_ppa() {
 	echo_message header "Starting 'add_launchpad_ppa' function"
 	# Check if PPA already added
@@ -33,15 +78,17 @@ function add_launchpad_ppa() {
 			echo_message info "Adding ${1} PPA repository..."
 			superuser_do "add-apt-repository -y ppa:${2}"
 			# Update repository information
-			superuser_do "apt update -qq -y"
+			echo_message info "Refreshing repository information..."
+			superuser_do "apt update -y -qq"
 			# Done
 			echo_message success "Repository added."
+			# whiptail --title "Finished" --msgbox "The '${1}' PPA repository has been added." 8 56
 		else
 			# Cancelled
-			echo_message info "Addition of ${1} repository cancelled."
+			echo_message info "Addition of ${1} PPA repository cancelled."
 			$3
 		fi
 	else 
-		echo_message info "${1} repository already added."
+		echo_message info "${1} PPA repository already added."
 	fi
 }

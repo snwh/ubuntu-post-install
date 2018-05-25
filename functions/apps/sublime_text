@@ -1,0 +1,45 @@
+
+# Sublime Text
+function download_sublime {
+	# Variables
+	NAME="Sublime Text 3 (${@^})"
+	PACKAGE="sublime-text"
+	KEY="https://download.sublimetext.com/sublimehq-pub.gpg"
+	REPO="deb https://download.sublimetext.com/ apt/${@}/"
+	# Add repository
+	add_apt_repo "$NAME" $KEY "$REPO" $PACKAGE install_sublime_text
+	# Install package
+	install_package "$NAME" $PACKAGE install_thirdparty
+	status=1
+}
+
+
+# Sublime Text
+function install_sublime_text {
+	status="0"
+	NAME="Sublime Text 3"
+	while [ "$status" -eq 0 ]; do
+		VERSION=$(eval `resize` && whiptail \
+		--title "$NAME" \
+		--radiolist "Which version of $NAME would you like to install?" \
+		--ok-button "Install" \
+		--cancel-button "Go Back" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		"stable"    "Stable build" ON \
+		"dev"       "Dev build" OFF \
+		3>&1 1>&2 2>&3) 
+		# Change to lower case and remove spaces.
+		case "${VERSION}" in
+			stable)
+				download_sublime stable;
+			;;
+			dev)
+				download_sublime dev;
+			;;
+			# return
+			*) status=1 
+				install_thirdparty
+			;;
+		esac
+	done
+}

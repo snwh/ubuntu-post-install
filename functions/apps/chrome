@@ -3,20 +3,22 @@
 # Install Chrome
 function download_chrome { 
 	# Variables
-	NAME="Google Chrome ($@)"
+	NAME="Google Chrome (${@^})"
 	PACKAGE=google-chrome-$@_current
 	REMOTE="https://dl.google.com/linux/direct"
-	install_remote_package $NAME $PACKAGE $REMOTE install_thirdparty
+	# Download and install remote package
+	install_remote_package "$NAME" $PACKAGE $REMOTE install_thirdparty
 	status=1
 }
 
 # Google Chrome
 function install_chrome {
 	status="0"
+	NAME="Google Chrome"
 	while [ "$status" -eq 0 ]; do
 		VERSION=$(eval `resize` && whiptail \
-		--title "Google Chrome" \
-		--radiolist "Which version of Chrome would you like to install?" \
+		--title "$NAME" \
+		--radiolist "Which version of $NAME would you like to install?" \
 		--ok-button "Install" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
@@ -35,6 +37,7 @@ function install_chrome {
 			unstable)
 				download_chrome unstable;
 			;;
+			# return
 			*) status=1 
 				install_thirdparty
 			;;
