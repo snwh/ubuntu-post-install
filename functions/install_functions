@@ -134,7 +134,12 @@ function install_from_list() {
 }
 
 # Install flatpak package
-# ${1} = Name, ${2} = remote, ${3} = com.package.Name, ${4} = return_function
+#
+# ${1} = Name
+# ${2} = remote
+# ${3} = com.package.Name
+# ${4} = return_function
+
 function install_flatpak_package() {
 	# echo_message header "Starting 'install_flatpak_package' function..."
 	# If package is not installed
@@ -164,7 +169,11 @@ function install_flatpak_package() {
 }
 
 # Install snap package
-# ${1} = Name, ${2} = package, ${3} = return_function
+#
+# ${1} = Name
+# ${2} = package
+# ${3} = return_function
+
 function install_snap_package() {
 	# echo_message header "Starting 'install_snap_package' function..."
 	# If package is not installed
