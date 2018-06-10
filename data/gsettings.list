@@ -1,6 +1,3 @@
-com.canonical.indicator.keyboard visible false
-com.canonical.Unity.ApplicationsLens display-available-apps false
-com.canonical.Unity.Lenses remote-content-search 'none'
 org.gnome.desktop.interface clock-format 12h
 org.gnome.desktop.interface clock-show-date true
 org.gnome.desktop.wm.preferences button-layout ':close'
@@ -8,9 +5,10 @@ org.gnome.gedit.preferences.editor auto-save true
 org.gnome.gedit.preferences.editor create-backup-copy false
 org.gnome.gedit.preferences.editor display-line-numbers true
 org.gnome.gedit.preferences.editor tab-size 4
+org.gnome.mutter center-new-windows true
 org.gnome.nautilus.preferences sort-directories-first true
 org.gnome.Terminal.Legacy.Settings dark-theme true
+org.gnome.Terminal.Legacy.Settings theme-variant 'dark'
 org.gtk.Settings.Debug enable-inspector-keybinding true
 org.pantheon.desktop.gala.appearance button-layout ':close'
 org.pantheon.terminal.settings natural-copy-paste false
-org.gnome.Terminal.Legacy.Settings theme-variant 'dark'
