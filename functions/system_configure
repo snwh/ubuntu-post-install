@@ -2,7 +2,7 @@
 
 # Automatically set preferred gsettings keys as outlined in the 'gsettings.list' file
 # 'gsettings' can be obtained by executing "dconf watch /" and then manually changing settings
-function set_preferences {
+function gsettings_config {
 	echo_message info "Setting preferred application-specific & desktop settings..."
 	# Variables
 	LIST=$(dirname "$0")'/data/gsettings.list'
@@ -16,21 +16,63 @@ function set_preferences {
 	system_configure
 }
 
-# Set preferred bash aliased by copying the 'aliases.list' file to ~/.bash_aliases
-function set_bash_aliases {
+# Set preferred bash aliased by copying the 'bash_aliases.in' file to ~/.bash_aliases
+function write_bash_aliases {
 	# Check list
-	LIST=$(dirname "$0")'/data/aliases.list'
+	INPUT=$(dirname "$0")'/data/config/bash_aliases.in'
 	# Draw window
 	if (eval `resize` && whiptail \
 		--title "Preferred Bash Aliases" \
-		--yesno "Current list of preferred bash aliases: \n\n$(while read LINE; do echo "  "$LINE; done < $LIST) \n\nProceed?" \
+		--yesno "Current list of preferred bash aliases: \n\n$(while read LINE; do echo "  "$LINE; done < $INPUT) \n\nProceed?" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
 		--scrolltext) then
 		echo_message info "Setting bash aliases..."
 		# simply copy the list file to the aliases file
-		cp $LIST ~/.bash_aliases
+		cp $INPUT ~/.bash_aliases
 		echo_message success "Bash aliases set successfully."
 		whiptail --title "Finished" --msgbox "Bash aliases set successfully." 8 56
+		system_configure
+	else
+		system_configure
+	fi
+}
+
+# Configure environment variables by copying the 'profile.in' file to ~/.profile
+function set_env_variables {
+	# Check list
+	INPUT=$(dirname "$0")'/data/config/profile.in'
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "Configure Environment Variables" \
+		--yesno "Custom config file contains the following: \n\n$(while read LINE; do echo "  "$LINE; done < $INPUT) \n\nOverwrite existing config?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		echo_message info "Overwriting ~/.profile..."
+		# simply copy the list file to the aliases file
+		cp $INPUT ~/.profile
+		echo_message success "Environment variables successfully configured."
+		whiptail --title "Finished" --msgbox "Environment variables successfully configured." 8 56
+		system_configure
+	else
+		system_configure
+	fi
+}
+
+# Configure bash profile by copying the 'bashrc.in' file to ~/.bashrc
+function write_bash_config {
+	# Check list
+	INPUT=$(dirname "$0")'/data/config/bashrc.in'
+	# Draw window
+	if (eval `resize` && whiptail \
+		--title "Configure Bash" \
+		--yesno "Custom config file contains the following: \n\n$(while read LINE; do echo "  "$LINE; done < $INPUT) \n\nOverwrite existing config?" \
+		$LINES $COLUMNS $(( $LINES - 12 )) \
+		--scrolltext) then
+		echo_message info "Overwriting ~/.bashrc..."
+		# simply copy the list file to the aliases file
+		cp $INPUT ~/.bashrc
+		echo_message success "Bash successfully configured."
+		whiptail --title "Finished" --msgbox "Bash successfully configured." 8 56
 		system_configure
 	else
 		system_configure
@@ -84,10 +126,12 @@ function system_configure {
 		--menu "\nWhat would you like to do?" \
 		--cancel-button "Go Back" \
 		$LINES $COLUMNS $(( $LINES - 12 )) \
-		'set_preferences'       'Set preferred application-specific & desktop settings' \
-		'set_bash_aliases'      'Set preferred bash aliases' \
-		'hide_snap_folder'      'Hide the snap folder in user home' \
-		'disable_crash_dialogs' 'Disable Apport crash dialogs' \
+		'disable_crash_dialogs'     'Disable error report dialogs (apport)' \
+		'gsettings_config'          'Set preferred application & desktop settings' \
+		'hide_snap_folder'          'Hide the snap folder in user home' \
+		'set_env_variables'         'Configure environment variables' \
+		'write_bash_aliases'        'Set custom Bash aliases' \
+		'write_bash_config'         'Set custom Bash preferences' \
 		3>&1 1>&2 2>&3)
 	# check exit status
 	if [ $? = 0 ]; then
