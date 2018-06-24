@@ -48,6 +48,7 @@ function main {
 		'install_snap_apps'     'Install Snap applications' \
 		'install_flatpak_apps'  'Install Flatpak applications' \
 		'install_thirdparty'    'Install third-party applications' \
+		'setup_dotfiles'        'Configure dotfiles' \
 		'system_configure'      'Configure system' \
 		'system_cleanup'        'Cleanup the system' \
 		3>&1 1>&2 2>&3)
