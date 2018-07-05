@@ -18,7 +18,7 @@ function add_apt_repo() {
 			--yesno "The ${1} package repository is not present on your system. \n\nWould you like to add it to continue? " 10 64) then
 			# Add repository signing key
 			echo_message info "Adding '${4}' package repository signing key to keyring..."
-			wget -qO - "${2}" | superuser_do apt-key --keyring ${4}.gpg add -
+			wget -qO - "${2}" | superuser_do apt-key --keyring /etc/apt/trusted.gpg.d/${4}.gpg add -
 			# Add repository
 			echo_message info "Adding '${4}' apt repository to 'sources.list.d'..."
 			echo ${3} | superuser_do tee /etc/apt/sources.list.d/${4}.list
