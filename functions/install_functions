@@ -98,15 +98,20 @@ function install_from_list() {
 	echo_message title "Starting installation of ${1}..."
 	# Variables
 	LIST=$(dirname "$0")'/data/'${2}'.list'
+	PACKAGES=$(cat $LIST | sed 's/$/ ON/')
 	# Draw window
-	if (eval `resize` && whiptail \
+	CHOICES=$(eval `resize` && whiptail \
 		--title "Install ${2^}" \
-		--yesno "Current list of packages that will be installed: \n\n$(cat ${LIST}) \n\nWould you like to proceed?" \
-		$LINES $COLUMNS $(( $LINES - 12 )) \
-		--scrolltext \
-		3>&1 1>&2 2>&3) then
+		--checklist \
+			"Choose which packages will be installed:" \
+			$LINES $COLUMNS $(( $LINES - 12 )) \
+			${PACKAGES[@]} \
+		--noitem \
+		3>&1 1>&2 2>&3)
+	if [ $? = 0 ]; then
 		# Install loop
-		for PACKAGE in $(cat $LIST); do
+		for PACKAGE in $CHOICES; do
+			PACKAGE=$(echo $PACKAGE | tr -d '"')
 			# If package is not installed
 			if [ $(check_package_installed $PACKAGE) != 0 ]; then
 				# Install package
