@@ -55,12 +55,12 @@ function install_remote_package() {
 			i386|i486|i586|i686)
 				# Download 32 bit package
 				echo_message info "Downloading remote package '${2}_i386.deb' from '${3}'..."
-				curl -O ${3}/${2}_i386.deb
+				curl -sSLO ${3}/${2}_i386.deb
 				;;
 			x86_64)
 				# Download 64 bit package
 				echo_message info "Downloading remote package '${2}_amd64.deb' from '${3}'..."
-				curl -O ${3}/${2}_amd64.deb
+				curl -sSLO ${3}/${2}_amd64.deb
 				;;
 			*)
 				whiptail --title "Error." --msgbox "No remote packages available to download." 8 56
